@@ -3,28 +3,27 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace BlueHarvest.Core.Extensions
-{
-   public static class ServiceCollectionExtensions
-   {
-      public static IServiceCollection AddBlueHarvestCommon(this IServiceCollection services, IConfiguration configuration)
-      {
-         services
-            // .Configure<MongoDbSettings>(configuration.GetSection("MongoDb"))
-            // .AddSingleton<IMongoDbSettings>(serviceProvider =>
-            //    serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value)
-            // .AddSingleton<IMongoContext, MongoContext>()
-            // .AddScoped<IClusterRepo, ClusterRepo>()
-            // .AddScoped<IPlanetarySystemRepo, PlanetarySystemRepo>()
-            //
-            // .AddSingleton<IEntityDesignator, EntityDesignator>()
-            .AddSingleton<IRng, SimpleRng>()
-            // .AddSingleton<IStarTypeService, StarTypeService>()
-            // .AddSingleton<IClusterCreator, ClusterCreator>()
-            // .AddSingleton<IPlanetarySystemCreator, PlanetarySystemCreator>()
-            ;
+namespace BlueHarvest.Core.Extensions;
 
-         return services;
-      }
+public static class ServiceCollectionExtensions
+{
+   public static IServiceCollection AddBlueHarvestCommon(this IServiceCollection services, IConfiguration configuration)
+   {
+      services
+         // .Configure<MongoDbSettings>(configuration.GetSection("MongoDb"))
+         // .AddSingleton<IMongoDbSettings>(serviceProvider =>
+         //    serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value)
+         // .AddSingleton<IMongoContext, MongoContext>()
+         // .AddScoped<IClusterRepo, ClusterRepo>()
+         // .AddScoped<IPlanetarySystemRepo, PlanetarySystemRepo>()
+         //
+         // .AddSingleton<IEntityDesignator, EntityDesignator>()
+         .AddSingleton<IRng, SimpleRng>()
+         // .AddSingleton<IStarTypeService, StarTypeService>()
+         // .AddSingleton<IClusterCreator, ClusterCreator>()
+         // .AddSingleton<IPlanetarySystemCreator, PlanetarySystemCreator>()
+         ;
+
+      return services;
    }
 }

@@ -1,7 +1,6 @@
-﻿namespace BlueHarvest.Core.Extensions
+﻿namespace BlueHarvest.Core.Extensions;
+
+public class GraphicsExtensions
 {
-   public class GraphicsExtensions
-   {
       
-   }
 }
