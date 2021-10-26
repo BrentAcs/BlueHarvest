@@ -1,24 +1,51 @@
+﻿using System.Diagnostics;
 using BlueHarvest.Core.Extensions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace BlueHarvest.GridsUI.Rnd;
 
-public partial class MainForm : Form
+public partial class MainForm : Form, IHostedService
 {
-   public MainForm(IConfiguration configuration, AppOptions appOptions)
+   private readonly AppOptions _appOptions;
+
+   public MainForm(IHostApplicationLifetime hostApplicationLifetime,
+      IConfiguration configuration,
+      AppOptions appOptions)
    {
+      // hostApplicationLifetime.ApplicationStarted.Register(() =>
+      // {
+      //    Trace.WriteLine("app stared.");
+      // });
+      // hostApplicationLifetime.ApplicationStopped.Register(() =>
+      // {
+      //    Trace.WriteLine("app stopped.");
+      // });
+      
+      
+      _appOptions = appOptions;
       InitializeComponent();
 
-      // var path= configuration[ "OptionsPath" ];
-      // var opts = new FormOptions();
-      //
-      // opts.ToJsonFile(path);
+   }
 
-      Location = appOptions.MainForm.Location;
-      Size = appOptions.MainForm.Size;
+   private void MainForm_Load(object sender, EventArgs e)
+   {
+      _appOptions.MainForm.Load(this);
+   }
 
-      // configuration.GetSection("MainForm").Bind(opts);
+   private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+   {
+      _appOptions.MainForm.Save(this);
+   }
 
+   public Task StartAsync(CancellationToken cancellationToken)
+   {
+      return Task.CompletedTask;
+   }
+
+   public Task StopAsync(CancellationToken cancellationToken)
+   {
+      return Task.CompletedTask;
    }
 }
 

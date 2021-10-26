@@ -8,17 +8,20 @@ namespace BlueHarvest.GridsUI.Rnd;
 
 static class Program
 {
+   // https://dfederm.com/building-a-console-app-with-.net-generic-host/
+   
    [STAThread]
    static void Main()
    {
       ApplicationConfiguration.Initialize();
+      Application.ApplicationExit += ApplicationExit;
       Application.ThreadException += ApplicationOnThreadException;
 
       var host = Host.CreateDefaultBuilder()
          .ConfigureServices((context, svcs) => { ConfigureServices(context.Configuration, svcs); })
          .Build();
       var services = host.Services;
-
+      
       Application.Run(services.GetRequiredService<MainForm>());
    }
 
@@ -43,6 +46,11 @@ static class Program
          // .AddSingleton<ClusterExplorerForm>()
          // .AddSingleton<HexMapEditorForm>()
          ;
+   }
+
+   private static void ApplicationExit(object? sender, EventArgs e)
+   {
+      
    }
 
    private static void ApplicationOnThreadException(object sender, ThreadExceptionEventArgs args)
