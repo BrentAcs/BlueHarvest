@@ -9,6 +9,8 @@ namespace BlueHarvest.GridsUI.Rnd;
 static class Program
 {
    // https://dfederm.com/building-a-console-app-with-.net-generic-host/
+
+   private static IServiceProvider _services;
    
    [STAThread]
    static void Main()
@@ -20,37 +22,27 @@ static class Program
       var host = Host.CreateDefaultBuilder()
          .ConfigureServices((context, svcs) => { ConfigureServices(context.Configuration, svcs); })
          .Build();
-      var services = host.Services;
+      _services = host.Services;
       
-      Application.Run(services.GetRequiredService<MainForm>());
+      Application.Run(_services.GetRequiredService<MainForm>());
    }
 
    // ReSharper disable once UnusedParameter.Local
-   private static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
-   {
-      var appOptions = new AppOptions();
-      var optionsPath= configuration[ "OptionsPath" ];
-      if (File.Exists(optionsPath))
-      {
-         appOptions = optionsPath.FromJsonFile<AppOptions>();
-      }
-      
+   private static void ConfigureServices(IConfiguration configuration, IServiceCollection services) =>
       services
          //.AddDangerBallCommon(configuration)
-         // .AddSingleton(provider => UserSettingsFactory.Create())
+         .AddSingleton(provider => AppOptionsFactory.Create())
          // .AddScoped<IHexMapRenderer, HexMapRenderer>()
          // .AddScoped<IHexMapEditorPublisher, HexMapEditorPublisher>()
          // .AddSingleton<ITerrainService, TerrainService>()
-         .AddSingleton<AppOptions>(appOptions)
-         .AddSingleton<MainForm>()
-         // .AddSingleton<ClusterExplorerForm>()
-         // .AddSingleton<HexMapEditorForm>()
-         ;
-   }
+         .AddSingleton<MainForm>();
 
+   // .AddSingleton<ClusterExplorerForm>()
+   // .AddSingleton<HexMapEditorForm>()
    private static void ApplicationExit(object? sender, EventArgs e)
    {
-      
+      var appOptions = _services.GetRequiredService<IAppOptions>();
+      appOptions.Save();
    }
 
    private static void ApplicationOnThreadException(object sender, ThreadExceptionEventArgs args)

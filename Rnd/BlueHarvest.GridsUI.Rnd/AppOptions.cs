@@ -1,8 +1,27 @@
-﻿namespace BlueHarvest.GridsUI.Rnd;
+﻿using BlueHarvest.Core.Extensions;
+using Newtonsoft.Json;
 
-public class AppOptions
+namespace BlueHarvest.GridsUI.Rnd;
+
+public interface IAppOptions
 {
+   string Filename { get; }
+   void Save(string? filename=default);
+   
+   FormOptions MainForm { get; }
+}
+
+public class AppOptions : IAppOptions
+{
+   [JsonIgnore]
+   public string Filename { get; set; } = string.Empty;
    public FormOptions MainForm { get; set; } = new FormOptions();
+
+   public void Save(string? filename = default)
+   {
+      filename ??= Filename;
+      this.ToJsonFile(filename);
+   }
 }
 
 public class FormOptions
