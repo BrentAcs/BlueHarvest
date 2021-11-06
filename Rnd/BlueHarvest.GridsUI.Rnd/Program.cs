@@ -11,7 +11,7 @@ static class Program
    // https://dfederm.com/building-a-console-app-with-.net-generic-host/
 
    private static IServiceProvider _services;
-   
+
    [STAThread]
    static void Main()
    {
@@ -23,7 +23,7 @@ static class Program
          .ConfigureServices((context, svcs) => { ConfigureServices(context.Configuration, svcs); })
          .Build();
       _services = host.Services;
-      
+
       Application.Run(_services.GetRequiredService<MainForm>());
    }
 
@@ -35,10 +35,10 @@ static class Program
          // .AddScoped<IHexMapRenderer, HexMapRenderer>()
          // .AddScoped<IHexMapEditorPublisher, HexMapEditorPublisher>()
          // .AddSingleton<ITerrainService, TerrainService>()
+         // .AddSingleton<ClusterExplorerForm>()
+         // .AddSingleton<HexMapEditorForm>()
          .AddSingleton<MainForm>();
 
-   // .AddSingleton<ClusterExplorerForm>()
-   // .AddSingleton<HexMapEditorForm>()
    private static void ApplicationExit(object? sender, EventArgs e)
    {
       var appOptions = _services.GetRequiredService<IAppOptions>();
