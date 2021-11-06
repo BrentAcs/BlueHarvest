@@ -1,0 +1,12 @@
+﻿To Attack:
+  d100 + Strength -vs- d100 + Strength
+  Attacker > Defense
+    Defender loses Strength = delta
+    Retreats
+  Attacker == Defense
+    Defender loses Strength = delta
+    -OR-
+    Retreats
+  Attacker < Defender
+    Attacker loses Strength = delta / 2
+    
