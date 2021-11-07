@@ -1,8 +1,4 @@
-﻿using System.Linq.Expressions;
-using MongoDB.Bson;
-using MongoDB.Driver;
-
-namespace BlueHarvest.Core.Storage;
+﻿namespace BlueHarvest.Core.Storage;
 
 // https://medium.com/@marekzyla95/mongo-repository-pattern-700986454a0e
 public interface IMongoRepository<TDoc> where TDoc : IDocument

@@ -1,7 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using Microsoft.Extensions.DependencyInjection;
-
 namespace BlueHarvest.Server.CLI;
 
 class Program

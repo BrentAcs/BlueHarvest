@@ -1,8 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using Newtonsoft.Json;
-
-namespace BlueHarvest.Core.Storage;
+﻿namespace BlueHarvest.Core.Storage;
 
 public interface IDocument
 {

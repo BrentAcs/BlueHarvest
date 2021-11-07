@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace BlueHarvest.Server.CLI;
+﻿namespace BlueHarvest.Server.CLI;
 
 internal class MainService : IHostedService
 {
@@ -31,6 +29,12 @@ internal class MainService : IHostedService
    private void OnStarted()
    {
       _logger.LogInformation("OnStarted()");
+
+
+
+
+
+
       Console.WriteLine($"Press any key to quit...");
       Console.ReadKey();
       _appLifetime.StopApplication();
