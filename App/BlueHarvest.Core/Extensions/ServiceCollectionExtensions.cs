@@ -1,4 +1,5 @@
 ﻿using BlueHarvest.Core.Storage;
+using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Utilities;
 
 namespace BlueHarvest.Core.Extensions;
@@ -12,10 +13,10 @@ public static class ServiceCollectionExtensions
           .AddSingleton<IMongoDbSettings>(serviceProvider =>
              serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value)
           .AddSingleton<IMongoContext, MongoContext>()
-         // .AddScoped<IClusterRepo, ClusterRepo>()
+          .AddScoped<IClusterRepo, ClusterRepo>()
          // .AddScoped<IPlanetarySystemRepo, PlanetarySystemRepo>()
-         //
-         // .AddSingleton<IEntityDesignator, EntityDesignator>()
+
+         .AddSingleton<IEntityDesignator, EntityDesignator>()
          .AddSingleton<IRng, SimpleRng>()
          // .AddSingleton<IStarTypeService, StarTypeService>()
          // .AddSingleton<IClusterCreator, ClusterCreator>()

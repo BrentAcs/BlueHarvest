@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using BlueHarvest.Core.Extensions;
+
 namespace BlueHarvest.Server.CLI;
 
 class Program
@@ -29,8 +31,9 @@ class Program
             .ConfigureServices((hostContext, services) =>
             {
                services
-                  //.AddBlueHarvestCommon(configuration)
+                  .AddBlueHarvestCommon(configuration)
                   .AddHostedService<MainService>()
+                  .AddScoped<IStorageService, StorageService>()
                   ;
             })
             .RunConsoleAsync();

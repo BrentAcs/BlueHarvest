@@ -1,15 +1,21 @@
-﻿namespace BlueHarvest.Server.CLI;
+﻿using BlueHarvest.Core.Storage;
+using BlueHarvest.Core.Utilities;
+
+namespace BlueHarvest.Server.CLI;
 
 internal class MainService : IHostedService
 {
    private readonly IConfiguration _configuration;
    private readonly ILogger<MainService> _logger;
    private readonly IHostApplicationLifetime _appLifetime;
+   private readonly IMongoContext _mongoContext;
+   private readonly IEntityDesignator _entityDesignator;
 
    public MainService(
       IConfiguration configuration,
       ILogger<MainService> logger,
-      IHostApplicationLifetime appLifetime)
+      IHostApplicationLifetime appLifetime,
+      IStorageService storageService)
    {
       _configuration = configuration;
       _logger = logger;
@@ -31,6 +37,7 @@ internal class MainService : IHostedService
       _logger.LogInformation("OnStarted()");
 
 
+      //_mongoContext.Db.DropCollection("Test");
 
 
 
