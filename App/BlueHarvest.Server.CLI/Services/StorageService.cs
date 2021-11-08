@@ -5,12 +5,12 @@ using static System.Console;
 
 namespace BlueHarvest.Server.CLI.Services;
 
-public interface IStorageService
+internal interface IStorageService
 {
-   void Init();
+   void MainMenu();
 }
 
-public class StorageService : IStorageService
+internal class StorageService : BaseService, IStorageService
 {
    private readonly IMongoContext _mongoContext;
    private readonly IEntityDesignator _entityDesignator;
@@ -26,11 +26,16 @@ public class StorageService : IStorageService
       _clusterRepo = clusterRepo;
    }
 
-   public void Init()
+   public void MainMenu()
    {
-      WriteLine("Initing Storage Service.");
+      ProcessMenu();
+   }
 
-      _ = ReadKey();
+   protected override string Title => "Storage Services.";
+   protected override void InitMenu()
+   {
+      ClearActions();
+      // AddMenuAction(ConsoleKey.S, "Storage", _storageService.MainMenu);
    }
 }
 

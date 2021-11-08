@@ -28,7 +28,7 @@ internal class MainService : BaseService
    protected override void InitMenu()
    {
       ClearActions();
-      AddMenuAction(ConsoleKey.S, "Storage", _storageService.Init);
+      AddMenuAction(ConsoleKey.S, "Storage", _storageService.MainMenu);
    }
 
    public override Task StartAsync(CancellationToken cancellationToken)
