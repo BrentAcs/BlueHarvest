@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using BlueHarvest.Core.Extensions;
+using BlueHarvest.Server.CLI.Services;
 
 namespace BlueHarvest.Server.CLI;
 

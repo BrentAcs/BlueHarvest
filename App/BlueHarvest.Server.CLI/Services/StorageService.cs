@@ -1,8 +1,9 @@
 ﻿using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Utilities;
+using static System.Console;
 
-namespace BlueHarvest.Server.CLI;
+namespace BlueHarvest.Server.CLI.Services;
 
 public interface IStorageService
 {
@@ -27,7 +28,9 @@ public class StorageService : IStorageService
 
    public void Init()
    {
+      WriteLine("Initing Storage Service.");
 
+      _ = ReadKey();
    }
 }
 

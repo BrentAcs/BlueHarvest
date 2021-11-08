@@ -19,7 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueHarvest.CLI.Rnd", "Rnd\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueHarvest.Web", "App\BlueHarvest.Web\BlueHarvest.Web.csproj", "{8B2DD3F5-1DD1-482E-8445-70A3AB6DA44E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.Server.CLI", "App\BlueHarvest.Server.CLI\BlueHarvest.Server.CLI.csproj", "{999A9278-45C2-4F3F-ACBB-43A7380AE94B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueHarvest.Server.CLI", "App\BlueHarvest.Server.CLI\BlueHarvest.Server.CLI.csproj", "{999A9278-45C2-4F3F-ACBB-43A7380AE94B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{B07BAED5-44FB-4CDE-B0A6-51F3E38EE24F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
