@@ -34,7 +34,8 @@ class Program
                services
                   .AddBlueHarvestCommon(configuration)
                   .AddHostedService<MainService>()
-                  .AddScoped<IStorageService, StorageService>()
+                  .AddHostedService<StorageService>()
+                  //.AddScoped<IStorageService, StorageService>()
                   ;
             })
             .RunConsoleAsync();

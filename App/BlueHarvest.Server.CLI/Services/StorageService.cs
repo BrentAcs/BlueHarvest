@@ -59,8 +59,20 @@ internal class StorageService : BaseService, IStorageService
          .Where(z => z.IsGenericType &&
             type.GetConstructors().Any() &&
             type.IsAssignableFrom(z.GetGenericTypeDefinition()));
-
-
    }
+   
+   public override Task StartAsync(CancellationToken cancellationToken)
+   {
+      _ = base.StartAsync(cancellationToken);
+
+      return Task.CompletedTask;
+   }
+
+   public override Task StopAsync(CancellationToken cancellationToken)
+   {
+      Logger.LogInformation("MainService Stopping...");
+
+      return base.StopAsync(cancellationToken);
+   }   
 }
 
