@@ -17,9 +17,13 @@ internal class StorageService : BaseService, IStorageService
    private readonly IClusterRepo _clusterRepo;
 
    public StorageService(
+      IConfiguration configuration,
+      ILogger<MainService> logger,
+      IHostApplicationLifetime appLifetime,
       IMongoContext mongoContext,
       IEntityDesignator entityDesignator,
       IClusterRepo clusterRepo)
+      : base(configuration, logger, appLifetime)
    {
       _mongoContext = mongoContext;
       _entityDesignator = entityDesignator;
@@ -28,7 +32,7 @@ internal class StorageService : BaseService, IStorageService
 
    public void MainMenu()
    {
-      InitMenu();
+      //InitMenu();
       ProcessMenu();
    }
 
@@ -39,6 +43,7 @@ internal class StorageService : BaseService, IStorageService
       ClearActions();
       AddMenuAction(ConsoleKey.D1, "List Collections", ListCollections);
    }
+
 
    private void ListCollections()
    {

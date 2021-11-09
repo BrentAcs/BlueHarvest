@@ -11,12 +11,36 @@ internal abstract class BaseService : IHostedService
    }
 
    private IDictionary<ConsoleKey, MenuAction> _actions = new Dictionary<ConsoleKey, MenuAction>();
+   private readonly IConfiguration _configuration;
+   private readonly ILogger<BaseService> _logger;
+   private readonly IHostApplicationLifetime _appLifetime;
+
+   public BaseService(
+      IConfiguration configuration,
+      ILogger<BaseService> logger,
+      IHostApplicationLifetime appLifetime)
+   {
+      _configuration = configuration;
+      _logger = logger;
+      _appLifetime = appLifetime;
+      ;
+   }
 
    protected abstract string Title { get; }
+
+   protected IConfiguration Configuration => _configuration;
+
+   protected ILogger<BaseService> Logger => _logger;
+
+   protected IHostApplicationLifetime AppLifetime => _appLifetime;
+
    protected abstract void InitMenu();
+
    protected void ClearActions() => _actions.Clear();
+
    protected void AddMenuAction(ConsoleKey key, string name, Action action) =>
       _actions.Add(key, new MenuAction { Name = name, Action = action });
+
    protected void ProcessMenu()
    {
       var done = false;
@@ -45,5 +69,8 @@ internal abstract class BaseService : IHostedService
       InitMenu();
       return Task.CompletedTask;
    }
-   public virtual Task StopAsync(CancellationToken cancellationToken) { return Task.CompletedTask; }
+   public virtual Task StopAsync(CancellationToken cancellationToken) 
+   {
+      return Task.CompletedTask; 
+   }
 }

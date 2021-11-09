@@ -6,9 +6,6 @@ namespace BlueHarvest.Server.CLI.Services;
 
 internal class MainService : BaseService
 {
-   private readonly IConfiguration _configuration;
-   private readonly ILogger<MainService> _logger;
-   private readonly IHostApplicationLifetime _appLifetime;
    private readonly IStorageService _storageService;
 
    public MainService(
@@ -16,10 +13,8 @@ internal class MainService : BaseService
       ILogger<MainService> logger,
       IHostApplicationLifetime appLifetime,
       IStorageService storageService)
+      :base(configuration, logger, appLifetime)
    {
-      _configuration = configuration;
-      _logger = logger;
-      _appLifetime = appLifetime;
       _storageService = storageService;
    }
 
@@ -35,31 +30,32 @@ internal class MainService : BaseService
    {
       _ = base.StartAsync(cancellationToken);
 
-      _logger.LogInformation("MainService Starting...");
+      Logger.LogInformation("MainService Starting...");
 
-      _appLifetime.ApplicationStarted.Register(OnStarted);
-      _appLifetime.ApplicationStopped.Register(OnStopped);
+      AppLifetime.ApplicationStarted.Register(OnStarted);
+      AppLifetime.ApplicationStopped.Register(OnStopped);
 
       return Task.CompletedTask;
    }
 
+   public override Task StopAsync(CancellationToken cancellationToken)
+   {
+      Logger.LogInformation("MainService Stopping...");
+
+      return base.StopAsync(cancellationToken);
+   }
+
    private void OnStarted()
    {
-      _logger.LogInformation("OnStarted()");
+      Logger.LogInformation("OnStarted()");
 
       ProcessMenu();
 
       WriteLine($"Press any key to quit...");
       ReadKey();
-      _appLifetime.StopApplication();
+      AppLifetime.StopApplication();
    }
 
-   private void OnStopped() => _logger.LogInformation("OnStopped()");
+   private void OnStopped() => Logger.LogInformation("OnStopped()");
 
-   public override Task StopAsync(CancellationToken cancellationToken)
-   {
-      _logger.LogInformation("MainService Stopping...");
-
-      return base.StopAsync(cancellationToken);
-   }
 }
