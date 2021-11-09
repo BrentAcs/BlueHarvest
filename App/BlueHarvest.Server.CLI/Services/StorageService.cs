@@ -5,9 +5,8 @@ using BlueHarvest.Core.Utilities;
 
 namespace BlueHarvest.Server.CLI.Services;
 
-internal interface IStorageService
+internal interface IStorageService : IBaseService
 {
-   void MainMenu();
 }
 
 internal class StorageService : BaseService, IStorageService
@@ -18,33 +17,24 @@ internal class StorageService : BaseService, IStorageService
 
    public StorageService(
       IConfiguration configuration,
-      ILogger<MainService> logger,
-      IHostApplicationLifetime appLifetime,
+      ILogger<StorageService> logger,
       IMongoContext mongoContext,
       IEntityDesignator entityDesignator,
       IClusterRepo clusterRepo)
-      : base(configuration, logger, appLifetime)
+      : base(configuration, logger)
    {
       _mongoContext = mongoContext;
       _entityDesignator = entityDesignator;
       _clusterRepo = clusterRepo;
    }
 
-   public void MainMenu()
-   {
-      //InitMenu();
-      ProcessMenu();
-   }
-
    protected override string Title => "Storage Services.";
 
-   protected override void InitMenu()
+   protected override void AddActions()
    {
-      ClearActions();
       AddMenuAction(ConsoleKey.D1, "List Collections", ListCollections);
    }
-
-
+   
    private void ListCollections()
    {
       //var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
@@ -57,22 +47,7 @@ internal class StorageService : BaseService, IStorageService
          .SelectMany(x => x.GetTypes())
          .SelectMany(y => y.GetInterfaces())
          .Where(z => z.IsGenericType &&
-            type.GetConstructors().Any() &&
-            type.IsAssignableFrom(z.GetGenericTypeDefinition()));
+                     type.GetConstructors().Any() &&
+                     type.IsAssignableFrom(z.GetGenericTypeDefinition()));
    }
-   
-   public override Task StartAsync(CancellationToken cancellationToken)
-   {
-      _ = base.StartAsync(cancellationToken);
-
-      return Task.CompletedTask;
-   }
-
-   public override Task StopAsync(CancellationToken cancellationToken)
-   {
-      Logger.LogInformation("MainService Stopping...");
-
-      return base.StopAsync(cancellationToken);
-   }   
 }
-

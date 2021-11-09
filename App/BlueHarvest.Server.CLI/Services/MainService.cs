@@ -1,11 +1,10 @@
-﻿using BlueHarvest.Core.Storage;
-using BlueHarvest.Core.Utilities;
-using static System.Console;
+﻿using static System.Console;
 
 namespace BlueHarvest.Server.CLI.Services;
 
-internal class MainService : BaseService
+internal class MainService : BaseService, IHostedService
 {
+   private readonly IHostApplicationLifetime _appLifetime;
    private readonly IStorageService _storageService;
 
    public MainService(
@@ -13,36 +12,33 @@ internal class MainService : BaseService
       ILogger<MainService> logger,
       IHostApplicationLifetime appLifetime,
       IStorageService storageService)
-      :base(configuration, logger, appLifetime)
+      :base(configuration, logger)
    {
+      _appLifetime = appLifetime;
       _storageService = storageService;
    }
 
    protected override string Title => "BlueHarvest Server CLI";
 
-   protected override void InitMenu()
+   protected override void AddActions()
    {
-      ClearActions();
-      AddMenuAction(ConsoleKey.S, "Storage", _storageService.MainMenu);
+      AddMenuAction(ConsoleKey.S, "Storage", _storageService.ProcessMenu);
    }
 
-   public override Task StartAsync(CancellationToken cancellationToken)
+   public Task StartAsync(CancellationToken cancellationToken)
    {
-      _ = base.StartAsync(cancellationToken);
-
       Logger.LogInformation("MainService Starting...");
 
-      AppLifetime.ApplicationStarted.Register(OnStarted);
-      AppLifetime.ApplicationStopped.Register(OnStopped);
+      _appLifetime.ApplicationStarted.Register(OnStarted);
+      _appLifetime.ApplicationStopped.Register(OnStopped);
 
       return Task.CompletedTask;
    }
 
-   public override Task StopAsync(CancellationToken cancellationToken)
+   public Task StopAsync(CancellationToken cancellationToken)
    {
       Logger.LogInformation("MainService Stopping...");
-
-      return base.StopAsync(cancellationToken);
+      return Task.CompletedTask;
    }
 
    private void OnStarted()
@@ -53,9 +49,7 @@ internal class MainService : BaseService
 
       WriteLine($"Press any key to quit...");
       ReadKey();
-      AppLifetime.StopApplication();
    }
 
    private void OnStopped() => Logger.LogInformation("OnStopped()");
-
 }

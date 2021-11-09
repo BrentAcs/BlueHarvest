@@ -2,7 +2,12 @@
 
 namespace BlueHarvest.Server.CLI.Services;
 
-internal abstract class BaseService : IHostedService
+internal interface IBaseService
+{
+   void ProcessMenu();
+}
+
+internal abstract class BaseService : IBaseService
 {
    protected record MenuAction
    {
@@ -10,41 +15,41 @@ internal abstract class BaseService : IHostedService
       public Action? Action { get; set; }
    }
 
-   private IDictionary<ConsoleKey, MenuAction> _actions = new Dictionary<ConsoleKey, MenuAction>();
+   private readonly IDictionary<ConsoleKey, MenuAction> _actions = new Dictionary<ConsoleKey, MenuAction>();
    private readonly IConfiguration _configuration;
    private readonly ILogger<BaseService> _logger;
-   private readonly IHostApplicationLifetime _appLifetime;
 
-   public BaseService(
+   protected BaseService(
       IConfiguration configuration,
-      ILogger<BaseService> logger,
-      IHostApplicationLifetime appLifetime)
+      ILogger<BaseService> logger)
    {
       _configuration = configuration;
       _logger = logger;
-      _appLifetime = appLifetime;
-      ;
    }
 
+   protected IConfiguration Configuration => _configuration;
+   protected ILogger<BaseService> Logger => _logger;
    protected abstract string Title { get; }
 
-   protected IConfiguration Configuration => _configuration;
+   protected virtual void AddTerminateAction() =>
+      AddMenuAction(ConsoleKey.Q, "Quit/Return", null);
 
-   protected ILogger<BaseService> Logger => _logger;
-
-   protected IHostApplicationLifetime AppLifetime => _appLifetime;
-
-   protected abstract void InitMenu();
+   protected void InitMenu()
+   {
+      ClearActions();
+      AddActions();
+      AddTerminateAction();
+   }
 
    protected void ClearActions() => _actions.Clear();
-
+   protected abstract void AddActions();
    protected void AddMenuAction(ConsoleKey key, string name, Action action) =>
       _actions.Add(key, new MenuAction { Name = name, Action = action });
 
-   protected void ProcessMenu()
+   public void ProcessMenu()
    {
-      var done = false;
-      while (!done)
+      InitMenu();
+      while (true)
       {
          Clear();
          WriteLine(Title);
@@ -52,25 +57,17 @@ internal abstract class BaseService : IHostedService
          {
             WriteLine($"{pair.Key} - {pair.Value.Name}");
          }
-         WriteLine("Q - Quit");
 
          var keyInfo = ReadKey(true);
-         if (_actions.ContainsKey(keyInfo.Key))
+         if (!_actions.ContainsKey(keyInfo.Key))
          {
-            _actions[keyInfo.Key].Action();
+            continue;
          }
 
-         done = keyInfo.Key == ConsoleKey.Q;
-      }
-   }
+         if (_actions[ keyInfo.Key ].Action is null)
+            break;
 
-   public virtual Task StartAsync(CancellationToken cancellationToken)
-   {
-      InitMenu();
-      return Task.CompletedTask;
-   }
-   public virtual Task StopAsync(CancellationToken cancellationToken) 
-   {
-      return Task.CompletedTask; 
+         _actions[ keyInfo.Key ].Action();
+      }
    }
 }

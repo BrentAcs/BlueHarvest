@@ -34,12 +34,10 @@ class Program
                services
                   .AddBlueHarvestCommon(configuration)
                   .AddHostedService<MainService>()
-                  .AddHostedService<StorageService>()
-                  //.AddScoped<IStorageService, StorageService>()
+                  .AddSingleton<IStorageService, StorageService>()
                   ;
             })
             .RunConsoleAsync();
-
          Console.WriteLine("Done");
       }
       catch (Exception ex)
