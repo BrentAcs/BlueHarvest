@@ -35,7 +35,11 @@ internal class StorageService : BaseService, IStorageService
    protected override void InitMenu()
    {
       ClearActions();
-      // AddMenuAction(ConsoleKey.S, "Storage", _storageService.MainMenu);
+      AddMenuAction(ConsoleKey.D1, "List Collections", ListCollections);
+   }
+
+   private void ListCollections()
+   {
    }
 }
 
