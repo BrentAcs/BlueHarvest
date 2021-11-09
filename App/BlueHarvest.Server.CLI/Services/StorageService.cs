@@ -1,7 +1,7 @@
-﻿using BlueHarvest.Core.Storage;
+﻿using BlueHarvest.Core.Models;
+using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Utilities;
-using static System.Console;
 
 namespace BlueHarvest.Server.CLI.Services;
 
@@ -28,10 +28,12 @@ internal class StorageService : BaseService, IStorageService
 
    public void MainMenu()
    {
+      InitMenu();
       ProcessMenu();
    }
 
    protected override string Title => "Storage Services.";
+
    protected override void InitMenu()
    {
       ClearActions();
@@ -40,6 +42,20 @@ internal class StorageService : BaseService, IStorageService
 
    private void ListCollections()
    {
+      //var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
+      //          .Where(x => typeof(IMongoRepository<Cluster>).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+      //          .Select(x => x.Name).ToList();
+
+      var type = typeof(IMongoRepository<>);
+
+      var types = AppDomain.CurrentDomain.GetAssemblies()
+         .SelectMany(x => x.GetTypes())
+         .SelectMany(y => y.GetInterfaces())
+         .Where(z => z.IsGenericType &&
+            type.GetConstructors().Any() &&
+            type.IsAssignableFrom(z.GetGenericTypeDefinition()));
+
+
    }
 }
 
