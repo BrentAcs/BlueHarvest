@@ -1,4 +1,4 @@
-﻿namespace BlueHarvest.Core.Models;
+﻿namespace BlueHarvest.Core.Storage;
 
 public static class CollectionNames
 {

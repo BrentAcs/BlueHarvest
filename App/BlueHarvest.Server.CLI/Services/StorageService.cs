@@ -2,6 +2,8 @@
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Utilities;
+using MongoDB.Driver;
+using static System.Console;
 
 namespace BlueHarvest.Server.CLI.Services;
 
@@ -13,41 +15,38 @@ internal class StorageService : BaseService, IStorageService
 {
    private readonly IMongoContext _mongoContext;
    private readonly IEntityDesignator _entityDesignator;
-   private readonly IClusterRepo _clusterRepo;
+   private readonly IStarClusterRepo _starClusterRepo;
 
    public StorageService(
       IConfiguration configuration,
       ILogger<StorageService> logger,
       IMongoContext mongoContext,
       IEntityDesignator entityDesignator,
-      IClusterRepo clusterRepo)
+      IStarClusterRepo starClusterRepo)
       : base(configuration, logger)
    {
       _mongoContext = mongoContext;
       _entityDesignator = entityDesignator;
-      _clusterRepo = clusterRepo;
+      _starClusterRepo = starClusterRepo;
    }
 
    protected override string Title => "Storage Services.";
 
    protected override void AddActions()
    {
-      AddMenuAction(ConsoleKey.D1, "List Collections", ListCollections);
+      AddMenuAction(ConsoleKey.L, "List Collections", ListCollections);
    }
    
    private void ListCollections()
    {
-      //var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
-      //          .Where(x => typeof(IMongoRepository<Cluster>).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-      //          .Select(x => x.Name).ToList();
+      // CollectionNames
 
-      var type = typeof(IMongoRepository<>);
+      var type = typeof(CollectionNames);
+      var collections = type.GetFields(BindingFlags.Public | BindingFlags.Static)
+         .Select(f => f.Name);
 
-      var types = AppDomain.CurrentDomain.GetAssemblies()
-         .SelectMany(x => x.GetTypes())
-         .SelectMany(y => y.GetInterfaces())
-         .Where(z => z.IsGenericType &&
-                     type.GetConstructors().Any() &&
-                     type.IsAssignableFrom(z.GetGenericTypeDefinition()));
+      WriteLine("listing collections...");
+     
+      ShowContinue();
    }
 }

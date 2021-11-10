@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
           .AddSingleton<IMongoDbSettings>(serviceProvider =>
              serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value)
           .AddSingleton<IMongoContext, MongoContext>()
-          .AddScoped<IClusterRepo, ClusterRepo>()
+          .AddScoped<IStarClusterRepo, StarStarClusterRepo>()
          // .AddScoped<IPlanetarySystemRepo, PlanetarySystemRepo>()
 
          .AddSingleton<IEntityDesignator, EntityDesignator>()

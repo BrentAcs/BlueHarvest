@@ -4,7 +4,7 @@ using BlueHarvest.Core.Storage;
 namespace BlueHarvest.Core.Models;
 
 [BsonCollection(CollectionNames.Clusters)]
-public class Cluster : Document
+public class StarCluster : Document
 {
    public string? Owner { get; set; }
    public string? Description { get; set; }

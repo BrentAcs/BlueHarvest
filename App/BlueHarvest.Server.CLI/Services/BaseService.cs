@@ -43,6 +43,7 @@ internal abstract class BaseService : IBaseService
 
    protected void ClearActions() => _actions.Clear();
    protected abstract void AddActions();
+
    protected void AddMenuAction(ConsoleKey key, string name, Action action) =>
       _actions.Add(key, new MenuAction { Name = name, Action = action });
 
@@ -69,5 +70,11 @@ internal abstract class BaseService : IBaseService
 
          _actions[ keyInfo.Key ].Action();
       }
+   }
+
+   protected void ShowContinue()
+   {
+      WriteLine("press any key to continue");
+      ReadKey(true);
    }
 }
