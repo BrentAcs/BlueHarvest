@@ -1,6 +1,8 @@
 ﻿using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
+using BlueHarvest.Core.Storage.Services;
 using BlueHarvest.Core.Utilities;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace BlueHarvest.Core.Extensions;
 
@@ -18,6 +20,7 @@ public static class ServiceCollectionExtensions
 
          .AddSingleton<IEntityDesignator, EntityDesignator>()
          .AddSingleton<IRng, SimpleRng>()
+         .AddScoped<ICollectionsService, CollectionsService>()
          // .AddSingleton<IStarTypeService, StarTypeService>()
          // .AddSingleton<IClusterCreator, ClusterCreator>()
          // .AddSingleton<IPlanetarySystemCreator, PlanetarySystemCreator>()
