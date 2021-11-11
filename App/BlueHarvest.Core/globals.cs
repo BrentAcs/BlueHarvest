@@ -8,3 +8,4 @@ global using MongoDB.Bson.Serialization;
 global using MongoDB.Bson.Serialization.Attributes;
 global using MongoDB.Driver;
 global using Newtonsoft.Json;
+global using Microsoft.Extensions.Logging;

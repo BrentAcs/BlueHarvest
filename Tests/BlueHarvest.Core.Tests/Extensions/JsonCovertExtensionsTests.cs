@@ -1,6 +1,4 @@
 ﻿using BlueHarvest.Core.Extensions;
-using Newtonsoft.Json;
-using NUnit.Framework;
 
 namespace BlueHarvest.Core.Tests.Extensions;
 

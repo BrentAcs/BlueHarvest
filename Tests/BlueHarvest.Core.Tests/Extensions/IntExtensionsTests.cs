@@ -1,5 +1,4 @@
 ﻿using BlueHarvest.Core.Extensions;
-using NUnit.Framework;
 
 namespace BlueHarvest.Core.Tests.Extensions;
 

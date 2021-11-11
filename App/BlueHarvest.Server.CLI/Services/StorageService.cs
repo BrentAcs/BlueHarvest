@@ -1,4 +1,7 @@
-﻿using BlueHarvest.Core.Models;
+﻿using System.Runtime.Serialization.Formatters.Binary;
+using BlueHarvest.Core.Builders;
+using BlueHarvest.Core.Extensions;
+using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Storage.Services;
@@ -15,7 +18,10 @@ internal interface IStorageService : IBaseService
 internal class StorageService : BaseService, IStorageService
 {
    private readonly IMongoContext _mongoContext;
-   private readonly IEntityDesignator _entityDesignator;
+
+   private readonly IStarClusterBuilder _starClusterBuilder;
+
+   //private readonly IEntityDesignator _entityDesignator;
    private readonly ICollectionsService _collectionsService;
    private readonly IStarClusterRepo _starClusterRepo;
 
@@ -23,13 +29,15 @@ internal class StorageService : BaseService, IStorageService
       IConfiguration configuration,
       ILogger<StorageService> logger,
       IMongoContext mongoContext,
-      IEntityDesignator entityDesignator,
+      IStarClusterBuilder starClusterBuilder,
+      //IEntityDesignator entityDesignator,
       ICollectionsService collectionsService,
       IStarClusterRepo starClusterRepo)
       : base(configuration, logger)
    {
       _mongoContext = mongoContext;
-      _entityDesignator = entityDesignator;
+      _starClusterBuilder = starClusterBuilder;
+      //_entityDesignator = entityDesignator;
       _collectionsService = collectionsService;
       _starClusterRepo = starClusterRepo;
    }
@@ -39,6 +47,7 @@ internal class StorageService : BaseService, IStorageService
    protected override void AddActions()
    {
       AddMenuAction(ConsoleKey.L, "List Collections", ListCollections);
+      AddMenuAction(ConsoleKey.C, "Create Cluster", CreateStarCluster);
    }
 
    private void ListCollections()
@@ -50,5 +59,12 @@ internal class StorageService : BaseService, IStorageService
       }
      
       ShowContinue();
+   }
+
+   private void CreateStarCluster()
+   {
+      var options = StarClusterBuilderOptions.Test;
+      _starClusterBuilder.Create(options);
+
    }
 }

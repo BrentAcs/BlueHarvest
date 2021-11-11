@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using BlueHarvest.Core.Extensions;
+using BlueHarvest.Core.Models;
+using BlueHarvest.Core.Storage;
 using BlueHarvest.Server.CLI.Services;
 
 namespace BlueHarvest.Server.CLI;
@@ -36,6 +38,9 @@ class Program
                   .AddHostedService<MainService>()
                   .AddSingleton<IStorageService, StorageService>()
                   ;
+               
+               //  ref: https://stackoverflow.com/questions/57015856/invalidoperationexception-cant-compile-a-newexpression-with-a-constructor-decl
+               Utilities.RegisterKnownTypes<StellarObject>();
             })
             .RunConsoleAsync();
          Console.WriteLine("Done");

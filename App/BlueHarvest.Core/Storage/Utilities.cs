@@ -1,6 +1,4 @@
-﻿
-
-namespace BlueHarvest.Core.Storage;
+﻿namespace BlueHarvest.Core.Storage;
 
 public static class Utilities
 {
