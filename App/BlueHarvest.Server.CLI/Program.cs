@@ -39,8 +39,8 @@ class Program
                   .AddSingleton<IStorageService, StorageService>()
                   ;
                
-               //  ref: https://stackoverflow.com/questions/57015856/invalidoperationexception-cant-compile-a-newexpression-with-a-constructor-decl
-               Utilities.RegisterKnownTypes<StellarObject>();
+               // //  ref: https://stackoverflow.com/questions/57015856/invalidoperationexception-cant-compile-a-newexpression-with-a-constructor-decl
+               // Utilities.RegisterKnownTypes<StellarObject>();
             })
             .RunConsoleAsync();
          Console.WriteLine("Done");

@@ -2,6 +2,6 @@
 
 public static class CollectionNames
 {
-   public const string Clusters = "Clusters";
+   public const string StarClusters = "StarClusters";
    public const string PlanetarySystems = "PlanetarySystems";
 }

@@ -1,6 +1,6 @@
 ﻿namespace BlueHarvest.Core.Storage;
 
-public static class Utilities
+public static class Misc
 {
    public static void RegisterKnownTypes<T>(Assembly? assembly=null)
    {
