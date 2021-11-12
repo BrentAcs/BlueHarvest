@@ -1,30 +1,24 @@
-﻿using System;
+﻿using BlueHarvest.Core.Builders;
 using BlueHarvest.Core.Extensions;
-using BlueHarvest.Core.Rnd;
+using BlueHarvest.Core.Rnd.Models;
 using BlueHarvest.Core.Utilities;
+using StarClusterBuilder = BlueHarvest.Core.Rnd.Builders.StarClusterBuilder;
 
-var rng = new SimpleRng();
-var attacker = new GroundUnit { BaseStrength = 100 };
-//var defender = new GroundUnit { Strength = 100 };
+namespace BlueHarvest.CLI.Rnd;
 
-var json = attacker.ToJsonIndented();
+class Program
+{
+   static async Task Main(string[] args)
+   {
+      var rng = new SimpleRng();
+      
+      var cluster = new StarClusterBuilder(rng, new EntityDesignator(rng))
+         .Build(StarClusterBuilderOptions.Test);
+      
+      
+      Console.WriteLine($"{cluster.ToJsonIndented()}");
+      Console.WriteLine("Done.");
+   } 
+}
 
-//int attackRoll = rng.Next(100);
-//int defendRoll = rng.Next(100);
-
-//if (attacker.Strength + attackRoll > defender.Strength + defendRoll)
-//{
-//   Console.WriteLine($"Attacker victory");
-//}
-//else if (attacker.Strength + attackRoll == defender.Strength + defendRoll)
-//{
-//   Console.WriteLine($"Draw");
-//}
-//else
-//{
-//   Console.WriteLine($"Defender victory");
-//}
-
-
-Console.WriteLine("Done.");
 
