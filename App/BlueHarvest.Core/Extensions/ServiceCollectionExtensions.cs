@@ -22,10 +22,11 @@ public static class ServiceCollectionExtensions
          .AddScoped<IPlanetarySystemRepo, PlanetarySystemRepo>()
          .AddSingleton<IEntityDesignator, EntityDesignator>()
          .AddSingleton<IRng, SimpleRng>()
-         .AddScoped<ICollectionsService, CollectionsService>()
          .AddSingleton<IStarTypeService, StarTypeService>()
-         .AddSingleton<IStarClusterBuilder, StarClusterBuilder>()
-         .AddSingleton<IPlanetarySystemBuilder, PlanetarySystemBuilder>()
+         .AddSingleton<IPlanetDescriptorService, IPlanetDescriptorService>()
+         .AddScoped<ICollectionsService, CollectionsService>()
+         .AddScoped<IStarClusterBuilder, StarClusterBuilder>()
+         .AddScoped<IPlanetarySystemBuilder, PlanetarySystemBuilder>()
          ;
 
       //  ref: https://stackoverflow.com/questions/57015856/invalidoperationexception-cant-compile-a-newexpression-with-a-constructor-decl
