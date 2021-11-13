@@ -76,9 +76,10 @@ internal class StorageService : BaseService, IStorageService
    private void ListStarClusters()
    {
       ClearScreen("Listing Star Clusters...");
+      int index = 0;
       foreach (var cluster in _starClusterRepo.All())
       {
-         WriteLine($"{cluster.Description}");   
+         WriteLine($"{++index} - {cluster.Id}: {cluster.Description}");   
       }
       ShowContinue();
    }

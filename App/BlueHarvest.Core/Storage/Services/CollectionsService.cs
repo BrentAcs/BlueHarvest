@@ -11,3 +11,4 @@ public class CollectionsService : ICollectionsService
       .GetFields(BindingFlags.Public | BindingFlags.Static)
       .Select(f => f.Name);
 }
+
