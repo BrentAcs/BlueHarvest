@@ -4,6 +4,7 @@ namespace BlueHarvest.Core.Storage.Repos;
 
 public interface IStarClusterRepo : IMongoRepository<StarCluster>
 {
+   Task<IAsyncCursor<StarCluster>> FindByNameAsync(string name);
 }
 
 public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRepo
@@ -29,8 +30,15 @@ public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRep
          };
 
          var index =
-            new CreateIndexModel<StarCluster>($"{{ {nameof(StarCluster.Description)} : 1 }}", options);
+            new CreateIndexModel<StarCluster>($"{{ {nameof(StarCluster.Name)} : 1 }}", options);
          await Collection.Indexes.CreateOneAsync(index).ConfigureAwait(false);
       }
    }
+
+   public Task<IAsyncCursor<StarCluster>> FindByNameAsync(string name) =>
+      Task.Run(() =>
+      {
+         var filter = Builders<StarCluster>.Filter.Eq(doc => doc.Name, name);
+         return Collection.FindAsync(filter);
+      });
 }

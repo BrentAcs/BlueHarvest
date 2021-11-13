@@ -118,10 +118,13 @@ internal class StorageService : BaseService, IStorageService
       ShowContinue();
    }
 
-   private async void TestProc()
+   private void TestProc()
    {
       ClearScreen("Test...");
 
+      var cluster = _starClusterRepo.FindByNameAsync("Test")
+         .Result
+         .FirstOrDefault();
 
       ShowContinue();
    }

@@ -40,8 +40,9 @@ public class StarClusterBuilder : IStarClusterBuilder
       var cluster = new StarCluster
       {
          CreatedOn = DateTime.Now,
-         Owner = options.Owner,
+         Name = options.Name,
          Description = options.Description,
+         Owner = options.Owner,
          Size = options.ClusterSize
       };
       await _starClusterRepo.InsertOneAsync(cluster).ConfigureAwait(false);
