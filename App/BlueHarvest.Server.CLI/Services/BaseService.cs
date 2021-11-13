@@ -87,4 +87,12 @@ internal abstract class BaseService : IBaseService
       WriteLine("press any key to continue");
       ReadKey(true);
    }
+
+   protected ConsoleKey ShowPrompt(string prompt, ConsoleKey defaultKey=ConsoleKey.Q)
+   {
+      Write($"{prompt}: ");
+      var input = ReadKey();
+      WriteLine();
+      return input.Key;
+   }
 }
