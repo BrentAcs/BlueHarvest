@@ -76,22 +76,35 @@ internal class StorageService : BaseService, IStorageService
       WriteLine("3. Medium");
       WriteLine("4. Small");
       WriteLine("5. Test (default)");
+      WriteLine("Q. Cancel");
+      
       Write("Select base options: ");
       var input = ReadLine();
       input = string.IsNullOrEmpty(input) ? "5" : input[ ..1 ];
 
-      StarClusterBuilderOptions options = input switch
+      try
       {
-         "1" => StarClusterBuilderOptions.ExtraLarge,
-         "2" => StarClusterBuilderOptions.Large,
-         "3" => StarClusterBuilderOptions.Medium,
-         "4" => StarClusterBuilderOptions.Small,
-         _ => StarClusterBuilderOptions.Test
-      };
+         StarClusterBuilderOptions options = input switch
+         {
+            "1" => StarClusterBuilderOptions.ExtraLarge,
+            "2" => StarClusterBuilderOptions.Large,
+            "3" => StarClusterBuilderOptions.Medium,
+            "4" => StarClusterBuilderOptions.Small,
+            _ => StarClusterBuilderOptions.Test
+         };
 
-      _starClusterBuilder.Create(options);
-
-      ShowContinue();
+         WriteLine("Building...");
+         var cluster = _starClusterBuilder.Build(options).Result;
+         WriteLine($"{cluster.Description} built.");      
+      }
+      catch (Exception ex)
+      {
+         WriteLine(ex);
+      }
+      finally
+      {
+         ShowContinue();
+      }
    }
    
    private void ListStarClusters()

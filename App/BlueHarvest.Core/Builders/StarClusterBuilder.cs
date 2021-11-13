@@ -8,7 +8,7 @@ namespace BlueHarvest.Core.Builders;
 
 public interface IStarClusterBuilder
 {
-   Task<StarCluster> Create(StarClusterBuilderOptions options = null);
+   Task<StarCluster> Build(StarClusterBuilderOptions options = null);
 }
 
 public class StarClusterBuilder : IStarClusterBuilder
@@ -33,7 +33,7 @@ public class StarClusterBuilder : IStarClusterBuilder
       _entityDesignator = entityDesignator;
    }
 
-   public async Task<StarCluster> Create(StarClusterBuilderOptions options = null)
+   public async Task<StarCluster> Build(StarClusterBuilderOptions options = null)
    {
       options ??= new StarClusterBuilderOptions();
 
