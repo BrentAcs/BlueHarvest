@@ -50,14 +50,18 @@ internal class StorageService : BaseService, IStorageService
       AddMenuAction(ConsoleKey.T, "Test", TestProc);
    }
 
-   private async void DropDatabase()
+   private void DropDatabase()
    {
       ClearScreen("Dropping Database...");
-         
-      await _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
-      foreach (var repo in _monogoRepos)
+
+      Write("This is destructive. Are you sure? Type 'DEL' to delete: ");
+      var line = ReadLine();
+      if (line.Equals("DEL"))
       {
-         await repo.InitializeAsync().ConfigureAwait(false);
+         WriteLine("Deleting...");
+         _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
+         WriteLine("Initializing...");
+         Task.WaitAll(_monogoRepos.InitializeAllAsync());
       }
       
       ShowContinue();
@@ -66,8 +70,25 @@ internal class StorageService : BaseService, IStorageService
    private void BuildStarCluster()
    {
       ClearScreen("Building Star Cluster...");
+      
+      WriteLine("1. Extra Large");
+      WriteLine("2. Large");
+      WriteLine("3. Medium");
+      WriteLine("4. Small");
+      WriteLine("5. Test (default)");
+      Write("Select base options: ");
+      var input = ReadLine();
+      input = string.IsNullOrEmpty(input) ? "5" : input[ ..1 ];
 
-      var options = StarClusterBuilderOptions.Test;
+      StarClusterBuilderOptions options = input switch
+      {
+         "1" => StarClusterBuilderOptions.ExtraLarge,
+         "2" => StarClusterBuilderOptions.Large,
+         "3" => StarClusterBuilderOptions.Medium,
+         "4" => StarClusterBuilderOptions.Small,
+         _ => StarClusterBuilderOptions.Test
+      };
+
       _starClusterBuilder.Create(options);
 
       ShowContinue();
@@ -86,7 +107,8 @@ internal class StorageService : BaseService, IStorageService
 
    private async void TestProc()
    {
-      
+      ClearScreen("Test...");
+
 
       ShowContinue();
    }
