@@ -10,17 +10,20 @@ public class StarClusterBuilder
 {
    private readonly IRng _rng;
    private readonly IEntityDesignator _entityDesignator;
+   private readonly IPlanetarySystemBuilder _planetarySystemBuilder;
 
    public StarClusterBuilder(IRng rng,
-      IEntityDesignator entityDesignator)
+      IEntityDesignator entityDesignator,
+      IPlanetarySystemBuilder planetarySystemBuilder)
    {
       _rng = rng;
       _entityDesignator = entityDesignator;
+      _planetarySystemBuilder = planetarySystemBuilder;
    }
    
-   public StarCluster? Build(StarClusterBuilderOptions options)
+   public RndStarCluster? Build(StarClusterBuilderOptions options)
    {
-      var starCluster = new StarCluster
+      var starCluster = new RndStarCluster
       {
          CreatedOn = DateTime.Now,
          Owner = options.Owner,

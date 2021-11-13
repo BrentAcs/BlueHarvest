@@ -11,4 +11,26 @@ public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRep
    public StarStarClusterRepo(IMongoContext mongoContext) : base(mongoContext)
    {
    }
+
+   public override async Task InitializeAsync()
+   {
+      await base.InitializeAsync().ConfigureAwait(false);
+
+      var indexes = await Collection.Indexes.ListAsync().ConfigureAwait(false);
+      var exists = await indexes.AnyAsync().ConfigureAwait(false);
+      if (!exists)
+      {
+         var options = new CreateIndexOptions
+         {
+            Collation = new Collation("en_US",
+               false,
+               new Optional<CollationCaseFirst?>(CollationCaseFirst.Off),
+               new Optional<CollationStrength?>(CollationStrength.Primary))
+         };
+
+         var index =
+            new CreateIndexModel<StarCluster>($"{{ {nameof(StarCluster.Description)} : 1 }}", options);
+         await Collection.Indexes.CreateOneAsync(index).ConfigureAwait(false);
+      }
+   }
 }

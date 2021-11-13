@@ -1,46 +1,5 @@
 ﻿namespace BlueHarvest.Core.Storage;
 
-// https://medium.com/@marekzyla95/mongo-repository-pattern-700986454a0e
-public interface IMongoRepository<TDoc> where TDoc : IDocument
-{
-   // public IMongoCollection<TDoc> Collection { get; }
-   long CalcPageCount(long count, int pageSize);
-
-   IEnumerable<TDoc> All();
-   IQueryable<TDoc> AsQueryable();
-   IEnumerable<TDoc> FilterBy(Expression<Func<TDoc, bool>> filterExpression);
-
-   IEnumerable<TProjected> FilterBy<TProjected>(
-      Expression<Func<TDoc, bool>> filterExpression,
-      Expression<Func<TDoc, TProjected>> projectionExpression);
-
-   TDoc FindOne(Expression<Func<TDoc, bool>> filterExpression);
-   Task<TDoc> FindOneAsync(Expression<Func<TDoc, bool>> filterExpression);
-   TDoc FindById(string id);
-   Task<TDoc> FindByIdAsync(string id);
-
-   void InsertOne(TDoc document);
-   Task InsertOneAsync(TDoc document);
-   void InsertMany(ICollection<TDoc> documents);
-   Task InsertManyAsync(ICollection<TDoc> documents);
-
-   void ReplaceOne(TDoc document);
-   Task ReplaceOneAsync(TDoc document);
-
-   void DeleteOne(Expression<Func<TDoc, bool>> filterExpression);
-   Task DeleteOneAsync(Expression<Func<TDoc, bool>> filterExpression);
-   void DeleteById(string id);
-   Task DeleteByIdAsync(string id);
-   void DeleteMany(Expression<Func<TDoc, bool>> filterExpression);
-   Task DeleteManyAsync(Expression<Func<TDoc, bool>> filterExpression);
-
-   Task<(long totalRecords, IEnumerable<TDoc> data)> AggregateByPage(
-      FilterDefinition<TDoc> filterDefinition,
-      SortDefinition<TDoc> sortDefinition,
-      int page,
-      int pageSize = 20);
-}
-
 public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IDocument
 {
    private readonly IMongoContext _mongoContext;
@@ -48,16 +7,21 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IDocume
    public MongoRepository(IMongoContext mongoContext)
    {
       _mongoContext = mongoContext;
-      Collection = _mongoContext.Db.GetCollection<TDoc>(GetCollectionName(typeof(TDoc)));
+      Collection = _mongoContext.Db.GetCollection<TDoc>(CollectionName);
    }
 
    protected IMongoCollection<TDoc> Collection { get; }
 
-   protected string? GetCollectionName(Type documentType) =>
+   private static string? GetCollectionName(Type documentType) =>
       ((BsonCollectionAttribute)documentType.GetCustomAttributes(
             typeof(BsonCollectionAttribute),
             true)
          .FirstOrDefault()!)?.CollectionName;
+
+   public string? CollectionName => GetCollectionName(typeof(TDoc));
+   
+   public virtual Task InitializeAsync() =>
+      Task.CompletedTask;
 
    public long CalcPageCount(long count, int pageSize) =>
       (long)Math.Ceiling((double)count / pageSize);
@@ -119,7 +83,7 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IDocume
    public virtual async Task ReplaceOneAsync(TDoc document)
    {
       var filter = Builders<TDoc>.Filter.Eq(doc => doc.Id, document.Id);
-      await Collection.FindOneAndReplaceAsync(filter, document);
+      await Collection.FindOneAndReplaceAsync(filter, document).ConfigureAwait(false);
    }
 
    public void DeleteOne(Expression<Func<TDoc, bool>> filterExpression) =>

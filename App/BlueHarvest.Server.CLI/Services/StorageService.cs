@@ -18,22 +18,25 @@ internal interface IStorageService : IBaseService
 internal class StorageService : BaseService, IStorageService
 {
    private readonly IMongoContext _mongoContext;
+   private readonly IEnumerable<IMongoRepository> _monogoRepos;
    private readonly IStarClusterBuilder _starClusterBuilder;
-   private readonly ICollectionsService _collectionsService;
+   // private readonly ICollectionsService _collectionsService;
    private readonly IStarClusterRepo _starClusterRepo;
 
    public StorageService(
       IConfiguration configuration,
-      ILogger<StorageService> logger,
       IMongoContext mongoContext,
+      IEnumerable<IMongoRepository> monogoRepos,
       IStarClusterBuilder starClusterBuilder,
-      ICollectionsService collectionsService,
-      IStarClusterRepo starClusterRepo)
+      // ICollectionsService collectionsService,
+      IStarClusterRepo starClusterRepo,
+      ILogger<StorageService> logger )
       : base(configuration, logger)
    {
       _mongoContext = mongoContext;
+      _monogoRepos = monogoRepos;
       _starClusterBuilder = starClusterBuilder;
-      _collectionsService = collectionsService;
+      // _collectionsService = collectionsService;
       _starClusterRepo = starClusterRepo;
    }
 
@@ -41,12 +44,24 @@ internal class StorageService : BaseService, IStorageService
 
    protected override void AddActions()
    {
-      AddMenuAction(ConsoleKey.C, "Create Cluster", CreateStarCluster);
+      AddMenuAction(ConsoleKey.D, "Drop Database and re-init", DropDatabase);
+      AddMenuAction(ConsoleKey.B, "Create Cluster", BuildStarCluster);
       AddMenuAction(ConsoleKey.L, "List Clusters", ListStarClusters);
       AddMenuAction(ConsoleKey.T, "Test", TestProc);
    }
 
-   private void CreateStarCluster()
+   private async void DropDatabase()
+   {
+      await _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
+      foreach (var repo in _monogoRepos)
+      {
+         await repo.InitializeAsync().ConfigureAwait(false);
+      }
+      
+      ShowContinue();
+   }
+
+   private void BuildStarCluster()
    {
       var options = StarClusterBuilderOptions.Test;
       _starClusterBuilder.Create(options);
@@ -65,21 +80,8 @@ internal class StorageService : BaseService, IStorageService
 
    private async void TestProc()
    {
-      //_starClusterRepo.
-      var col = _mongoContext.Db.GetCollection<StarCluster>(CollectionNames.StarClusters);
-      var indexes = await col.Indexes.ListAsync().ConfigureAwait(false);
-      var exists = await indexes.AnyAsync().ConfigureAwait(false);
-      if (!exists)
-      {
-         var options = new CreateIndexOptions();
-         options.Collation = new Collation("en_US",
-            false,
-            new Optional<CollationCaseFirst?>(CollationCaseFirst.Off),
-            new Optional<CollationStrength?>(CollationStrength.Primary));
+      
 
-         //var index = new CreateIndexModel<StarCluster>("{ AgencyEnterprise : 1, CodeName : 1 }", options);
-         var index = new CreateIndexModel<StarCluster>($"{{ {nameof(StarCluster.Description)} : 1 }}", options);
-         col.Indexes.CreateOne(index);      }
-
+      ShowContinue();
    }
 }

@@ -10,13 +10,15 @@ class Program
 {
    static async Task Main(string[] args)
    {
-      var rng = new SimpleRng();
-      
-      var cluster = new StarClusterBuilder(rng, new EntityDesignator(rng))
-         .Build(StarClusterBuilderOptions.Test);
-      
-      
-      Console.WriteLine($"{cluster.ToJsonIndented()}");
+      // var rng = new SimpleRng();
+      //
+      // var cluster = new StarClusterBuilder(rng, new EntityDesignator(rng))
+      //    .Build(StarClusterBuilderOptions.Test);
+      //
+      //
+      // //Console.WriteLine($"{cluster.ToJsonIndented()}");
+      //
+      // File.WriteAllText(@"c:\t\starcluster.json", cluster.ToJsonIndented());
       Console.WriteLine("Done.");
    } 
 }

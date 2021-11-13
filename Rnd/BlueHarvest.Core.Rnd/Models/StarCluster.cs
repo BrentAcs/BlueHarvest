@@ -2,11 +2,11 @@
 
 namespace BlueHarvest.Core.Rnd.Models;
 
-public abstract class Document
+public abstract class RndDocument
 {
    private static long _nextId = 0;
 
-   protected Document()
+   protected RndDocument()
    {
       Id = ++_nextId;
    }
@@ -14,7 +14,7 @@ public abstract class Document
    public long Id { get; set; }
 }
 
-public class StarCluster : Document
+public class RndStarCluster : RndDocument
 {
    public string? Owner { get; set; }
    public string? Description { get; set; }
@@ -22,7 +22,7 @@ public class StarCluster : Document
    public Ellipsoid? Size { get; set; }
 }
 
-public abstract class InterstellarObject : Document
+public abstract class RndInterstellarObject : RndDocument
 {
    public long ClusterId { get; set; }
 
@@ -30,7 +30,7 @@ public abstract class InterstellarObject : Document
    public string? Name { get; set; }
 }
 
-public abstract class StellarObject //: Document
+public abstract class RndStellarObject : RndDocument
 {
    public string? Name { get; set; }
 }
