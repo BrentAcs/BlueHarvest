@@ -45,13 +45,15 @@ internal class StorageService : BaseService, IStorageService
    protected override void AddActions()
    {
       AddMenuAction(ConsoleKey.D, "Drop Database and re-init", DropDatabase);
-      AddMenuAction(ConsoleKey.B, "Create Cluster", BuildStarCluster);
       AddMenuAction(ConsoleKey.L, "List Clusters", ListStarClusters);
+      AddMenuAction(ConsoleKey.B, "Build Cluster", BuildStarCluster);
       AddMenuAction(ConsoleKey.T, "Test", TestProc);
    }
 
    private async void DropDatabase()
    {
+      ClearScreen("Dropping Database...");
+         
       await _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
       foreach (var repo in _monogoRepos)
       {
@@ -63,14 +65,17 @@ internal class StorageService : BaseService, IStorageService
 
    private void BuildStarCluster()
    {
+      ClearScreen("Building Star Cluster...");
+
       var options = StarClusterBuilderOptions.Test;
       _starClusterBuilder.Create(options);
+
       ShowContinue();
    }
    
    private void ListStarClusters()
    {
-      WriteLine("Listing star clusters...");
+      ClearScreen("Listing Star Clusters...");
       foreach (var cluster in _starClusterRepo.All())
       {
          WriteLine($"{cluster.Description}");   

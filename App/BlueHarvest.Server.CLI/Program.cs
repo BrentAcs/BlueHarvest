@@ -4,6 +4,7 @@ using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Server.CLI.Services;
+using static System.Console;
 
 namespace BlueHarvest.Server.CLI;
 
@@ -41,12 +42,12 @@ class Program
                   ;
             })
             .RunConsoleAsync();
-         Console.WriteLine("Done");
       }
       catch (Exception ex)
       {
-         Console.WriteLine(ex);
-         Console.ReadKey(true);
+         WriteLine(ex);
+         WriteLine("Press any key to exit.");
+         ReadKey(true);
       }
    }
 }

@@ -45,7 +45,7 @@ internal abstract class BaseService : IBaseService
    protected abstract void AddActions();
 
    protected void AddMenuAction(ConsoleKey key, string name, Action action) =>
-      _actions.Add(key, new MenuAction { Name = name, Action = action });
+      _actions.Add(key, new MenuAction {Name = name, Action = action});
 
    public void ProcessMenu()
    {
@@ -65,15 +65,25 @@ internal abstract class BaseService : IBaseService
             continue;
          }
 
-         if (_actions[ keyInfo.Key ].Action is null)
+         if (_actions[keyInfo.Key].Action is null)
             break;
 
-         _actions[ keyInfo.Key ].Action();
+         _actions[keyInfo.Key].Action();
+      }
+   }
+
+   protected void ClearScreen(string? subTitle=null)
+   {
+      Clear();
+      if (!string.IsNullOrEmpty(subTitle))
+      {
+         WriteLine($"{subTitle}");
       }
    }
 
    protected void ShowContinue()
    {
+      WriteLine();
       WriteLine("press any key to continue");
       ReadKey(true);
    }
