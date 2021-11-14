@@ -38,7 +38,13 @@ public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRep
    public Task<IAsyncCursor<StarCluster>> FindByNameAsync(string name) =>
       Task.Run(() =>
       {
-         var filter = Builders<StarCluster>.Filter.Eq(doc => doc.Name, name);
-         return Collection.FindAsync(filter);
+         var filter = Builders<StarCluster>
+            .Filter.Eq(doc => doc.Name, name);
+         var options = new FindOptions<StarCluster, StarCluster>
+         {
+            Collation = new Collation("en_US", strength: CollationStrength.Primary)
+         };
+
+         return Collection.FindAsync(filter, options);
       });
 }

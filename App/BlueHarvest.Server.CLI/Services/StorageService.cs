@@ -22,6 +22,7 @@ internal class StorageService : BaseService, IStorageService
    private readonly IStarClusterBuilder _starClusterBuilder;
    // private readonly ICollectionsService _collectionsService;
    private readonly IStarClusterRepo _starClusterRepo;
+   private readonly IPlanetarySystemRepo _planetarySystemRepo;
 
    public StorageService(
       IConfiguration configuration,
@@ -30,6 +31,7 @@ internal class StorageService : BaseService, IStorageService
       IStarClusterBuilder starClusterBuilder,
       // ICollectionsService collectionsService,
       IStarClusterRepo starClusterRepo,
+      IPlanetarySystemRepo planetarySystemRepo,
       ILogger<StorageService> logger )
       : base(configuration, logger)
    {
@@ -38,6 +40,7 @@ internal class StorageService : BaseService, IStorageService
       _starClusterBuilder = starClusterBuilder;
       // _collectionsService = collectionsService;
       _starClusterRepo = starClusterRepo;
+      _planetarySystemRepo = planetarySystemRepo;
    }
 
    protected override string Title => "Storage Services.";
@@ -122,10 +125,21 @@ internal class StorageService : BaseService, IStorageService
    {
       ClearScreen("Test...");
 
-      var cluster = _starClusterRepo.FindByNameAsync("Test")
+      var cluster = _starClusterRepo.FindByNameAsync("test")
          .Result
          .FirstOrDefault();
+      var systems = _planetarySystemRepo.AllForCluster(cluster.Id)
+         .Result
+         .ToList();
 
+      var fullCluster = new
+      {
+         Cluster = cluster,
+         Systems = systems
+      }.ToJsonIndented();
+      File.WriteAllText(@"c:\t\starcluster.json", fullCluster);
+      //WriteLine(fullCluster);
+      
       ShowContinue();
    }
 }

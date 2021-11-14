@@ -54,9 +54,10 @@ public class PlanetarySystemBuilder : IPlanetarySystemBuilder
          Size = new Sphere(systemRadius)
       };
 
-      var planetDistance = GetFirstPlanetDistance();
-      var multiplier = 1.0;
-
+      double planetDistance = GetFirstPlanetDistance();
+      double multiplier = 1.0;
+      int index = 0;
+      
       while (planetDistance < systemRadius)
       {
          var zone = _planetDescriptorService.IdentifyPlanetaryZone(planetDistance);
@@ -69,7 +70,8 @@ public class PlanetarySystemBuilder : IPlanetarySystemBuilder
 
          var planet = new Planet
          {
-            Name = $"{system.Name}-{1}",
+            Name = $"{system.Name}-{++index}",
+            Distance = planetDistance,
             Location = planetLocation,
             PlanetType = planetType,
             Diameter = (int)_planetDescriptorService.GenerateDiameter(planetType)
