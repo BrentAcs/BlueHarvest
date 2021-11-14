@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Text;
 using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Storage;
 using static System.Console;
@@ -15,6 +14,7 @@ class Program
       DumpTypes(types);
 
       WriteLine("Done.");
+      ReadKey();
    }
 
    private static IEnumerable<Type>? GetInherited(Type baseType, Func<Type, bool>? isBaseType = null)
@@ -38,8 +38,15 @@ class Program
       foreach (var type in types)
       {
          WriteLine($"{indent}{type.Name} : {type?.BaseType?.Name}");
-         var dervivedTypes = GetInheritedClasses(type);
-         DumpTypes(dervivedTypes, indent + "   ");         
+
+         var properties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+         foreach (var property in properties)
+         {
+            WriteLine($"{indent + "  "} {property.Name}");
+         }
+         
+         var derivedTypes = GetInheritedClasses(type);
+         DumpTypes(derivedTypes, indent + "   ");         
       }
    }
 }
