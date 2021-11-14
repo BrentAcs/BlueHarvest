@@ -125,7 +125,7 @@ internal class StorageService : BaseService, IStorageService
    {
       ClearScreen("Test...");
 
-      var cluster = _starClusterRepo.FindByNameAsync("test")
+      var cluster = _starClusterRepo.FindByNameAsync("extralarge")
          .Result
          .FirstOrDefault();
       var systems = _planetarySystemRepo.AllForCluster(cluster.Id)

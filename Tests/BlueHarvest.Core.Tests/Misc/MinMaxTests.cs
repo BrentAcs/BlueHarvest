@@ -1,6 +1,5 @@
 ﻿using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Misc;
-using NUnit.Framework.Interfaces;
 
 namespace BlueHarvest.Core.Tests.Misc;
 

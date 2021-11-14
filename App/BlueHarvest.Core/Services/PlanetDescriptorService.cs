@@ -28,7 +28,7 @@ public class PlanetDescriptorService : IPlanetDescriptorService
    {
       _rng = rng;
    }
-   
+
    private readonly IDictionary<PlanetType, PlanetDescriptor> _planetDescriptors =
       new Dictionary<PlanetType, PlanetDescriptor>
       {
@@ -102,20 +102,16 @@ public class PlanetDescriptorService : IPlanetDescriptorService
             }
          },
       };
-   
-   private readonly IDictionary<PlanetaryZone, MinMax<double>> _planetaryZoneRanges =
-      new Dictionary<PlanetaryZone, MinMax<double>>
-      {
-         { PlanetaryZone.Inner, new MinMax<double>(0, 0.2499) },
-         { PlanetaryZone.InnerHabitable, new MinMax<double>(0.25, 1.4999) },
-         { PlanetaryZone.Habitable, new MinMax<double>(1.5, 3.4999) },
-         { PlanetaryZone.OuterHabitable, new MinMax<double>(3.5, 4.9999) },
-         { PlanetaryZone.Outer, new MinMax<double>(5.0, double.MaxValue) },
-      };
-   
+
    public PlanetaryZone IdentifyPlanetaryZone(double distance) =>
-      _planetaryZoneRanges
-         .First(p => distance > p.Value.Min && distance < p.Value.Max).Key;
+      distance switch
+      {
+         <= 0.2499 => PlanetaryZone.Inner,
+         <= 1.499 => PlanetaryZone.InnerHabitable,
+         <= 3.499 => PlanetaryZone.Habitable,
+         <= 4.999 => PlanetaryZone.OuterHabitable,
+         _ => PlanetaryZone.Outer
+      };
 
    public PlanetType GeneratePlanetType(PlanetaryZone zone)
    {

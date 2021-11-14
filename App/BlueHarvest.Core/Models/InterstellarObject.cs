@@ -8,6 +8,6 @@ public abstract class InterstellarObject : Document
    [JsonConverter(typeof(ObjectIdConverter))]
    public ObjectId ClusterId { get; set; }
 
-   public Point3D Location { get; set; }
-   public string Name { get; set; }
+   public Point3D? Location { get; set; }
+   public string? Name { get; set; }
 }
