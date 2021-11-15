@@ -39,6 +39,7 @@ class Program
                   .AddBlueHarvestCommon()
                   .AddHostedService<MainService>()
                   .AddSingleton<IStorageService, StorageService>()
+                  .AddSingleton<ITypeService, TypeService>()
                   ;
             })
             .RunConsoleAsync();

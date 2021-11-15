@@ -6,16 +6,19 @@ internal class MainService : BaseService, IHostedService
 {
    private readonly IHostApplicationLifetime _appLifetime;
    private readonly IStorageService _storageService;
+   private readonly ITypeService _typeService;
 
    public MainService(
       IConfiguration configuration,
       ILogger<MainService> logger,
       IHostApplicationLifetime appLifetime,
-      IStorageService storageService)
+      IStorageService storageService,
+      ITypeService typeService)
       :base(configuration, logger)
    {
       _appLifetime = appLifetime;
       _storageService = storageService;
+      _typeService = typeService;
    }
 
    protected override string Title => "BlueHarvest Server CLI";
@@ -23,6 +26,7 @@ internal class MainService : BaseService, IHostedService
    protected override void AddActions()
    {
       AddMenuAction(ConsoleKey.S, "Storage", _storageService.ProcessMenu);
+      AddMenuAction(ConsoleKey.T, "Types", _typeService.ProcessMenu);
    }
 
    public Task StartAsync(CancellationToken cancellationToken)

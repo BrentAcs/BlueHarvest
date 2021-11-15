@@ -1,5 +1,5 @@
 ﻿namespace BlueHarvest.Core.Models;
 
-public class DeepSpaceObject : InterstellarObject
+public abstract class DeepSpaceObject : InterstellarObject
 {
 }
