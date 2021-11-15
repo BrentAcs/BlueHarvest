@@ -24,19 +24,15 @@ internal class TypeService : BaseService, ITypeService
    private void ListTypes()
    {
       ClearScreen();
-      var types = GetInherited(typeof(IDocument),
-         type => type == typeof(object) /*|| type == typeof(Document)*/);
+      var types = GetRootModels(typeof(IRootModel));
       DumpTypes(types);
       ShowContinue();
    }
-   
-   private static IEnumerable<Type>? GetInherited(Type baseType, Func<Type, bool>? isBaseType = null)
-   {
-      isBaseType ??= type => type == typeof(object);
-      return Assembly.GetAssembly(baseType)
+
+   private static IEnumerable<Type>? GetRootModels(Type baseType) =>
+      Assembly.GetAssembly(baseType)
          ?.GetTypes()
-         ?.Where(t => t.IsAssignableTo(baseType) && t != baseType && isBaseType(t.BaseType));
-   }
+         ?.Where(t => baseType.IsAssignableFrom(t) && t.IsClass && t.BaseType == typeof(object));
 
    private static IEnumerable<Type>? GetInheritedClasses(Type bastType) =>
       Assembly.GetAssembly(bastType)
@@ -48,14 +44,17 @@ internal class TypeService : BaseService, ITypeService
 
    private static void DumpTypes(IEnumerable<Type>? types, string indent = "")
    {
+      if (types == null)
+         return;
+
       foreach (var type in types)
       {
-         WriteLine($"{indent}{type.Name} : {type?.BaseType?.Name}");
+         WriteLine($"{indent}+ {type.Name} : {type?.BaseType?.Name}");
 
          var properties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
          foreach (var property in properties)
          {
-            WriteLine($"{indent + "  "} {property.Name}");
+            WriteLine($"{indent + "  "}- {property.Name}");
          }
          
          var derivedTypes = GetInheritedClasses(type);
