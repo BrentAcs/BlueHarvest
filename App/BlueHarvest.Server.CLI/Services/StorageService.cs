@@ -1,5 +1,6 @@
 ﻿using BlueHarvest.Core.Builders;
 using BlueHarvest.Core.Extensions;
+using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
 using MongoDB.Driver;
@@ -118,6 +119,29 @@ internal class StorageService : BaseService, IStorageService
    {
       ClearScreen("Test...");
 
+      var cluster = _starClusterRepo.FindByNameAsync("test")
+         .Result
+         .FirstOrDefault();
+      var systems = _planetarySystemRepo.AllForCluster(cluster.Id)
+         .Result
+         .ToList();
+
+      foreach (var system in systems)
+      {
+         WriteLine($"{system.Name} - {system.Size.XDiameter:0.00}");
+         foreach (var planet in system.StellarObjects.OfType<Planet>())
+         {
+            WriteLine($"   {planet.Name} - {planet.Distance:0.00}");
+         }
+      }
+      
+      
+      
+      ShowContinue();
+   }
+
+   private void BuildFullClusterObject()
+   {
       var cluster = _starClusterRepo.FindByNameAsync("extralarge")
          .Result
          .FirstOrDefault();
@@ -132,7 +156,5 @@ internal class StorageService : BaseService, IStorageService
       }.ToJsonIndented();
       File.WriteAllText(@"c:\t\starcluster.json", fullCluster);
       //WriteLine(fullCluster);
-      
-      ShowContinue();
    }
 }
