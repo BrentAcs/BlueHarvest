@@ -3,7 +3,7 @@ using BlueHarvest.Core.Misc;
 
 namespace BlueHarvest.Core.Builders;
 
-public record StarClusterBuilderOptions
+public class StarClusterBuilderOptions
 {
    public static StarClusterBuilderOptions ExtraLarge => new()
    {
