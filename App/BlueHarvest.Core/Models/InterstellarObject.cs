@@ -3,7 +3,7 @@ using BlueHarvest.Core.Storage;
 
 namespace BlueHarvest.Core.Models;
 
-public abstract class InterstellarObject : Document, IRootModel
+public abstract class InterstellarObject : IRootModel
 {
    [JsonConverter(typeof(ObjectIdConverter))]
    public ObjectId ClusterId { get; set; }

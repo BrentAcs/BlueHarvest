@@ -1,11 +1,7 @@
-﻿using System.Runtime.Serialization.Formatters.Binary;
-using BlueHarvest.Core.Builders;
+﻿using BlueHarvest.Core.Builders;
 using BlueHarvest.Core.Extensions;
-using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
-using BlueHarvest.Core.Storage.Services;
-using BlueHarvest.Core.Utilities;
 using MongoDB.Driver;
 using static System.Console;
 
@@ -18,27 +14,24 @@ internal interface IStorageService : IBaseService
 internal class StorageService : BaseService, IStorageService
 {
    private readonly IMongoContext _mongoContext;
-   private readonly IEnumerable<IMongoRepository> _monogoRepos;
+   private readonly IEnumerable<IMongoRepository> _mongoRepos;
    private readonly IStarClusterBuilder _starClusterBuilder;
-   // private readonly ICollectionsService _collectionsService;
    private readonly IStarClusterRepo _starClusterRepo;
    private readonly IPlanetarySystemRepo _planetarySystemRepo;
 
    public StorageService(
       IConfiguration configuration,
       IMongoContext mongoContext,
-      IEnumerable<IMongoRepository> monogoRepos,
+      IEnumerable<IMongoRepository> mongoRepos,
       IStarClusterBuilder starClusterBuilder,
-      // ICollectionsService collectionsService,
       IStarClusterRepo starClusterRepo,
       IPlanetarySystemRepo planetarySystemRepo,
       ILogger<StorageService> logger )
       : base(configuration, logger)
    {
       _mongoContext = mongoContext;
-      _monogoRepos = monogoRepos;
+      _mongoRepos = mongoRepos;
       _starClusterBuilder = starClusterBuilder;
-      // _collectionsService = collectionsService;
       _starClusterRepo = starClusterRepo;
       _planetarySystemRepo = planetarySystemRepo;
    }
@@ -64,7 +57,7 @@ internal class StorageService : BaseService, IStorageService
          WriteLine("Deleting...");
          _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
          WriteLine("Initializing...");
-         Task.WaitAll(_monogoRepos.InitializeAllAsync());
+         Task.WaitAll(_mongoRepos.InitializeAllAsync());
       }
       
       ShowContinue();
