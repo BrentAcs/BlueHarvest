@@ -62,7 +62,6 @@ public class PlanetarySystemBuilder : IPlanetarySystemBuilder
       {
          var zone = _planetDescriptorService.IdentifyPlanetaryZone(planetDistance);
          var planetType = _planetDescriptorService.GeneratePlanetType(zone);
-         //var descriptor = _planetDescriptors[ planetType ];
          var angle = _rng.Next(0.0, 360.0);
          var planetLocation = new Point3D(
             planetDistance * Math.Sin(angle.ToRadians()),
@@ -76,7 +75,7 @@ public class PlanetarySystemBuilder : IPlanetarySystemBuilder
             PlanetType = planetType,
             Diameter = (int)_planetDescriptorService.GenerateDiameter(planetType)
          };
-         system.Objects.Add(planet);
+         system.StellarObjects.Add(planet);
 
          planetDistance += _planetDescriptorService.GenerateNextDistance(planetType) * multiplier;
          multiplier *= options.DistanceMultiplier;
