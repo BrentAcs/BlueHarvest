@@ -11,7 +11,7 @@ public class StarClusterBuilder
 {
    public class Request : IRequest<StarCluster>
    {
-      public StarClusterBuilderOptions Options { get; set; }
+      public StarClusterBuilderOptions? Options { get; set; }
 
       public static explicit operator Request(StarClusterBuilderOptions options) =>
          new() {Options = options};
@@ -40,27 +40,27 @@ public class StarClusterBuilder
          var cluster = new StarCluster
          {
             CreatedOn = DateTime.Now,
-            Name = request.Options.Name,
-            Description = request.Options.Description,
-            Owner = request.Options.Owner,
-            Size = request.Options.ClusterSize
+            Name = request?.Options?.Name,
+            Description = request?.Options?.Description,
+            Owner = request?.Options?.Owner,
+            Size = request?.Options?.ClusterSize
          };
 
          await _starClusterRepo.InsertOneAsync(cluster).ConfigureAwait(false);
-         var systemLocations = GenerateSystemLocations(request.Options);
+         var systemLocations = GenerateSystemLocations(request?.Options);
 
          var tasks = systemLocations.Select(location =>
-            _mediator.Send(new PlanetarySystemBuilder.Request(cluster.Id, location, request.Options.SystemOptions)));
+            _mediator.Send(new PlanetarySystemBuilder.Request(cluster.Id, location, request?.Options?.SystemOptions)));
          WaitAll(tasks.ToArray(), new CancellationToken(false));
 
          return cluster;
       }
 
-      private IEnumerable<Point3D> GenerateSystemLocations(StarClusterBuilderOptions options)
+      private IEnumerable<Point3D> GenerateSystemLocations(StarClusterBuilderOptions? options)
       {
          // NOTE: may have to check for systems to far from another
          var points = new List<Point3D>();
-         for (int i = 0; i < options.MaximumPossibleSystems; i++)
+         for (int i = 0; i < options?.MaximumPossibleSystems; i++)
          {
             bool toClose = true;
             while (toClose)
