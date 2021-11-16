@@ -49,12 +49,19 @@ internal class TypeService : BaseService, ITypeService
 
       foreach (var type in types)
       {
-         WriteLine($"{indent}+ {type.Name} : {type?.BaseType?.Name}");
+         var doc = "";
+         if (type.IsAssignableTo(typeof(IDocument)))
+         {
+            doc = "[[Document]]";
+         }
+
+         // WriteLine($"{indent}+ {type.Name} : {type?.BaseType?.Name} {doc}");
+         WriteLine($"{indent}+ {type.Name} {doc}");
 
          var properties = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
          foreach (var property in properties)
          {
-            WriteLine($"{indent + "  "}- {property.Name}");
+            WriteLine($"{indent + "   "}- {property.Name}");
          }
          
          var derivedTypes = GetInheritedClasses(type);
