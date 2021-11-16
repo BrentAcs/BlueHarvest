@@ -3,6 +3,7 @@ using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using static System.Console;
 
@@ -92,7 +93,8 @@ internal class StorageService : BaseService, IStorageService
 
          WriteLine("Building...");
          var cluster = _starClusterBuilder.Build(options).Result;
-         WriteLine($"{cluster.Description} built.");      
+         WriteLine($"{cluster.Description} built.");
+         DumpStarCluster(cluster.Id);
       }
       catch (Exception ex)
       {
@@ -118,10 +120,16 @@ internal class StorageService : BaseService, IStorageService
    private void TestProc()
    {
       ClearScreen("Test...");
-
       var cluster = _starClusterRepo.FindByNameAsync("test")
          .Result
          .FirstOrDefault();
+      DumpStarCluster(cluster.Id);
+      ShowContinue();
+   }
+
+   private void DumpStarCluster(ObjectId clusterId)
+   {
+      var cluster = _starClusterRepo.FindById(clusterId.ToString());
       var systems = _planetarySystemRepo.AllForCluster(cluster.Id)
          .Result
          .ToList();
@@ -134,9 +142,6 @@ internal class StorageService : BaseService, IStorageService
             WriteLine($"   {planet.Name} - {planet.Distance:0.00}");
          }
       }
-      
-      
-      
       ShowContinue();
    }
 

@@ -41,8 +41,10 @@ public class PlanetarySystemBuilder : IPlanetarySystemBuilder
 
    public async Task<PlanetarySystem> Create(ObjectId clusterId,
       Point3D location,
-      PlanetarySystemBuilderOptions options = null)
+      PlanetarySystemBuilderOptions? options = null)
    {
+      options ??= new PlanetarySystemBuilderOptions();
+      
       double systemRadius = _rng.Next(options.SystemRadius);
 
       var system = new PlanetarySystem
