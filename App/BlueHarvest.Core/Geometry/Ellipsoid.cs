@@ -5,7 +5,7 @@ public class Ellipsoid : IHaveVolume
    protected bool Equals(Ellipsoid other) =>
       XRadius.Equals(other.XRadius) && YRadius.Equals(other.YRadius) && ZRadius.Equals(other.ZRadius);
 
-   public override bool Equals(object obj)
+   public override bool Equals(object? obj)
    {
       if (ReferenceEquals(null, obj))
       {
@@ -54,7 +54,7 @@ public class Ellipsoid : IHaveVolume
    [JsonIgnore]
    public double Volume => (4.0 / 3.0) * Math.PI * XRadius * YRadius * ZRadius;
 
-   public bool ContainsPoint(Point3D point, Point3D centeredAt = null)
+   public bool ContainsPoint(Point3D point, Point3D? centeredAt = null)
    {
       centeredAt ??= new Point3D();
 

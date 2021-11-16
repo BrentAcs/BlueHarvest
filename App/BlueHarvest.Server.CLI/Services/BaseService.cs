@@ -44,7 +44,7 @@ internal abstract class BaseService : IBaseService
    protected void ClearActions() => _actions.Clear();
    protected abstract void AddActions();
 
-   protected void AddMenuAction(ConsoleKey key, string name, Action action) =>
+   protected void AddMenuAction(ConsoleKey key, string name, Action? action) =>
       _actions.Add(key, new MenuAction {Name = name, Action = action});
 
    public void ProcessMenu()
@@ -68,7 +68,7 @@ internal abstract class BaseService : IBaseService
          if (_actions[keyInfo.Key].Action is null)
             break;
 
-         _actions[keyInfo.Key].Action();
+         _actions[keyInfo.Key].Action?.Invoke();
       }
    }
 

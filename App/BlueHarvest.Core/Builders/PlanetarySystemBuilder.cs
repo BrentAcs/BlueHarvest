@@ -11,7 +11,7 @@ public class PlanetarySystemBuilder
 {
    public class Request : IRequest<PlanetarySystem>
    {
-      public Request(ObjectId clusterId, Point3D location, PlanetarySystemBuilderOptions options)
+      public Request(ObjectId clusterId, Point3D location, PlanetarySystemBuilderOptions? options)
       {
          ClusterId = clusterId;
          Location = location;
@@ -46,7 +46,7 @@ public class PlanetarySystemBuilder
 
       public async Task<PlanetarySystem> Handle(Request request, CancellationToken cancellationToken)
       {
-         double systemRadius = _rng.Next(request.Options.SystemRadius);
+         double systemRadius = _rng.Next(request.Options?.SystemRadius!);
 
          var system = new PlanetarySystem
          {
@@ -78,10 +78,10 @@ public class PlanetarySystemBuilder
                PlanetType = planetType,
                Diameter = (int)_planetDescriptorService.GenerateDiameter(planetType)
             };
-            system.StellarObjects.Add(planet);
+            system.StellarObjects!.Add(planet);
 
             planetDistance += _planetDescriptorService.GenerateNextDistance(planetType) * multiplier;
-            multiplier *= request.Options.DistanceMultiplier;
+            multiplier *= request.Options!.DistanceMultiplier;
          }
 
          await _systemRepo.InsertOneAsync(system).ConfigureAwait(false);

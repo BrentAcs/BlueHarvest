@@ -116,7 +116,7 @@ public class PlanetDescriptorService : IPlanetDescriptorService
    public PlanetType GeneratePlanetType(PlanetaryZone zone)
    {
       var planetTypes = _planetDescriptors
-         .Where(p => p.Value.Zones.Contains(zone))
+         .Where(p => p.Value.Zones != null && p.Value.Zones.Contains(zone))
          .Select(p => p.Key)
          .ToList();
 
@@ -124,8 +124,8 @@ public class PlanetDescriptorService : IPlanetDescriptorService
    }
 
    public double GenerateDiameter(PlanetType planetType) =>
-      _rng.Next(_planetDescriptors[ planetType ].Radius) * 2;
+      _rng.Next(_planetDescriptors[ planetType ].Radius!) * 2;
 
    public double GenerateNextDistance(PlanetType planetType) =>
-      _rng.Next(_planetDescriptors[ planetType ].Distance);
+      _rng.Next(_planetDescriptors[ planetType ].Distance!);
 }

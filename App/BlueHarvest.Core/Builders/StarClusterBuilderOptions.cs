@@ -59,7 +59,7 @@ public class StarClusterBuilderOptions
    public Ellipsoid ClusterSize { get; set; } = new Ellipsoid(25, 25, 10);
    public MinMax<double> SystemDistance { get; set; } = new(3.0, 10.0);
    
-   public PlanetarySystemBuilderOptions SystemOptions { get; set; } = new();
+   public PlanetarySystemBuilderOptions? SystemOptions { get; set; } = new();
    
    [JsonIgnore]
    public long MaximumPossibleSystems =>

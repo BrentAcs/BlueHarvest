@@ -60,7 +60,7 @@ internal class StorageService : BaseService, IStorageService
 
       Write("This is destructive. Are you sure? Type 'DEL' to delete: ");
       var line = ReadLine();
-      if (line.Equals("DEL"))
+      if (line!.Equals("DEL"))
       {
          WriteLine("Deleting...");
          _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
@@ -141,8 +141,8 @@ internal class StorageService : BaseService, IStorageService
 
       foreach (var system in systems)
       {
-         WriteLine($"{system.Name} - {system.Size.XDiameter:0.00}");
-         foreach (var planet in system.StellarObjects.OfType<Planet>())
+         WriteLine($"{system.Name} - {system.Size!.XDiameter:0.00}");
+         foreach (var planet in system.StellarObjects!.OfType<Planet>())
          {
             WriteLine($"   {planet.Name} - {planet.Distance:0.00}");
          }

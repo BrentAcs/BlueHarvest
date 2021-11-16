@@ -4,9 +4,9 @@ public class ObjectIdConverter : JsonConverter
 {
    // ref: https://gist.github.com/cleydson/d1583f87f6fb7e2a8ee67e2455a1bb56
 
-   public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+   public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
    {
-      if (value.GetType().IsArray)
+      if (value != null && value.GetType().IsArray)
       {
          writer.WriteStartArray();
          foreach (var item in (Array)value)
@@ -17,17 +17,17 @@ public class ObjectIdConverter : JsonConverter
          writer.WriteEndArray();
       }
       else
-         serializer.Serialize(writer, value.ToString());
+         serializer.Serialize(writer, value?.ToString());
    }
 
-   public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+   public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
    {
       var token = JToken.Load(reader);
       var objectIds = new List<ObjectId>();
 
       if (token.Type == JTokenType.Array)
       {
-         foreach (var item in token.ToObject<string[]>())
+         foreach (var item in token.ToObject<string[]>()!)
          {
             objectIds.Add(new ObjectId(item));
          }
@@ -35,7 +35,7 @@ public class ObjectIdConverter : JsonConverter
          return objectIds.ToArray();
       }
 
-      if (token.ToObject<string>().Equals("MongoDB.Bson.ObjectId[]"))
+      if (token.ToObject<string>()!.Equals("MongoDB.Bson.ObjectId[]"))
       {
          return objectIds.ToArray();
       }

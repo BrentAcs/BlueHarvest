@@ -1,6 +1,6 @@
 ﻿namespace BlueHarvest.Core.Misc;
 
-public class MinMax<T>
+public record MinMax<T>
 {
    public MinMax(T min, T max)
    {

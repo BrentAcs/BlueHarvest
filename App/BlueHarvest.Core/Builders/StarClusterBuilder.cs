@@ -50,7 +50,7 @@ public class StarClusterBuilder
          var systemLocations = GenerateSystemLocations(request?.Options);
 
          var tasks = systemLocations.Select(location =>
-            _mediator.Send(new PlanetarySystemBuilder.Request(cluster.Id, location, request?.Options?.SystemOptions)));
+            _mediator.Send(new PlanetarySystemBuilder.Request(cluster.Id, location, request?.Options?.SystemOptions), cancellationToken));
          WaitAll(tasks.ToArray(), new CancellationToken(false));
 
          return cluster;
