@@ -3,78 +3,78 @@ using BlueHarvest.Core.Geometry;
 using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Utilities;
+using static System.Threading.Tasks.Task;
 
 namespace BlueHarvest.Core.Builders;
 
-public interface IStarClusterBuilder
+public class StarClusterBuilder
 {
-   Task<StarCluster> Build(StarClusterBuilderOptions options = null);
-}
-
-public class StarClusterBuilder : IStarClusterBuilder
-{
-   private readonly ILogger<StarClusterBuilder> _logger;
-   private readonly IPlanetarySystemBuilder _planetarySystemBuilder;
-   private readonly IStarClusterRepo _starClusterRepo;
-   private readonly IRng _rng;
-   private readonly IEntityDesignator _entityDesignator;
-
-   public StarClusterBuilder(
-      ILogger<StarClusterBuilder> logger,
-      IPlanetarySystemBuilder planetarySystemBuilder,
-      IStarClusterRepo starClusterRepo,
-      IRng rng,
-      IEntityDesignator entityDesignator)
+   public class Request : IRequest<StarCluster>
    {
-      _logger = logger;
-      _planetarySystemBuilder = planetarySystemBuilder;
-      _starClusterRepo = starClusterRepo;
-      _rng = rng;
-      _entityDesignator = entityDesignator;
+      public StarClusterBuilderOptions? Options { get; set; }
+
+      public static explicit operator Request(StarClusterBuilderOptions options) =>
+         new() {Options = options};
    }
 
-   public async Task<StarCluster> Build(StarClusterBuilderOptions options = null)
+   public class Handler : IRequestHandler<Request, StarCluster>
    {
-      options ??= new StarClusterBuilderOptions();
+      private readonly IMediator _mediator;
+      private readonly IStarClusterRepo _starClusterRepo;
+      private readonly IRng _rng;
+      private readonly IEntityDesignator _entityDesignator;
 
-      var cluster = new StarCluster
+      public Handler(IMediator mediator,
+         IStarClusterRepo starClusterRepo,
+         IRng rng,
+         IEntityDesignator entityDesignator)
       {
-         CreatedOn = DateTime.Now,
-         Name = options.Name,
-         Description = options.Description,
-         Owner = options.Owner,
-         Size = options.ClusterSize
-      };
-      await _starClusterRepo.InsertOneAsync(cluster).ConfigureAwait(false);
-
-      var systemLocations = GenerateSystemLocations(options);
-
-      foreach (var location in systemLocations)
-      {
-         await _planetarySystemBuilder.Create(cluster.Id, location, options.SystemOptions);
+         _mediator = mediator;
+         _starClusterRepo = starClusterRepo;
+         _rng = rng;
+         _entityDesignator = entityDesignator;
       }
 
-      return cluster;
-   }
-
-   private IEnumerable<Point3D> GenerateSystemLocations(StarClusterBuilderOptions options)
-   {
-      // NOTE: may have to check for systems to far from another
-      var points = new List<Point3D>();
-      for (int i = 0; i < options.MaximumPossibleSystems; i++)
+      public async Task<StarCluster> Handle(Request request, CancellationToken cancellationToken)
       {
-         bool toClose = true;
-         while (toClose)
+         var cluster = new StarCluster
          {
-            var pt = _rng.CreateRandomInside(options.ClusterSize);
-            toClose = points.Any(p => p.DistanceTo(pt) < options.SystemDistance.Min);
-            if (!toClose)
+            CreatedOn = DateTime.Now,
+            Name = request?.Options?.Name,
+            Description = request?.Options?.Description,
+            Owner = request?.Options?.Owner,
+            Size = request?.Options?.ClusterSize
+         };
+
+         await _starClusterRepo.InsertOneAsync(cluster).ConfigureAwait(false);
+         var systemLocations = GenerateSystemLocations(request?.Options);
+
+         var tasks = systemLocations.Select(location =>
+            _mediator.Send(new PlanetarySystemBuilder.Request(cluster.Id, location, request?.Options?.SystemOptions)));
+         WaitAll(tasks.ToArray(), new CancellationToken(false));
+
+         return cluster;
+      }
+
+      private IEnumerable<Point3D> GenerateSystemLocations(StarClusterBuilderOptions? options)
+      {
+         // NOTE: may have to check for systems to far from another
+         var points = new List<Point3D>();
+         for (int i = 0; i < options?.MaximumPossibleSystems; i++)
+         {
+            bool toClose = true;
+            while (toClose)
             {
-               points.Add(pt);
+               var pt = _rng.CreateRandomInside(options.ClusterSize);
+               toClose = points.Any(p => p.DistanceTo(pt) < options.SystemDistance.Min);
+               if (!toClose)
+               {
+                  points.Add(pt);
+               }
             }
          }
-      }
 
-      return points;
+         return points;
+      }
    }
 }

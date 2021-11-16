@@ -2,7 +2,7 @@
 
 namespace BlueHarvest.Core.Builders;
 
-public record PlanetarySystemBuilderOptions
+public class PlanetarySystemBuilderOptions
 {
    // 149,597,870,700 meters in an AU 
 

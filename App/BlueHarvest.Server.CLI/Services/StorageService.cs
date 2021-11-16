@@ -3,6 +3,7 @@ using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
+using MediatR;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using static System.Console;
@@ -15,25 +16,30 @@ internal interface IStorageService : IBaseService
 
 internal class StorageService : BaseService, IStorageService
 {
+   private readonly IMediator _mediator;
    private readonly IMongoContext _mongoContext;
+
    private readonly IEnumerable<IMongoRepository> _mongoRepos;
-   private readonly IStarClusterBuilder _starClusterBuilder;
+
+   // private readonly IStarClusterBuilder _starClusterBuilder;
    private readonly IStarClusterRepo _starClusterRepo;
    private readonly IPlanetarySystemRepo _planetarySystemRepo;
 
    public StorageService(
       IConfiguration configuration,
+      IMediator mediator,
       IMongoContext mongoContext,
       IEnumerable<IMongoRepository> mongoRepos,
-      IStarClusterBuilder starClusterBuilder,
+      // IStarClusterBuilder starClusterBuilder,
       IStarClusterRepo starClusterRepo,
       IPlanetarySystemRepo planetarySystemRepo,
-      ILogger<StorageService> logger )
+      ILogger<StorageService> logger)
       : base(configuration, logger)
    {
+      _mediator = mediator;
       _mongoContext = mongoContext;
       _mongoRepos = mongoRepos;
-      _starClusterBuilder = starClusterBuilder;
+      // _starClusterBuilder = starClusterBuilder;
       _starClusterRepo = starClusterRepo;
       _planetarySystemRepo = planetarySystemRepo;
    }
@@ -61,14 +67,14 @@ internal class StorageService : BaseService, IStorageService
          WriteLine("Initializing...");
          Task.WaitAll(_mongoRepos.InitializeAllAsync());
       }
-      
+
       ShowContinue();
    }
 
-   private void BuildStarCluster()
+   private async void BuildStarCluster()
    {
       ClearScreen("Building Star Cluster...");
-      
+
       try
       {
          WriteLine("1. Extra Large");
@@ -92,9 +98,7 @@ internal class StorageService : BaseService, IStorageService
          };
 
          WriteLine("Building...");
-         var cluster = _starClusterBuilder.Build(options).Result;
-         WriteLine($"{cluster.Description} built.");
-         DumpStarCluster(cluster.Id);
+         _ = await _mediator.Send((StarClusterBuilder.Request)options);
       }
       catch (Exception ex)
       {
@@ -105,15 +109,16 @@ internal class StorageService : BaseService, IStorageService
          ShowContinue();
       }
    }
-   
+
    private void ListStarClusters()
    {
       ClearScreen("Listing Star Clusters...");
       int index = 0;
       foreach (var cluster in _starClusterRepo.All())
       {
-         WriteLine($"{++index} - {cluster.Id}: {cluster.Description}");   
+         WriteLine($"{++index} - {cluster.Id}: {cluster.Description}");
       }
+
       ShowContinue();
    }
 
@@ -142,6 +147,7 @@ internal class StorageService : BaseService, IStorageService
             WriteLine($"   {planet.Name} - {planet.Distance:0.00}");
          }
       }
+
       ShowContinue();
    }
 
@@ -154,11 +160,7 @@ internal class StorageService : BaseService, IStorageService
          .Result
          .ToList();
 
-      var fullCluster = new
-      {
-         Cluster = cluster,
-         Systems = systems
-      }.ToJsonIndented();
+      var fullCluster = new {Cluster = cluster, Systems = systems}.ToJsonIndented();
       File.WriteAllText(@"c:\t\starcluster.json", fullCluster);
       //WriteLine(fullCluster);
    }
