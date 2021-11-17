@@ -1,5 +1,6 @@
 ﻿using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Services;
+using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Utilities;
 
 namespace BlueHarvest.Core.Tests.Services;
@@ -17,8 +18,9 @@ public class PlanetDescriptorServiceTests
    [TestCase(5.0, ExpectedResult=PlanetaryZone.Outer)]
    public PlanetaryZone IdentifyPlanetaryZone_WillReturnCorrectZone(double distance)
    {
+      var repoMock = new Mock<IPlanetDescriptorRepo>();
       var rngMock = new Mock<IRng>();
       
-      return new PlanetDescriptorService(rngMock.Object).IdentifyPlanetaryZone(distance);
+      return new PlanetDescriptorService(repoMock.Object, rngMock.Object).IdentifyPlanetaryZone(distance);
    }
 }

@@ -4,6 +4,7 @@ public static class CollectionNames
 {
    public const string StarClusters = "StarClusters";
    public const string PlanetarySystems = "PlanetarySystems";
+   public const string PlanetDescriptors = "PlanetDescriptors";
 }
 
 // public static class Constants

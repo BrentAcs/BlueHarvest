@@ -18,10 +18,7 @@ internal class StorageService : BaseService, IStorageService
 {
    private readonly IMediator _mediator;
    private readonly IMongoContext _mongoContext;
-
    private readonly IEnumerable<IMongoRepository> _mongoRepos;
-
-   // private readonly IStarClusterBuilder _starClusterBuilder;
    private readonly IStarClusterRepo _starClusterRepo;
    private readonly IPlanetarySystemRepo _planetarySystemRepo;
 
@@ -30,7 +27,6 @@ internal class StorageService : BaseService, IStorageService
       IMediator mediator,
       IMongoContext mongoContext,
       IEnumerable<IMongoRepository> mongoRepos,
-      // IStarClusterBuilder starClusterBuilder,
       IStarClusterRepo starClusterRepo,
       IPlanetarySystemRepo planetarySystemRepo,
       ILogger<StorageService> logger)
@@ -39,7 +35,6 @@ internal class StorageService : BaseService, IStorageService
       _mediator = mediator;
       _mongoContext = mongoContext;
       _mongoRepos = mongoRepos;
-      // _starClusterBuilder = starClusterBuilder;
       _starClusterRepo = starClusterRepo;
       _planetarySystemRepo = planetarySystemRepo;
    }
@@ -48,7 +43,8 @@ internal class StorageService : BaseService, IStorageService
 
    protected override void AddActions()
    {
-      AddMenuAction(ConsoleKey.D, "Drop Database and re-init", DropDatabase);
+      AddMenuAction(ConsoleKey.D, "Drop Database (Initialize)", DropDatabase);
+      AddMenuAction(ConsoleKey.I, "Initialize Database.", InitializeDatabase);
       AddMenuAction(ConsoleKey.L, "List Clusters", ListStarClusters);
       AddMenuAction(ConsoleKey.B, "Build Cluster", BuildStarCluster);
       AddMenuAction(ConsoleKey.T, "Test", TestProc);
@@ -68,6 +64,13 @@ internal class StorageService : BaseService, IStorageService
          Task.WaitAll(_mongoRepos.InitializeAllAsync());
       }
 
+      ShowContinue();
+   }
+
+   private void InitializeDatabase()
+   {
+      WriteLine("Initializing...");
+      Task.WaitAll(_mongoRepos.InitializeAllAsync());
       ShowContinue();
    }
 
