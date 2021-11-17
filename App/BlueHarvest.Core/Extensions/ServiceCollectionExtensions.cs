@@ -41,9 +41,11 @@ public static class ServiceCollectionExtensions
          
          .AddScoped<IStarClusterRepo, StarStarClusterRepo>()
          .AddScoped<IPlanetarySystemRepo, PlanetarySystemRepo>()
+         .AddScoped<IPlanetDescriptorRepo, PlanetDescriptorRepo>()
 
          .AddScoped<IMongoRepository, StarStarClusterRepo>()
          .AddScoped<IMongoRepository, PlanetarySystemRepo>()
+         .AddScoped<IMongoRepository, PlanetDescriptorRepo>()
          ;
 
       return services;

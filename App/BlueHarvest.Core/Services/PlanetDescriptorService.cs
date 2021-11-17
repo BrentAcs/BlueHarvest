@@ -1,6 +1,5 @@
-﻿using BlueHarvest.Core.Extensions;
-using BlueHarvest.Core.Misc;
-using BlueHarvest.Core.Models;
+﻿using BlueHarvest.Core.Models;
+using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Utilities;
 
 namespace BlueHarvest.Core.Services;
@@ -9,99 +8,28 @@ public interface IPlanetDescriptorService
 {
    PlanetaryZone IdentifyPlanetaryZone(double distance);
    PlanetType GeneratePlanetType(PlanetaryZone zone);
-   double GenerateDiameter(PlanetType planetType);
-   double GenerateNextDistance(PlanetType planetType);
+   PlanetDescriptor GetRandomPlanetDescriptor(PlanetaryZone zone);
 }
 
 public class PlanetDescriptorService : IPlanetDescriptorService
 {
-   private record PlanetDescriptor
-   {
-      public PlanetaryZone[]? Zones { get; set; }
-      public MinMax<int>? Radius { get; set; }
-      public MinMax<double>? Distance { get; set; }
-   }
-
+   private readonly IPlanetDescriptorRepo _repo;
    private readonly IRng _rng;
+   private IEnumerable<PlanetDescriptor>? _descriptors = null;
 
-   public PlanetDescriptorService(IRng rng)
+   public PlanetDescriptorService(IPlanetDescriptorRepo repo, IRng rng)
    {
+      _repo = repo;
       _rng = rng;
    }
 
-   private readonly IDictionary<PlanetType, PlanetDescriptor> _planetDescriptors =
-      new Dictionary<PlanetType, PlanetDescriptor>
+   private IEnumerable<PlanetDescriptor> Descriptors
+   {
+      get
       {
-         {
-            PlanetType.Desert,
-            new PlanetDescriptor
-            {
-               Zones = new[] { PlanetaryZone.InnerHabitable, PlanetaryZone.Habitable },
-               Radius = new MinMax<int>(2000, 8000),
-               Distance = new MinMax<double>(0.3, 0.7)
-            }
-         },
-         {
-            PlanetType.GasGiant,
-            new PlanetDescriptor
-            {
-               Zones = new[] { PlanetaryZone.Outer },
-               Radius = new MinMax<int>(35000, 800000),
-               Distance = new MinMax<double>(4.0, 15.0)
-            }
-         },
-         {
-            PlanetType.IceGiant,
-            new PlanetDescriptor
-            {
-               Zones = new[] { PlanetaryZone.Outer },
-               Radius = new MinMax<int>(10000, 40000),
-               Distance = new MinMax<double>(4.0, 15.0)
-            }
-         },
-         {
-            PlanetType.Ice,
-            new PlanetDescriptor
-            {
-               Zones = new[] { PlanetaryZone.Habitable, PlanetaryZone.OuterHabitable },
-               Radius = new MinMax<int>(2000, 5000),
-               Distance = new MinMax<double>(0.3, 0.7)
-            }
-         },
-         {
-            PlanetType.Lava,
-            new PlanetDescriptor
-            {
-               Zones = new[] { PlanetaryZone.Inner, PlanetaryZone.InnerHabitable },
-               Radius = new MinMax<int>(1500, 6000),
-               Distance = new MinMax<double>(0.2, 0.6)
-            }
-         },
-         {
-            PlanetType.Oceanic,
-            new PlanetDescriptor
-            {
-               Zones = new[]
-               {
-                  PlanetaryZone.InnerHabitable, PlanetaryZone.Habitable, PlanetaryZone.OuterHabitable
-               },
-               Radius = new MinMax<int>(2000, 8000),
-               Distance = new MinMax<double>(0.3, 0.7)
-            }
-         },
-         {
-            PlanetType.Terrestrial,
-            new PlanetDescriptor
-            {
-               Zones = new[]
-               {
-                  PlanetaryZone.InnerHabitable, PlanetaryZone.Habitable, PlanetaryZone.OuterHabitable
-               },
-               Radius = new MinMax<int>(2000, 8000),
-               Distance = new MinMax<double>(0.3, 0.7)
-            }
-         },
-      };
+         return _descriptors ??= _repo.All();
+      }
+   }
 
    public PlanetaryZone IdentifyPlanetaryZone(double distance) =>
       distance switch
@@ -115,17 +43,20 @@ public class PlanetDescriptorService : IPlanetDescriptorService
 
    public PlanetType GeneratePlanetType(PlanetaryZone zone)
    {
-      var planetTypes = _planetDescriptors
-         .Where(p => p.Value.Zones != null && p.Value.Zones.Contains(zone))
-         .Select(p => p.Key)
+      var planetTypes = Descriptors?
+         .Where(d => d?.Zones != null && d.Zones.Contains(zone))
+         .Select(d => d.PlanetType)
          .ToList();
 
-      return planetTypes[ _rng.Next(0, planetTypes.Count - 1) ];
+      return planetTypes[_rng.Next(0, planetTypes.Count - 1)];
    }
 
-   public double GenerateDiameter(PlanetType planetType) =>
-      _rng.Next(_planetDescriptors[ planetType ].Radius!) * 2;
+   public PlanetDescriptor GetRandomPlanetDescriptor(PlanetaryZone zone)
+   {
+      var range = Descriptors?
+         .Where(d => d?.Zones != null && d.Zones.Contains(zone))
+         .ToList();
 
-   public double GenerateNextDistance(PlanetType planetType) =>
-      _rng.Next(_planetDescriptors[ planetType ].Distance!);
+      return range[_rng.Next(0, range.Count - 1)];
+   }
 }

@@ -1,5 +1,6 @@
 ﻿using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Geometry;
+using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Services;
 using BlueHarvest.Core.Storage.Repos;
@@ -64,7 +65,7 @@ public class PlanetarySystemBuilder
          while (planetDistance < systemRadius)
          {
             var zone = _planetDescriptorService.IdentifyPlanetaryZone(planetDistance);
-            var planetType = _planetDescriptorService.GeneratePlanetType(zone);
+            var planetDescriptor = _planetDescriptorService.GetRandomPlanetDescriptor(zone);
             var angle = _rng.Next(0.0, 360.0);
             var planetLocation = new Point3D(
                planetDistance * Math.Sin(angle.ToRadians()),
@@ -75,12 +76,12 @@ public class PlanetarySystemBuilder
                Name = $"{system.Name}-{++index}",
                Distance = planetDistance,
                Location = planetLocation,
-               PlanetType = planetType,
-               Diameter = (int)_planetDescriptorService.GenerateDiameter(planetType)
+               PlanetType = planetDescriptor.PlanetType,
+               Diameter = (int)GenerateDiameter(planetDescriptor)
             };
             system.StellarObjects!.Add(planet);
 
-            planetDistance += _planetDescriptorService.GenerateNextDistance(planetType) * multiplier;
+            planetDistance += GenerateNextDistance(planetDescriptor) * multiplier;
             multiplier *= request.Options!.DistanceMultiplier;
          }
 
@@ -90,5 +91,11 @@ public class PlanetarySystemBuilder
       }
 
       private double GetFirstPlanetDistance() => _rng.Next(0.3, 1.0);
+
+      private double GenerateDiameter(PlanetDescriptor descriptor) =>
+         _rng.Next(descriptor.Radius!) * 2;
+
+      private double GenerateNextDistance(PlanetDescriptor descriptor) =>
+         _rng.Next(descriptor.Distance!);
    }
 }
