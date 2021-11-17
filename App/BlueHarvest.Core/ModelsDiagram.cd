@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BlueHarvest.Core.Models.StarCluster">
+    <Position X="0.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAACAAAAggAAAAAAAAAQAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\StarCluster.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.451" />
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.InterstellarObject">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAQAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Models\InterstellarObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.446" />
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.StellarObject">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAQAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\StellarObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.456" />
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.PlanetarySystem">
+    <Position X="3.25" Y="2.5" Width="1.5" />
+    <InheritanceLine Type="BlueHarvest.Core.Models.InterstellarObject" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="5" Y="1.988" />
+        <Point X="5" Y="2.2" />
+        <Point X="4" Y="2.2" />
+        <Point X="4" Y="2.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Models\PlanetarySystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.55" />
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.DeepSpaceObject">
+    <Position X="5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DeepSpaceObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.Planet">
+    <Position X="7.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAgBAAAAAAA=</HashCode>
+      <FileName>Models\Planet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.Nebula">
+    <Position X="5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Nebula.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.Satellite" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Satellite.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.Planetoid">
+    <Position X="9" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Planetoid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.NaturalSatellite">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\NaturalSatellite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BlueHarvest.Core.Models.ArtificialSatellite">
+    <Position X="13" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ArtificialSatellite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
