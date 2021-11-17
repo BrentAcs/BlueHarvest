@@ -26,14 +26,6 @@
   </Class>
   <Class Name="BlueHarvest.Core.Models.PlanetarySystem">
     <Position X="3.25" Y="2.5" Width="1.5" />
-    <InheritanceLine Type="BlueHarvest.Core.Models.InterstellarObject" ManuallyRouted="true" FixedToPoint="true">
-      <Path>
-        <Point X="5" Y="1.988" />
-        <Point X="5" Y="2.2" />
-        <Point X="4" Y="2.2" />
-        <Point X="4" Y="2.5" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAQAAAAAAA=</HashCode>
       <FileName>Models\PlanetarySystem.cs</FileName>

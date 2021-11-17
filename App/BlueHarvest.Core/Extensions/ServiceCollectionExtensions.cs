@@ -1,5 +1,6 @@
 ﻿using BlueHarvest.Core.Builders;
 using BlueHarvest.Core.Models;
+using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Services;
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;

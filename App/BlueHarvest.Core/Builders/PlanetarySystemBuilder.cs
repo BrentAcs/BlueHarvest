@@ -1,6 +1,6 @@
 ﻿using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Geometry;
-using BlueHarvest.Core.Models;
+using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Services;
 using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Utilities;

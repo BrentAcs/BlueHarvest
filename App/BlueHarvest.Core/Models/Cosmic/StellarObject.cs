@@ -1,6 +1,6 @@
 ﻿using BlueHarvest.Core.Geometry;
 
-namespace BlueHarvest.Core.Models;
+namespace BlueHarvest.Core.Models.Cosmic;
 
 public abstract class StellarObject : IRootModel
 {

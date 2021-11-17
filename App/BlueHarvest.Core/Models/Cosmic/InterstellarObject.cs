@@ -1,7 +1,7 @@
 ﻿using BlueHarvest.Core.Geometry;
 using BlueHarvest.Core.Storage;
 
-namespace BlueHarvest.Core.Models;
+namespace BlueHarvest.Core.Models.Cosmic;
 
 public abstract class InterstellarObject : IRootModel
 {

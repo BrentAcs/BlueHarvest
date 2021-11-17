@@ -1,4 +1,4 @@
-﻿namespace BlueHarvest.Core.Models;
+﻿namespace BlueHarvest.Core.Models.Cosmic;
 
 public class Planet : StellarObject
 {
