@@ -2,6 +2,7 @@
 
 namespace BlueHarvest.Core.Tests.Storage.Services;
 
+[TestFixture]
 public class CollectionsServiceTests
 {
    [Test]

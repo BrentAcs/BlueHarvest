@@ -1,46 +1,10 @@
 ﻿namespace BlueHarvest.Core.Geometry;
 
-public class Ellipsoid : IHaveVolume
+public record Ellipsoid(double XRadius = 0.0, double YRadius = 0.0, double ZRadius = 0.0) : IHaveVolume
 {
-   protected bool Equals(Ellipsoid other) =>
-      XRadius.Equals(other.XRadius) && YRadius.Equals(other.YRadius) && ZRadius.Equals(other.ZRadius);
-
-   public override bool Equals(object? obj)
-   {
-      if (ReferenceEquals(null, obj))
-      {
-         return false;
-      }
-
-      if (ReferenceEquals(this, obj))
-      {
-         return true;
-      }
-
-      if (obj.GetType() != this.GetType())
-      {
-         return false;
-      }
-
-      return Equals((Ellipsoid)obj);
-   }
-
-   public override int GetHashCode() => HashCode.Combine(XRadius, YRadius, ZRadius);
-
-   public static bool operator ==(Ellipsoid left, Ellipsoid right) => Equals(left, right);
-
-   public static bool operator !=(Ellipsoid left, Ellipsoid right) => !Equals(left, right);
-
-   public Ellipsoid(double xRadius = 0.0, double yRadius = 0.0, double zRadius = 0.0)
-   {
-      XRadius = xRadius;
-      YRadius = yRadius;
-      ZRadius = zRadius;
-   }
-
-   public double XRadius { get; set; }
-   public double YRadius { get; set; }
-   public double ZRadius { get; set; }
+   public double XRadius { get; set; } = XRadius;
+   public double YRadius { get; set; } = YRadius;
+   public double ZRadius { get; set; } = ZRadius;
 
    [JsonIgnore]
    public double XDiameter => XRadius * 2;
@@ -63,10 +27,7 @@ public class Ellipsoid : IHaveVolume
                         (Math.Pow((point.Y - centeredAt.Y), 2) / Math.Pow(YRadius, 2)) +
                         (Math.Pow((point.Z - centeredAt.Z), 2) / Math.Pow(ZRadius, 2));
 
-      if (position > 1.0)
-         return false;
-
-      return true;
+      return !(position > 1.0);
    }
 
    public override string ToString() => $"[ A:{XRadius:0.0000}, B:{YRadius:0.0000}, C:{ZRadius:0.0000}]";

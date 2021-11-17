@@ -1,10 +1,10 @@
 ﻿using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Services;
 using BlueHarvest.Core.Utilities;
-using Moq;
 
 namespace BlueHarvest.Core.Tests.Services;
 
+[TestFixture]
 public class PlanetDescriptorServiceTests
 {
    [TestCase(0.1, ExpectedResult=PlanetaryZone.Inner)]

@@ -1,45 +1,10 @@
 ﻿namespace BlueHarvest.Core.Geometry;
 
-public class Point3D
+public record Point3D(double X = 0.0, double Y = 0.0, double Z = 0.0)
 {
-   protected bool Equals(Point3D other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
-
-   public override bool Equals(object? obj)
-   {
-      if (ReferenceEquals(null, obj))
-      {
-         return false;
-      }
-
-      if (ReferenceEquals(this, obj))
-      {
-         return true;
-      }
-
-      if (obj.GetType() != this.GetType())
-      {
-         return false;
-      }
-
-      return Equals((Point3D)obj);
-   }
-
-   public override int GetHashCode() => HashCode.Combine(X, Y, Z);
-
-   public static bool operator ==(Point3D left, Point3D right) => Equals(left, right);
-
-   public static bool operator !=(Point3D left, Point3D right) => !Equals(left, right);
-
-   public Point3D(double x = 0.0, double y = 0.0, double z = 0.0)
-   {
-      X = x;
-      Y = y;
-      Z = z;
-   }
-
-   public double X { get; set; }
-   public double Y { get; set; }
-   public double Z { get; set; }
+   public double X { get; set; } = X;
+   public double Y { get; set; } = Y;
+   public double Z { get; set; } = Z;
 
    public override string ToString() => $"[ {X:0.0000}, {Y:0.0000}, {Z:0.0000}]";
 

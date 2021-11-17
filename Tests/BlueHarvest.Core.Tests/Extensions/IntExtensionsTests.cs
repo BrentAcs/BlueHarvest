@@ -2,6 +2,7 @@
 
 namespace BlueHarvest.Core.Tests.Extensions;
 
+[TestFixture]
 public class IntExtensionsTests
 {
    [TestCase(-4, ExpectedResult = true)]

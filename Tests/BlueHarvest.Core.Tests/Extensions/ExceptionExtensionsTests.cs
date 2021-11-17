@@ -2,6 +2,7 @@ using BlueHarvest.Core.Extensions;
 
 namespace BlueHarvest.Core.Tests.Extensions;
 
+[TestFixture]
 public class ExceptionExtensionsTests
 {
    [Test]

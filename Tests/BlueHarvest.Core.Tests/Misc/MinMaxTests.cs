@@ -3,6 +3,7 @@ using BlueHarvest.Core.Misc;
 
 namespace BlueHarvest.Core.Tests.Misc;
 
+[TestFixture]
 public class MinMaxTests
 {
    [Test]

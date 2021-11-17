@@ -1,6 +1,6 @@
 ﻿namespace BlueHarvest.Core.Geometry;
 
-public class Sphere : Ellipsoid
+public record Sphere : Ellipsoid
 {
    public Sphere(double radius)
       : base(radius, radius, radius)
