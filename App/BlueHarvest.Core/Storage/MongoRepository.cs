@@ -20,7 +20,10 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IDocume
 
    public string? CollectionName => GetCollectionName(typeof(TDoc));
    
-   public virtual Task InitializeAsync() =>
+   public virtual Task InitializeIndexesAsync() =>
+      Task.CompletedTask;
+
+   public virtual Task SeedDataAsync() =>
       Task.CompletedTask;
 
    public long CalcPageCount(long count, int pageSize) =>

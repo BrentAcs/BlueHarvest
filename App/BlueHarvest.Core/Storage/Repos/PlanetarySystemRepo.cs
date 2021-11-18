@@ -17,9 +17,9 @@ public class PlanetarySystemRepo : MongoRepository<PlanetarySystem>, IPlanetaryS
    public PlanetarySystemRepo(IMongoContext mongoContext) : base(mongoContext)
    {
    }
-   public override async Task InitializeAsync()
+   public override async Task InitializeIndexesAsync()
    {
-      await base.InitializeAsync().ConfigureAwait(false);
+      await base.InitializeIndexesAsync().ConfigureAwait(false);
 
       var indexes = await Collection.Indexes.ListAsync().ConfigureAwait(false);
       var exists = await indexes.AnyAsync().ConfigureAwait(false);

@@ -61,7 +61,8 @@ internal class StorageService : BaseService, IStorageService
          WriteLine("Deleting...");
          _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
          WriteLine("Initializing...");
-         Task.WaitAll(_mongoRepos.InitializeAllAsync());
+         Task.WaitAll(_mongoRepos.InitializeAllIndexesAsync());
+         Task.WaitAll(_mongoRepos.SeedAllDataAsync());
       }
 
       ShowContinue();
@@ -70,7 +71,8 @@ internal class StorageService : BaseService, IStorageService
    private void InitializeDatabase()
    {
       WriteLine("Initializing...");
-      Task.WaitAll(_mongoRepos.InitializeAllAsync());
+      Task.WaitAll(_mongoRepos.InitializeAllIndexesAsync());
+      Task.WaitAll(_mongoRepos.SeedAllDataAsync());
       ShowContinue();
    }
 

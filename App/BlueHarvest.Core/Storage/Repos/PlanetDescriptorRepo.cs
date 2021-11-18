@@ -13,7 +13,7 @@ public class PlanetDescriptorRepo : MongoRepository<PlanetDescriptor>, IPlanetDe
    {
    }
 
-   public override async Task InitializeAsync()
+   public override async Task SeedDataAsync()
    {
       long count = await Collection.CountDocumentsAsync(FilterDefinition<PlanetDescriptor>.Empty)
          .ConfigureAwait(false);
