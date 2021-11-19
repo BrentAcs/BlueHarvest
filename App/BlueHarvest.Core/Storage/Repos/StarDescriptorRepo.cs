@@ -26,35 +26,35 @@ public class StarDescriptorRepo : MongoRepository<StarDescriptor>, IStarDescript
             StarType = StarType.ClassB,
             Name = "Blue",
             Chance = 0.625,
-            Mass = new MinMax<double>(2.5, 90.0)
+            MassRange = new MinMax<double>(2.5, 90.0)
          },
          new()
          {
             StarType = StarType.ClassA,
             Name = "Blue Giant",
             Chance = 3.125,
-            Mass = new MinMax<double>(2.0, 150.0)
+            MassRange = new MinMax<double>(2.0, 150.0)
          },
          new()
          {
             StarType = StarType.ClassF,
             Name = "White",
             Chance = 15.0,
-            Mass = new MinMax<double>(0.8, 1.4)
+            MassRange = new MinMax<double>(0.8, 1.4)
          },
          new()
          {
             StarType = StarType.ClassG,
             Name = "Yellow Dwarf",
             Chance = 38.5,
-            Mass = new MinMax<double>(0.7, 1.4)
+            MassRange = new MinMax<double>(0.7, 1.4)
          },
          new()
          {
             StarType = StarType.ClassK,
             Name = "Orange Dwarf",
             Chance = 41.5,
-            Mass = new MinMax<double>(0.45, 0.8)
+            MassRange = new MinMax<double>(0.45, 0.8)
          },
       };
 

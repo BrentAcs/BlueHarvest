@@ -10,5 +10,5 @@ public class StarDescriptor : IMongoDocument
    public StarType StarType { get; set; }
    public string Name { get; set; }
    public double Chance { get; set; }
-   public MinMax<double> Mass { get; set; }
+   public MinMax<double> MassRange { get; set; }
 }
