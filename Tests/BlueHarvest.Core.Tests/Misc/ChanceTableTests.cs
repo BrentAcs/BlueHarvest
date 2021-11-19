@@ -52,17 +52,19 @@ public class ChanceTableTests
    }
 
    [TestCase(4.0, ExpectedResult = "a")]
+   [TestCase(14.0, ExpectedResult = "b")]
+   [TestCase(24.0, ExpectedResult = "c")]
+   [TestCase(44.0, ExpectedResult = "d")]
    public string GetItem_WillReturn_ProperValue(double roll)
    {
       var col = new ChanceTable<string>();
-      col.Add("a", 5.0);      // translates to [0 - 5]
-      col.Add("b", 10.0);     // translates to (5 - 15]
+      col.Add("d"); // translates to
       col.Add("c", 25.0);     // translates to (15 - 40]
-      col.Add("e"); // translates to
+      col.Add("b", 10.0);     // translates to (5 - 15]
+      col.Add("a", 5.0);      // translates to [0 - 5]
 
       return col.GetItem(roll);
    }
-
 
    [Test]
    public void Add_WillThrowArgumentException_IfItemExists()

@@ -62,6 +62,14 @@ public class ChanceTable<T> : IChanceTable<T>
    {
       var sorted = _items.OrderBy(i => i.Chance).ToList();
 
-      return sorted[0].Value;
+      double current = 0;
+      foreach (var item in sorted)
+      {
+         current += item.Chance;         
+         if (roll < current)
+            return item.Value;
+      }
+
+      return sorted.Last().Value;
    }
 }
