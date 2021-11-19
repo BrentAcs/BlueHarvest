@@ -50,7 +50,7 @@ internal class TypeService : BaseService, ITypeService
       foreach (var type in types)
       {
          var doc = "";
-         if (type.IsAssignableTo(typeof(IDocument)))
+         if (type.IsAssignableTo(typeof(IMongoDocument)))
          {
             doc = "[[Document]]";
          }

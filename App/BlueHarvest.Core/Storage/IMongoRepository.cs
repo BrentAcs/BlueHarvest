@@ -8,7 +8,7 @@ public interface IMongoRepository
 }
 
 // https://medium.com/@marekzyla95/mongo-repository-pattern-700986454a0e
-public interface IMongoRepository<TDoc> : IMongoRepository where TDoc : IDocument
+public interface IMongoRepository<TDoc> : IMongoRepository where TDoc : IMongoDocument
 {
    // public IMongoCollection<TDoc> Collection { get; }
    long CalcPageCount(long count, int pageSize);

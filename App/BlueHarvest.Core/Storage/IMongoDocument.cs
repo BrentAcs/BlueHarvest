@@ -1,6 +1,6 @@
 ﻿namespace BlueHarvest.Core.Storage;
 
-public interface IDocument
+public interface IMongoDocument
 {
    [BsonId]
    [BsonRepresentation(BsonType.ObjectId)]

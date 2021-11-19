@@ -4,7 +4,7 @@ using BlueHarvest.Core.Storage;
 namespace BlueHarvest.Core.Models.Cosmic;
 
 [BsonCollection(CollectionNames.StarClusters)]
-public class StarCluster : IDocument, IRootModel
+public class StarCluster : IMongoDocument, IRootModel
 {
    public ObjectId Id { get; set; }
    public string? Name { get; set; }

@@ -1,11 +1,10 @@
 ﻿using BlueHarvest.Core.Misc;
 using BlueHarvest.Core.Storage;
-using BlueHarvest.Core.Utilities;
 
 namespace BlueHarvest.Core.Models;
 
 [BsonCollection(CollectionNames.PlanetDescriptors)]
-public class PlanetDescriptor : IDocument
+public class PlanetDescriptor : IMongoDocument
 {
    public ObjectId Id { get; set; }
    public PlanetType PlanetType { get; set; }

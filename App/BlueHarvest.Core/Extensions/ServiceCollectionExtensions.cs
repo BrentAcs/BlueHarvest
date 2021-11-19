@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
          ;
 
       //  ref: https://stackoverflow.com/questions/57015856/invalidoperationexception-cant-compile-a-newexpression-with-a-constructor-decl
-      Storage.Misc.RegisterKnownTypes<StellarObject>();
+      Storage.Misc.RegisterKnownTypes<StarCluster>();
 
       return services;
    }
@@ -42,10 +42,12 @@ public static class ServiceCollectionExtensions
          .AddScoped<IStarClusterRepo, StarStarClusterRepo>()
          .AddScoped<IPlanetarySystemRepo, PlanetarySystemRepo>()
          .AddScoped<IPlanetDescriptorRepo, PlanetDescriptorRepo>()
+         .AddScoped<IStarDescriptorRepo, StarDescriptorRepo>()
 
          .AddScoped<IMongoRepository, StarStarClusterRepo>()
          .AddScoped<IMongoRepository, PlanetarySystemRepo>()
          .AddScoped<IMongoRepository, PlanetDescriptorRepo>()
+         .AddScoped<IMongoRepository, StarDescriptorRepo>()
          ;
 
       return services;

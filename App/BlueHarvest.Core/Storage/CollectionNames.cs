@@ -5,6 +5,7 @@ public static class CollectionNames
    public const string StarClusters = "StarClusters";
    public const string PlanetarySystems = "PlanetarySystems";
    public const string PlanetDescriptors = "PlanetDescriptors";
+   public const string StarDescriptors = "StarDescriptors";
 }
 
 // public static class Constants

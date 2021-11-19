@@ -5,7 +5,7 @@ namespace BlueHarvest.Core.Models.Cosmic;
 
 [BsonCollection(CollectionNames.PlanetarySystems)]
 //[KnownType(typeof(Planet))]
-public class PlanetarySystem : InterstellarObject, IDocument
+public class PlanetarySystem : InterstellarObject, IMongoDocument
 {
    public ObjectId Id { get; set; }
    public StarType StarType { get; set; } = StarType.ClassK;

@@ -1,6 +1,6 @@
 ﻿namespace BlueHarvest.Core.Storage;
 
-public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IDocument
+public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoDocument
 {
    private readonly IMongoContext _mongoContext;
 
