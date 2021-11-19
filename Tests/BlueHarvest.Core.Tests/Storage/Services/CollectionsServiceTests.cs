@@ -10,6 +10,6 @@ public class CollectionsServiceTests
    {
       var svc = new CollectionsService();
 
-      Assert.AreEqual(2, svc.CollectionNames.Count());
+      Assert.AreEqual(3, svc.CollectionNames.Count());
    }
 }
