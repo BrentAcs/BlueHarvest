@@ -27,20 +27,21 @@ public class PlanetarySystemBuilder
    public class Handler : IRequestHandler<Request, PlanetarySystem>
    {
       private readonly IPlanetarySystemRepo _systemRepo;
+      private readonly IMediator _mediator;
+
       private readonly IRng _rng;
-      private readonly IStarTypeService _starTypeService;
       private readonly IPlanetDescriptorService _planetDescriptorService;
       private readonly IEntityDesignator _entityDesignator;
 
       public Handler(IPlanetarySystemRepo systemRepo,
+         IMediator mediator,
          IRng rng,
-         IStarTypeService starTypeService,
          IPlanetDescriptorService planetDescriptorService,
          IEntityDesignator entityDesignator)
       {
          _systemRepo = systemRepo;
+         _mediator = mediator;
          _rng = rng;
-         _starTypeService = starTypeService;
          _planetDescriptorService = planetDescriptorService;
          _entityDesignator = entityDesignator;
       }
@@ -49,10 +50,12 @@ public class PlanetarySystemBuilder
       {
          double systemRadius = _rng.Next(request.Options?.SystemRadius!);
 
+         var starDescriptor = await _mediator.Send(new StarDescriptorService.RequestRandom(), cancellationToken);
+
          var system = new PlanetarySystem
          {
             ClusterId = request.ClusterId,
-            StarType = _starTypeService.GetRandomType(),
+            StarType = starDescriptor.StarType,
             Location = request.Location,
             Name = _entityDesignator.Generate(),
             Size = new Sphere(systemRadius)

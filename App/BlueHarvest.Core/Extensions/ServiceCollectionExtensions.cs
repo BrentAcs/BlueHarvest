@@ -19,8 +19,7 @@ public static class ServiceCollectionExtensions
          .AddMediatR(typeof(IRootModel))
          .AddSingleton<IEntityDesignator, EntityDesignator>()
          .AddSingleton<IRng, SimpleRng>()
-         .AddSingleton<IStarTypeService, StarTypeService>()
-         .AddSingleton<IPlanetDescriptorService, PlanetDescriptorService>()
+         .AddScoped<IPlanetDescriptorService, PlanetDescriptorService>()
          .AddScoped<ICollectionsService, CollectionsService>()
          ;
 
