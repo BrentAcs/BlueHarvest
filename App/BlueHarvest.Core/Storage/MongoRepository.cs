@@ -1,4 +1,5 @@
-﻿namespace BlueHarvest.Core.Storage;
+﻿//#define USE_LINQ_TO_MONGO
+namespace BlueHarvest.Core.Storage;
 
 public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoDocument
 {
@@ -10,16 +11,16 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       Collection = _mongoContext.Db.GetCollection<TDoc>(CollectionName);
    }
 
-   protected IMongoCollection<TDoc> Collection { get; }
-
    private static string? GetCollectionName(Type documentType) =>
       ((BsonCollectionAttribute)documentType.GetCustomAttributes(
             typeof(BsonCollectionAttribute),
             true)
          .FirstOrDefault()!)?.CollectionName;
 
+   protected IMongoCollection<TDoc> Collection { get; }
+
    public string? CollectionName => GetCollectionName(typeof(TDoc));
-   
+
    public virtual Task InitializeIndexesAsync() =>
       Task.CompletedTask;
 
@@ -36,6 +37,7 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
    public virtual IQueryable<TDoc> AsQueryable() =>
       Collection.AsQueryable();
 
+#if USE_LINQ_TO_MONGO
    public virtual IEnumerable<TDoc> FilterBy(Expression<Func<TDoc, bool>> filterExpression) =>
       Collection.Find(filterExpression).ToEnumerable();
 
@@ -43,12 +45,15 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       Expression<Func<TDoc, bool>> filterExpression,
       Expression<Func<TDoc, TProjected>> projectionExpression) =>
       Collection.Find(filterExpression).Project(projectionExpression).ToEnumerable();
+#endif
 
+#if USE_LINQ_TO_MONGO
    public virtual TDoc FindOne(Expression<Func<TDoc, bool>> filterExpression) =>
       Collection.Find(filterExpression).FirstOrDefault();
 
    public virtual Task<TDoc> FindOneAsync(Expression<Func<TDoc, bool>> filterExpression) =>
       Task.Run(() => Collection.Find(filterExpression).FirstOrDefaultAsync());
+#endif
 
    public virtual TDoc FindById(string id)
    {
@@ -89,12 +94,6 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       await Collection.FindOneAndReplaceAsync(filter, document).ConfigureAwait(false);
    }
 
-   public void DeleteOne(Expression<Func<TDoc, bool>> filterExpression) =>
-      Collection.FindOneAndDelete(filterExpression);
-
-   public Task DeleteOneAsync(Expression<Func<TDoc, bool>> filterExpression) =>
-      Task.Run(() => Collection.FindOneAndDeleteAsync(filterExpression));
-
    public void DeleteById(string id)
    {
       var objectId = new ObjectId(id);
@@ -110,11 +109,20 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
          Collection.FindOneAndDeleteAsync(filter);
       });
 
+#if USE_LINQ_TO_MONGO
+   public void DeleteOne(Expression<Func<TDoc, bool>> filterExpression) =>
+      Collection.FindOneAndDelete(filterExpression);
+
+   public Task DeleteOneAsync(Expression<Func<TDoc, bool>> filterExpression) =>
+      Task.Run(() => Collection.FindOneAndDeleteAsync(filterExpression));
+
+
    public void DeleteMany(Expression<Func<TDoc, bool>> filterExpression) =>
       Collection.DeleteMany(filterExpression);
 
    public Task DeleteManyAsync(Expression<Func<TDoc, bool>> filterExpression) =>
       Task.Run(() => Collection.DeleteManyAsync(filterExpression));
+#endif
 
    // --- Enhanced functionality
 
