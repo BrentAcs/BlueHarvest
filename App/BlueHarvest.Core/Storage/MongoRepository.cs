@@ -11,13 +11,9 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       Collection = _mongoContext.Db.GetCollection<TDoc>(CollectionName);
    }
 
-   private static string? GetCollectionName(Type documentType) =>
-      ((BsonCollectionAttribute)documentType.GetCustomAttributes(
-            typeof(BsonCollectionAttribute),
-            true)
-         .FirstOrDefault()!)?.CollectionName;
-
    protected IMongoCollection<TDoc> Collection { get; }
+
+   // --- IMongoRepository
 
    public string? CollectionName => GetCollectionName(typeof(TDoc));
 
@@ -27,33 +23,21 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
    public virtual Task SeedDataAsync() =>
       Task.CompletedTask;
 
-   public long CalcPageCount(long count, int pageSize) =>
-      (long)Math.Ceiling((double)count / pageSize);
+   // --- IMongoRepoCreate
 
-   public IEnumerable<TDoc> All() =>
-      AsQueryable()
-         .ToList();
+   public virtual void InsertOne(TDoc document) =>
+      Collection.InsertOne(document);
 
-   public virtual IQueryable<TDoc> AsQueryable() =>
-      Collection.AsQueryable();
+   public virtual Task InsertOneAsync(TDoc document) =>
+      Task.Run(() => Collection.InsertOneAsync(document));
 
-#if USE_LINQ_TO_MONGO
-   public virtual IEnumerable<TDoc> FilterBy(Expression<Func<TDoc, bool>> filterExpression) =>
-      Collection.Find(filterExpression).ToEnumerable();
+   public void InsertMany(ICollection<TDoc> documents) =>
+      Collection.InsertMany(documents);
 
-   public virtual IEnumerable<TProjected> FilterBy<TProjected>(
-      Expression<Func<TDoc, bool>> filterExpression,
-      Expression<Func<TDoc, TProjected>> projectionExpression) =>
-      Collection.Find(filterExpression).Project(projectionExpression).ToEnumerable();
-#endif
+   public virtual async Task InsertManyAsync(ICollection<TDoc> documents) =>
+      await Collection.InsertManyAsync(documents);
 
-#if USE_LINQ_TO_MONGO
-   public virtual TDoc FindOne(Expression<Func<TDoc, bool>> filterExpression) =>
-      Collection.Find(filterExpression).FirstOrDefault();
-
-   public virtual Task<TDoc> FindOneAsync(Expression<Func<TDoc, bool>> filterExpression) =>
-      Task.Run(() => Collection.Find(filterExpression).FirstOrDefaultAsync());
-#endif
+   // --- IMongoRepoRead
 
    public virtual TDoc FindById(string id)
    {
@@ -70,17 +54,7 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
          return Collection.Find(filter).SingleOrDefaultAsync();
       });
 
-   public virtual void InsertOne(TDoc document) =>
-      Collection.InsertOne(document);
-
-   public virtual Task InsertOneAsync(TDoc document) =>
-      Task.Run(() => Collection.InsertOneAsync(document));
-
-   public void InsertMany(ICollection<TDoc> documents) =>
-      Collection.InsertMany(documents);
-
-   public virtual async Task InsertManyAsync(ICollection<TDoc> documents) =>
-      await Collection.InsertManyAsync(documents);
+   // --- IMongoRepoUpdate
 
    public void ReplaceOne(TDoc document)
    {
@@ -93,6 +67,8 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       var filter = Builders<TDoc>.Filter.Eq(doc => doc.Id, document.Id);
       await Collection.FindOneAndReplaceAsync(filter, document).ConfigureAwait(false);
    }
+
+   // --- IMongoRepoDelete
 
    public void DeleteById(string id)
    {
@@ -109,22 +85,19 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
          Collection.FindOneAndDeleteAsync(filter);
       });
 
-#if USE_LINQ_TO_MONGO
-   public void DeleteOne(Expression<Func<TDoc, bool>> filterExpression) =>
-      Collection.FindOneAndDelete(filterExpression);
+   // --- IMongoRepoQueryable
 
-   public Task DeleteOneAsync(Expression<Func<TDoc, bool>> filterExpression) =>
-      Task.Run(() => Collection.FindOneAndDeleteAsync(filterExpression));
+   public IEnumerable<TDoc> All() =>
+      AsQueryable()
+         .ToList();
 
+   public virtual IQueryable<TDoc> AsQueryable() =>
+      Collection.AsQueryable();
 
-   public void DeleteMany(Expression<Func<TDoc, bool>> filterExpression) =>
-      Collection.DeleteMany(filterExpression);
+   // --- IMongoRepoPageable
 
-   public Task DeleteManyAsync(Expression<Func<TDoc, bool>> filterExpression) =>
-      Task.Run(() => Collection.DeleteManyAsync(filterExpression));
-#endif
-
-   // --- Enhanced functionality
+   public long CalcPageCount(long count, int pageSize) =>
+      (long)Math.Ceiling((double)count / pageSize);
 
    public async Task<(long totalRecords, IEnumerable<TDoc> data)> AggregateByPage(
       FilterDefinition<TDoc> filterDefinition,
@@ -166,4 +139,46 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       return (count.Value, data);
       //return (totalPages, data);
    }
+
+   // --- privates
+
+   private static string? GetCollectionName(Type documentType) =>
+      ((BsonCollectionAttribute)documentType.GetCustomAttributes(
+            typeof(BsonCollectionAttribute),
+            true)
+         .FirstOrDefault()!)?.CollectionName;
+
+
+   // ----------------------
+
+#if USE_LINQ_TO_MONGO
+   public virtual TDoc FindOne(Expression<Func<TDoc, bool>> filterExpression) =>
+      Collection.Find(filterExpression).FirstOrDefault();
+
+   public virtual Task<TDoc> FindOneAsync(Expression<Func<TDoc, bool>> filterExpression) =>
+      Task.Run(() => Collection.Find(filterExpression).FirstOrDefaultAsync());
+#endif
+#if USE_LINQ_TO_MONGO
+   public virtual IEnumerable<TDoc> FilterBy(Expression<Func<TDoc, bool>> filterExpression) =>
+      Collection.Find(filterExpression).ToEnumerable();
+
+   public virtual IEnumerable<TProjected> FilterBy<TProjected>(
+      Expression<Func<TDoc, bool>> filterExpression,
+      Expression<Func<TDoc, TProjected>> projectionExpression) =>
+      Collection.Find(filterExpression).Project(projectionExpression).ToEnumerable();
+#endif
+#if USE_LINQ_TO_MONGO
+   public void DeleteOne(Expression<Func<TDoc, bool>> filterExpression) =>
+      Collection.FindOneAndDelete(filterExpression);
+
+   public Task DeleteOneAsync(Expression<Func<TDoc, bool>> filterExpression) =>
+      Task.Run(() => Collection.FindOneAndDeleteAsync(filterExpression));
+
+
+   public void DeleteMany(Expression<Func<TDoc, bool>> filterExpression) =>
+      Collection.DeleteMany(filterExpression);
+
+   public Task DeleteManyAsync(Expression<Func<TDoc, bool>> filterExpression) =>
+      Task.Run(() => Collection.DeleteManyAsync(filterExpression));
+#endif
 }
