@@ -1,12 +1,9 @@
-﻿using BlueHarvest.Core.Builders;
-using BlueHarvest.Core.Models;
+﻿using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Services;
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Core.Storage.Repos;
-using BlueHarvest.Core.Storage.Services;
 using BlueHarvest.Core.Utilities;
-using MediatR;
 
 namespace BlueHarvest.Core.Extensions;
 
@@ -20,7 +17,6 @@ public static class ServiceCollectionExtensions
          .AddSingleton<IEntityDesignator, EntityDesignator>()
          .AddSingleton<IRng, SimpleRng>()
          .AddScoped<IPlanetDescriptorService, PlanetDescriptorService>()
-         .AddScoped<ICollectionsService, CollectionsService>()
          ;
 
       //  ref: https://stackoverflow.com/questions/57015856/invalidoperationexception-cant-compile-a-newexpression-with-a-constructor-decl
