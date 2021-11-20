@@ -14,13 +14,21 @@ internal interface IStorageService : IBaseService
 {
 }
 
-internal class StorageService : BaseService, IStorageService
+internal class StorageService : BaseService,
+   IStorageService
+   //, INotificationHandler<ServiceNotification>
 {
    private readonly IMediator _mediator;
    private readonly IMongoContext _mongoContext;
    private readonly IEnumerable<IMongoRepository> _mongoRepos;
    private readonly IStarClusterRepo _starClusterRepo;
    private readonly IPlanetarySystemRepo _planetarySystemRepo;
+
+   // public Task Handle(ServiceNotification notification, CancellationToken cancellationToken)
+   // {
+   //    WriteLine($"Svc Msg: {notification?.Message}");
+   //    return Task.CompletedTask;
+   // }
 
    public StorageService(
       IConfiguration configuration,
@@ -59,9 +67,13 @@ internal class StorageService : BaseService, IStorageService
       if (line!.Equals("DEL"))
       {
          WriteLine("Deleting...");
+         // _mediator.Publish(new ServiceNotification("Deleting... (noti)"));
          _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
          WriteLine("Initializing...");
+         // _mediator.Publish(new ServiceNotification("Initializing... (noti)"));
          Task.WaitAll(_mongoRepos.InitializeAllIndexesAsync());
+         WriteLine("Seeding...");
+         // _mediator.Publish(new ServiceNotification("Seeding... (noti)"));
          Task.WaitAll(_mongoRepos.SeedAllDataAsync());
       }
 
@@ -72,6 +84,7 @@ internal class StorageService : BaseService, IStorageService
    {
       WriteLine("Initializing...");
       Task.WaitAll(_mongoRepos.InitializeAllIndexesAsync());
+      WriteLine("Seeding...");
       Task.WaitAll(_mongoRepos.SeedAllDataAsync());
       ShowContinue();
    }
@@ -130,10 +143,32 @@ internal class StorageService : BaseService, IStorageService
    private void TestProc()
    {
       ClearScreen("Test...");
-      var cluster = _starClusterRepo.FindByNameAsync("test")
-         .Result
-         .FirstOrDefault();
-      DumpStarCluster(cluster.Id);
+      // var cluster = _starClusterRepo.FindByNameAsync("test")
+      //    .Result
+      //    .FirstOrDefault();
+      // DumpStarCluster(cluster.Id);
+
+      try
+      {
+         var cluster1 = new StarCluster() {Name = "cluster 1"};
+         var cluster2 = new StarCluster() {Name = "cluster 2"};
+         _starClusterRepo.InsertMany(new[] {cluster1, cluster2});
+
+         var system1 = new PlanetarySystem {ClusterId = cluster1.Id, Name = "brent"};
+         var system2 = new PlanetarySystem {ClusterId = cluster1.Id, Name = "kitty"};
+         var system3 = new PlanetarySystem {ClusterId = cluster2.Id, Name = "brent"};
+         var system4 = new PlanetarySystem {ClusterId = cluster1.Id, Name = "kitty"};
+
+         _planetarySystemRepo.InsertOne(system1);
+         _planetarySystemRepo.InsertOne(system2);
+         _planetarySystemRepo.InsertOne(system3);
+         _planetarySystemRepo.InsertOne(system4);
+      }
+      catch (Exception ex)
+      {
+         WriteLine($"Error: {ex.Message}");
+      }
+
       ShowContinue();
    }
 
@@ -170,3 +205,13 @@ internal class StorageService : BaseService, IStorageService
       //WriteLine(fullCluster);
    }
 }
+
+// public record ServiceNotification : INotification
+// {
+//    public ServiceNotification(string message)
+//    {
+//       Message = message;
+//    }
+//
+//    public string? Message { get; set; }
+// }

@@ -6,16 +6,16 @@ public record Ellipsoid(double XRadius = 0.0, double YRadius = 0.0, double ZRadi
    public double YRadius { get; set; } = YRadius;
    public double ZRadius { get; set; } = ZRadius;
 
-   [JsonIgnore]
+   [System.Text.Json.Serialization.JsonIgnore]
    public double XDiameter => XRadius * 2;
 
-   [JsonIgnore]
+   [System.Text.Json.Serialization.JsonIgnore]
    public double YDiameter => YRadius * 2;
 
-   [JsonIgnore]
+   [System.Text.Json.Serialization.JsonIgnore]
    public double ZDiameter => ZRadius * 2;
 
-   [JsonIgnore]
+   [System.Text.Json.Serialization.JsonIgnore]
    public double Volume => (4.0 / 3.0) * Math.PI * XRadius * YRadius * ZRadius;
 
    public bool ContainsPoint(Point3D point, Point3D? centeredAt = null)

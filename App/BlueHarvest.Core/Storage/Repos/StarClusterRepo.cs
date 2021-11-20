@@ -26,11 +26,11 @@ public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRep
             Collation = new Collation("en_US",
                false,
                new Optional<CollationCaseFirst?>(CollationCaseFirst.Off),
-               new Optional<CollationStrength?>(CollationStrength.Primary))
+               new Optional<CollationStrength?>(CollationStrength.Primary)),
+            Unique = true
          };
-
-         var index =
-            new CreateIndexModel<StarCluster>($"{{ {nameof(StarCluster.Name)} : 1 }}", options);
+         var builder = Builders<StarCluster>.IndexKeys;
+         var index = new CreateIndexModel<StarCluster>(builder.Ascending(i => i.Name), options);
          await Collection.Indexes.CreateOneAsync(index).ConfigureAwait(false);
       }
    }

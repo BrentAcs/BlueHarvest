@@ -6,6 +6,7 @@ namespace BlueHarvest.Core.Storage.Repos;
 public interface IStarDescriptorRepo : IMongoRepository<StarDescriptor>
 {
 }
+
 public class StarDescriptorRepo : MongoRepository<StarDescriptor>, IStarDescriptorRepo
 {
    public StarDescriptorRepo(IMongoContext mongoContext) : base(mongoContext)

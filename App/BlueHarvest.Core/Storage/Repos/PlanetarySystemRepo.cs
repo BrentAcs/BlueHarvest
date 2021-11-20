@@ -17,6 +17,7 @@ public class PlanetarySystemRepo : MongoRepository<PlanetarySystem>, IPlanetaryS
    public PlanetarySystemRepo(IMongoContext mongoContext) : base(mongoContext)
    {
    }
+
    public override async Task InitializeIndexesAsync()
    {
       await base.InitializeIndexesAsync().ConfigureAwait(false);
@@ -30,16 +31,19 @@ public class PlanetarySystemRepo : MongoRepository<PlanetarySystem>, IPlanetaryS
             Collation = new Collation("en_US",
                false,
                new Optional<CollationCaseFirst?>(CollationCaseFirst.Off),
-               new Optional<CollationStrength?>(CollationStrength.Primary))
+               new Optional<CollationStrength?>(CollationStrength.Primary)),
+            Unique = true,
          };
+         var builder = Builders<PlanetarySystem>.IndexKeys;
+         var keys = builder
+            .Ascending(i => i.ClusterId)
+            .Ascending(i => i.Name);
+         var index = new CreateIndexModel<PlanetarySystem>(keys, options);
 
-         var index =
-            new CreateIndexModel<PlanetarySystem>($"{{ {nameof(PlanetarySystem.Name)} : 1 }}", options);
          await Collection.Indexes.CreateOneAsync(index).ConfigureAwait(false);
       }
    }
 
-   
    public async Task<IAsyncCursor<PlanetarySystem>> AllForCluster(ObjectId clusterId)
    {
       var filter = Builders<PlanetarySystem>.Filter.Eq(s => s.ClusterId, clusterId);
