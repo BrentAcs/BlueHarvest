@@ -4,6 +4,7 @@ using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Models;
 using BlueHarvest.Core.Storage;
 using BlueHarvest.Server.CLI.Services;
+using MediatR;
 using static System.Console;
 
 namespace BlueHarvest.Server.CLI;
@@ -37,6 +38,7 @@ class Program
                services
                   .AddBlueHarvestMongo(configuration)
                   .AddBlueHarvestCommon()
+                  .AddMediatR(typeof(MainService))
                   .AddHostedService<MainService>()
                   .AddSingleton<IStorageService, StorageService>()
                   .AddSingleton<ITypeService, TypeService>()
