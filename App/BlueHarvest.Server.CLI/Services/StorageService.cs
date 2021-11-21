@@ -67,13 +67,10 @@ internal class StorageService : BaseService,
       if (line!.Equals("DEL"))
       {
          WriteLine("Deleting...");
-         // _mediator.Publish(new ServiceNotification("Deleting... (noti)"));
          _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
          WriteLine("Initializing...");
-         // _mediator.Publish(new ServiceNotification("Initializing... (noti)"));
          Task.WaitAll(_mongoRepos.InitializeAllIndexesAsync());
          WriteLine("Seeding...");
-         // _mediator.Publish(new ServiceNotification("Seeding... (noti)"));
          Task.WaitAll(_mongoRepos.SeedAllDataAsync());
       }
 
@@ -163,6 +160,10 @@ internal class StorageService : BaseService,
          _planetarySystemRepo.InsertOne(system2);
          _planetarySystemRepo.InsertOne(system3);
          _planetarySystemRepo.InsertOne(system4);
+      }
+      catch (MongoWriteException ex)
+      {
+         WriteLine($"Write Error: {ex.Message}");
       }
       catch (Exception ex)
       {

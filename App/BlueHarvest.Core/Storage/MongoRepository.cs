@@ -3,14 +3,15 @@ namespace BlueHarvest.Core.Storage;
 
 public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoDocument
 {
-   private readonly IMongoContext _mongoContext;
-
-   public MongoRepository(IMongoContext mongoContext)
+   public MongoRepository(IMongoContext? mongoContext, ILogger<MongoRepository<TDoc>> logger)
    {
-      _mongoContext = mongoContext;
-      Collection = _mongoContext.Db.GetCollection<TDoc>(CollectionName);
+      MongoContext = mongoContext;
+      Logger = logger;
+      Collection = MongoContext.Db.GetCollection<TDoc>(CollectionName);
    }
 
+   protected IMongoContext? MongoContext { get; set; }
+   protected ILogger<MongoRepository<TDoc>> Logger { get; }
    protected IMongoCollection<TDoc> Collection { get; }
 
    // --- IMongoRepository

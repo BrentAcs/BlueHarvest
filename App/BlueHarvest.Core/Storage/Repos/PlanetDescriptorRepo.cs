@@ -9,7 +9,8 @@ public interface IPlanetDescriptorRepo : IMongoRepository<PlanetDescriptor>
 
 public class PlanetDescriptorRepo : MongoRepository<PlanetDescriptor>, IPlanetDescriptorRepo
 {
-   public PlanetDescriptorRepo(IMongoContext mongoContext) : base(mongoContext)
+   public PlanetDescriptorRepo(IMongoContext? mongoContext,
+      ILogger<PlanetDescriptorRepo> logger) : base(mongoContext, logger)
    {
    }
 

@@ -14,7 +14,8 @@ public interface IPlanetarySystemRepo : IMongoRepository<PlanetarySystem>
 
 public class PlanetarySystemRepo : MongoRepository<PlanetarySystem>, IPlanetarySystemRepo
 {
-   public PlanetarySystemRepo(IMongoContext mongoContext) : base(mongoContext)
+   public PlanetarySystemRepo(IMongoContext? mongoContext,
+      ILogger<PlanetarySystemRepo> logger) : base(mongoContext, logger)
    {
    }
 
