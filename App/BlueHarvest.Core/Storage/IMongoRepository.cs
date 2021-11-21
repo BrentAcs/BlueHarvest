@@ -7,22 +7,22 @@ namespace BlueHarvest.Core.Storage;
 public interface IMongoRepository
 {
    string? CollectionName { get; }
-   Task InitializeIndexesAsync();
-   Task SeedDataAsync();
+   Task InitializeIndexesAsync(CancellationToken cancellationToken = default);
+   Task SeedDataAsync(CancellationToken cancellationToken = default);
 }
 
 public interface IMongoRepoCreate<TDoc> where TDoc : IMongoDocument
 {
    void InsertOne(TDoc document);
-   Task InsertOneAsync(TDoc document);
+   Task InsertOneAsync(TDoc document, CancellationToken cancellationToken = default);
    void InsertMany(ICollection<TDoc> documents);
-   Task InsertManyAsync(ICollection<TDoc> documents);
+   Task InsertManyAsync(ICollection<TDoc> documents, CancellationToken cancellationToken = default);
 }
 
 public interface IMongoRepoRead<TDoc> where TDoc : IMongoDocument
 {
    TDoc FindById(string id);
-   Task<TDoc> FindByIdAsync(string id);
+   Task<TDoc> FindByIdAsync(string id, CancellationToken cancellationToken=default);
 #if USE_LINQ_TO_MONGO
    TDoc FindOne(Expression<Func<TDoc, bool>> filterExpression);
    Task<TDoc> FindOneAsync(Expression<Func<TDoc, bool>> filterExpression);
@@ -32,13 +32,13 @@ public interface IMongoRepoRead<TDoc> where TDoc : IMongoDocument
 public interface IMongoRepoUpdate<TDoc> where TDoc : IMongoDocument
 {
    void ReplaceOne(TDoc document);
-   Task ReplaceOneAsync(TDoc document);
+   Task ReplaceOneAsync(TDoc document, CancellationToken cancellationToken = default);
 }
 
 public interface IMongoRepoDelete<TDoc> where TDoc : IMongoDocument
 {
    void DeleteById(string id);
-   Task DeleteByIdAsync(string id);
+   Task DeleteByIdAsync(string id, CancellationToken cancellationToken = default);
 #if USE_LINQ_TO_MONGO
    void DeleteOne(Expression<Func<TDoc, bool>> filterExpression);
    Task DeleteOneAsync(Expression<Func<TDoc, bool>> filterExpression);

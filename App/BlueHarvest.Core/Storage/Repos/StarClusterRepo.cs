@@ -15,12 +15,12 @@ public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRep
    {
    }
 
-   public override async Task InitializeIndexesAsync()
+   public override async Task InitializeIndexesAsync(CancellationToken cancellationToken = default)
    {
-      await base.InitializeIndexesAsync().ConfigureAwait(false);
+      await base.InitializeIndexesAsync(cancellationToken).ConfigureAwait(false);
 
-      var indexes = await Collection.Indexes.ListAsync().ConfigureAwait(false);
-      var exists = await indexes.AnyAsync().ConfigureAwait(false);
+      var indexes = await Collection.Indexes.ListAsync(cancellationToken).ConfigureAwait(false);
+      var exists = await indexes.AnyAsync(cancellationToken).ConfigureAwait(false);
       if (!exists)
       {
          var options = new CreateIndexOptions
@@ -33,7 +33,7 @@ public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRep
          };
          var builder = Builders<StarCluster>.IndexKeys;
          var index = new CreateIndexModel<StarCluster>(builder.Ascending(i => i.Name), options);
-         await Collection.Indexes.CreateOneAsync(index).ConfigureAwait(false);
+         await Collection.Indexes.CreateOneAsync(index, cancellationToken:cancellationToken).ConfigureAwait(false);
       }
    }
 

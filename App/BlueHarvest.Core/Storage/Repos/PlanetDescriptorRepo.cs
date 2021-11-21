@@ -14,9 +14,10 @@ public class PlanetDescriptorRepo : MongoRepository<PlanetDescriptor>, IPlanetDe
    {
    }
 
-   public override async Task SeedDataAsync()
+   public override async Task SeedDataAsync(CancellationToken cancellationToken = default)
    {
-      long count = await Collection.CountDocumentsAsync(FilterDefinition<PlanetDescriptor>.Empty)
+      long count = await Collection
+         .CountDocumentsAsync(FilterDefinition<PlanetDescriptor>.Empty, cancellationToken: cancellationToken)
          .ConfigureAwait(false);
       if (count > 0)
          return;

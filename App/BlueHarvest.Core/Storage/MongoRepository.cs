@@ -1,4 +1,5 @@
 ﻿//#define USE_LINQ_TO_MONGO
+
 namespace BlueHarvest.Core.Storage;
 
 public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoDocument
@@ -18,10 +19,10 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
 
    public string? CollectionName => GetCollectionName(typeof(TDoc));
 
-   public virtual Task InitializeIndexesAsync() =>
+   public virtual Task InitializeIndexesAsync(CancellationToken cancellationToken = default) =>
       Task.CompletedTask;
 
-   public virtual Task SeedDataAsync() =>
+   public virtual Task SeedDataAsync(CancellationToken cancellationToken = default) =>
       Task.CompletedTask;
 
    // --- IMongoRepoCreate
@@ -29,14 +30,15 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
    public virtual void InsertOne(TDoc document) =>
       Collection.InsertOne(document);
 
-   public virtual Task InsertOneAsync(TDoc document) =>
-      Task.Run(() => Collection.InsertOneAsync(document));
+   public virtual Task InsertOneAsync(TDoc document, CancellationToken cancellationToken = default) =>
+      Task.Run(() => Collection.InsertOneAsync(document, cancellationToken: cancellationToken), cancellationToken);
 
    public void InsertMany(ICollection<TDoc> documents) =>
       Collection.InsertMany(documents);
 
-   public virtual async Task InsertManyAsync(ICollection<TDoc> documents) =>
-      await Collection.InsertManyAsync(documents);
+   public virtual async Task
+      InsertManyAsync(ICollection<TDoc> documents, CancellationToken cancellationToken = default) =>
+      await Collection.InsertManyAsync(documents, cancellationToken: cancellationToken);
 
    // --- IMongoRepoRead
 
@@ -47,12 +49,12 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       return Collection.Find(filter).SingleOrDefault();
    }
 
-   public virtual Task<TDoc> FindByIdAsync(string id) =>
+   public virtual Task<TDoc> FindByIdAsync(string id, CancellationToken cancellationToken = default) =>
       Task.Run(() =>
       {
          var objectId = new ObjectId(id);
          var filter = Builders<TDoc>.Filter.Eq(doc => doc.Id, objectId);
-         return Collection.Find(filter).SingleOrDefaultAsync();
+         return Collection.Find(filter).SingleOrDefaultAsync(cancellationToken);
       });
 
    // --- IMongoRepoUpdate
@@ -63,10 +65,11 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       Collection.FindOneAndReplace(filter, document);
    }
 
-   public virtual async Task ReplaceOneAsync(TDoc document)
+   public virtual async Task ReplaceOneAsync(TDoc document, CancellationToken cancellationToken = default)
    {
       var filter = Builders<TDoc>.Filter.Eq(doc => doc.Id, document.Id);
-      await Collection.FindOneAndReplaceAsync(filter, document).ConfigureAwait(false);
+      await Collection.FindOneAndReplaceAsync(filter, document, cancellationToken: cancellationToken)
+         .ConfigureAwait(false);
    }
 
    // --- IMongoRepoDelete
@@ -78,12 +81,12 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       Collection.FindOneAndDelete(filter);
    }
 
-   public Task DeleteByIdAsync(string id) =>
+   public Task DeleteByIdAsync(string id, CancellationToken cancellationToken=default) =>
       Task.Run(() =>
       {
          var objectId = new ObjectId(id);
          var filter = Builders<TDoc>.Filter.Eq(doc => doc.Id, objectId);
-         Collection.FindOneAndDeleteAsync(filter);
+         Collection.FindOneAndDeleteAsync(filter, cancellationToken: cancellationToken);
       });
 
    // --- IMongoRepoQueryable

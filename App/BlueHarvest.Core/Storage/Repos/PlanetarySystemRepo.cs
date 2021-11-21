@@ -19,12 +19,12 @@ public class PlanetarySystemRepo : MongoRepository<PlanetarySystem>, IPlanetaryS
    {
    }
 
-   public override async Task InitializeIndexesAsync()
+   public override async Task InitializeIndexesAsync(CancellationToken cancellationToken = default)
    {
-      await base.InitializeIndexesAsync().ConfigureAwait(false);
+      await base.InitializeIndexesAsync(cancellationToken).ConfigureAwait(false);
 
-      var indexes = await Collection.Indexes.ListAsync().ConfigureAwait(false);
-      var exists = await indexes.AnyAsync().ConfigureAwait(false);
+      var indexes = await Collection.Indexes.ListAsync(cancellationToken).ConfigureAwait(false);
+      var exists = await indexes.AnyAsync(cancellationToken).ConfigureAwait(false);
       if (!exists)
       {
          var options = new CreateIndexOptions
@@ -41,7 +41,7 @@ public class PlanetarySystemRepo : MongoRepository<PlanetarySystem>, IPlanetaryS
             .Ascending(i => i.Name);
          var index = new CreateIndexModel<PlanetarySystem>(keys, options);
 
-         await Collection.Indexes.CreateOneAsync(index).ConfigureAwait(false);
+         await Collection.Indexes.CreateOneAsync(index, cancellationToken:cancellationToken).ConfigureAwait(false);
       }
    }
 

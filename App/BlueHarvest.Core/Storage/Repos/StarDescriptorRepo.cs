@@ -14,22 +14,17 @@ public class StarDescriptorRepo : MongoRepository<StarDescriptor>, IStarDescript
    {
    }
 
-   public override async Task SeedDataAsync()
+   public override async Task SeedDataAsync(CancellationToken cancellationToken = default)
    {
-      long count = await Collection.CountDocumentsAsync(FilterDefinition<StarDescriptor>.Empty)
+      long count = await Collection
+         .CountDocumentsAsync(FilterDefinition<StarDescriptor>.Empty, cancellationToken: cancellationToken)
          .ConfigureAwait(false);
       if (count > 0)
          return;
 
       var descriptors = new List<StarDescriptor>
       {
-         new()
-         {
-            StarType = StarType.ClassB,
-            Name = "Blue",
-            Chance = 0.625,
-            MassRange = new MinMax<double>(2.5, 90.0)
-         },
+         new() {StarType = StarType.ClassB, Name = "Blue", Chance = 0.625, MassRange = new MinMax<double>(2.5, 90.0)},
          new()
          {
             StarType = StarType.ClassA,
@@ -37,13 +32,7 @@ public class StarDescriptorRepo : MongoRepository<StarDescriptor>, IStarDescript
             Chance = 3.125,
             MassRange = new MinMax<double>(2.0, 150.0)
          },
-         new()
-         {
-            StarType = StarType.ClassF,
-            Name = "White",
-            Chance = 15.0,
-            MassRange = new MinMax<double>(0.8, 1.4)
-         },
+         new() {StarType = StarType.ClassF, Name = "White", Chance = 15.0, MassRange = new MinMax<double>(0.8, 1.4)},
          new()
          {
             StarType = StarType.ClassG,
