@@ -21,3 +21,5 @@ Goals are:
 Please feel free to drop any and all comments, feedback, ideas, critques at brent.mann@gmail.com.
 
 Enjoy and/or Laugh.
+
+Or would it be Laugh and/or Enjoy
