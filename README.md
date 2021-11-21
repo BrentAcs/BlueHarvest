@@ -9,3 +9,15 @@ It's my personal, ongoing, growing project. It will sound silly to most/all, how
 The first steps are to create small 'world' randomly. Maybe allow for several. These world's are a cluster of stars, populated by planetary systems, their moons, astroid betls or fields and other cosmic entities. The vision is to create and store these worlds in MongoDB and allow for a RESTful API to access them. The, perhaps a Blazor Web UI.
 
 After that, well, we'll see.
+
+Goals are:
+- Have fun.
+- Learn things.
+- Iterate and learn things.
+- Code should be of professional quality, unless noted. It may not be be finished (yet), but it must be quality.
+- SOLID, DRY and other principals are a must.
+- Avoid anti-patterns.
+
+Please feel free to drop any and all comments, feedback, ideas, critques at brent.mann@gmail.com.
+
+Enjoy and/or Laugh.
