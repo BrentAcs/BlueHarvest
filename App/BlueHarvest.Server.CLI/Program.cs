@@ -35,10 +35,16 @@ class Program
             .UseSerilog()
             .ConfigureServices((hostContext, services) =>
             {
+               var assemblies = new[]
+               {
+                  Assembly.GetAssembly(typeof(IRootModel)),
+                  Assembly.GetAssembly(typeof(MainService)),
+               };
+
                services
                   .AddBlueHarvestMongo(configuration)
-                  .AddBlueHarvestCommon()
-                  .AddMediatR(typeof(MainService))
+                  .AddBlueHarvestCommon(assemblies)
+                  //.AddMediatR(typeof(MainService))
                   .AddHostedService<MainService>()
                   .AddSingleton<IStorageService, StorageService>()
                   .AddSingleton<ITypeService, TypeService>()

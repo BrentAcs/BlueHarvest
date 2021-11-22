@@ -1,4 +1,7 @@
+using System.Reflection;
+using BlueHarvest.API.Controllers;
 using BlueHarvest.Core.Extensions;
+using BlueHarvest.Core.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,12 @@ builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 
+var assemblies = new[]
+{
+   Assembly.GetAssembly(typeof(IRootModel)),
+   Assembly.GetAssembly(typeof(BaseController)),
+};
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services
    .AddEndpointsApiExplorer()
@@ -31,7 +40,7 @@ builder.Services
       options.SubstituteApiVersionInUrl = true;
    })
    .AddBlueHarvestMongo(builder.Configuration)
-   .AddBlueHarvestCommon()
+   .AddBlueHarvestCommon(assemblies)
    ;
 
 var app = builder.Build();
