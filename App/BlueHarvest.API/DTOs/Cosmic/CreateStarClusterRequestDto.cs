@@ -3,7 +3,7 @@ using BlueHarvest.Core.Misc;
 
 namespace BlueHarvest.API.DTOs.Cosmic;
 
-public class CreateStarClusterRequestDto : IRequest<(CreateStarClusterResponseDto, string)>
+public class CreateStarClusterRequestDto : IRequest<(StarClusterResponseDto, string)>
 {
    public string? Name { get; set; }
    public string? Description { get; set; }

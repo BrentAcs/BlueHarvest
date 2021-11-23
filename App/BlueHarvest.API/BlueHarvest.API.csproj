@@ -23,4 +23,8 @@
       <ProjectReference Include="..\BlueHarvest.Core\BlueHarvest.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="_Logs" />
+    </ItemGroup>
+
 </Project>

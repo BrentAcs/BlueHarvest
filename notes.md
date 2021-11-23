@@ -4,7 +4,8 @@ This document is to serve as design notes and documentation for Blue Harvest.
 
 # References
 
-[Markdown Ref](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+[Markdown Ref](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) <br>
+[DTO Naming](https://richarddingwall.name/2010/04/17/try-not-to-call-your-objects-dtos/)
 
 Web/RESTful Refs:<br>
 [First Web API](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-5.0&tabs=visual-studio) <br>

@@ -8,7 +8,7 @@ public class PlanetDescriptor : IMongoDocument
 {
    public ObjectId Id { get; set; }
    public PlanetType PlanetType { get; set; }
-   public PlanetaryZone[] Zones { get; set; }
-   public MinMax<int> Radius { get; set; }
-   public MinMax<double> Distance { get; set; }
+   public PlanetaryZone[] Zones { get; set; } = Array.Empty<PlanetaryZone>();
+   public MinMax<int> Radius { get; set; } = new();
+   public MinMax<double> Distance { get; set; } = new();
 }

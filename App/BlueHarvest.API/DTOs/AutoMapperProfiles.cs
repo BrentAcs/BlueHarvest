@@ -9,6 +9,6 @@ public class AutoMapperProfile : Profile
    public AutoMapperProfile()
    {
       CreateMap<CreateStarClusterRequestDto, StarClusterBuilderOptions>();
-      CreateMap<StarCluster, CreateStarClusterResponseDto>();
+      CreateMap<StarCluster, StarClusterResponseDto>();
    }
 }

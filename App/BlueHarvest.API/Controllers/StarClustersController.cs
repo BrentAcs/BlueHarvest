@@ -20,7 +20,7 @@ public class StarClustersController : BaseController
    [ProducesResponseType(StatusCodes.Status200OK)]
    [ProducesResponseType(StatusCodes.Status409Conflict)]
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-   public async Task<ActionResult<CreateStarClusterResponseDto>> Create([FromBody] CreateStarClusterRequestDto request)
+   public async Task<ActionResult<StarClusterResponseDto>> Create([FromBody] CreateStarClusterRequestDto request)
    {
       Logger.LogInformation("creating star cluster.");
 
@@ -30,26 +30,21 @@ public class StarClustersController : BaseController
          return Problem(error, statusCode: (int?)HttpStatusCode.Conflict);
       }
 
-      // TODO: Start here, this was proof of concept. Need to fix up for correct route.
-      return CreatedAtRoute("GetById", new {id = "123"}, response);
+      return CreatedAtRoute("GetByName", new {name = response.Name}, response);
    }
 
-   [HttpGet("{id}", Name = "GetById")]
+   [HttpGet("{name}", Name = "GetByName")]
    [Produces("application/json")]
    [ProducesResponseType(StatusCodes.Status200OK)]
-   [ProducesResponseType(StatusCodes.Status404NotFound)]
+   [ProducesResponseType(StatusCodes.Status204NoContent)]
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-   public async Task<ActionResult<StarCluster>> GetById([FromRoute(Name = "id")] int id)
+   public async Task<ActionResult<StarClusterResponseDto>> GetByName([FromRoute(Name = "name")] string? name)
    {
-      Logger.LogInformation("getting star cluster.");
+      var (response, error) = await Mediator.Send(new GetStarCluster.Request(name), new CancellationToken(false))
+         .ConfigureAwait(false);
+      if (error != null)
+         return Problem(error, statusCode: (int?)HttpStatusCode.InternalServerError);
 
-      // var response = await Mediator.Send((PersonsGetById.Request)id).ConfigureAwait(false);
-      // if (response == null)
-      //    return NotFound(id);
-
-      // var response = _repo.All().FirstOrDefault();
-
-      var response = new StarCluster {Name = "test name", Description = "test description"};
       return Ok(response);
    }
 }

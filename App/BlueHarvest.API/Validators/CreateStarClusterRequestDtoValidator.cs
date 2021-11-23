@@ -16,6 +16,7 @@ public class CreateStarClusterRequestDtoValidator : AbstractValidator<CreateStar
          }
       });
 
+      // TODO: Finish
       // RuleFor(p => p.Name)
       //    .NotNull()
       //    .NotEmpty();

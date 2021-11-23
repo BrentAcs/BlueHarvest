@@ -41,7 +41,7 @@ public class AutoMapperProfileTests
    }
 
    [Test]
-   public void WillMap_StarCluster_To_CreateStarClusterResponseDto()
+   public void WillMap_StarCluster_To_StarClusterResponseDto()
    {
       var createdOn = DateTime.Now;
       var cluster = new StarCluster
@@ -54,7 +54,7 @@ public class AutoMapperProfileTests
          Size = new Sphere(11)
       };
 
-      var dto = Mapper.Map<CreateStarClusterResponseDto>(cluster);
+      var dto = Mapper.Map<StarClusterResponseDto>(cluster);
 
       StringAssert.AreEqualIgnoringCase("test-name", dto.Name);
       StringAssert.AreEqualIgnoringCase("test-description", dto.Description);
