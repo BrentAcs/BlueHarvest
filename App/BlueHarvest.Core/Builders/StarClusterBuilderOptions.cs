@@ -56,7 +56,7 @@ public class StarClusterBuilderOptions
    public string Name { get; set; } = "(default name)";
    public string Description { get; set; } = "(default description)";
    public string Owner { get; set; } = "(default owner)";
-   public Ellipsoid ClusterSize { get; set; } = new Ellipsoid(25, 25, 10);
+   public Ellipsoid ClusterSize { get; set; } = new(25, 25, 10);
    public MinMax<double> SystemDistance { get; set; } = new(3.0, 10.0);
    
    public PlanetarySystemBuilderOptions? SystemOptions { get; set; } = new();

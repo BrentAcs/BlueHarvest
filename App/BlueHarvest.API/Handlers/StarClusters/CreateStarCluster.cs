@@ -1,60 +1,43 @@
-﻿using BlueHarvest.Core.Geometry;
-using BlueHarvest.Core.Models.Cosmic;
+﻿using BlueHarvest.API.DTOs.Cosmic;
+using BlueHarvest.Core.Builders;
 using BlueHarvest.Core.Storage.Repos;
 using MongoDB.Driver;
 
 namespace BlueHarvest.API.Handlers.StarClusters;
 
-public class CreateStarCluster
+public class CreateStarCluster : IRequestHandler<CreateStarClusterRequestDto, (CreateStarClusterResponseDto, string)>
 {
-   public class Request : IRequest<(Response, string)>
+   private readonly IMediator _mediator;
+   private readonly IMapper _mapper;
+   private readonly IStarClusterRepo _repo;
+   private readonly ILogger<CreateStarCluster> _logger;
+
+   public CreateStarCluster(IMediator mediator, IMapper mapper, IStarClusterRepo repo,
+      ILogger<CreateStarCluster> logger)
    {
-      public string? Name { get; set; }
-      public string? Description { get; set; }
-      public string? Owner { get; set; }
-      public Ellipsoid? Size { get; set; }
+      _mediator = mediator;
+      _mapper = mapper;
+      _repo = repo;
+      _logger = logger;
    }
 
-   public class Response
+   public async Task<(CreateStarClusterResponseDto, string)> Handle(CreateStarClusterRequestDto request,
+      CancellationToken cancellationToken)
    {
-      public string? Name { get; set; }
-      public string? Description { get; set; }
-      public string? Owner { get; set; }
-      public DateTime? CreatedOn { get; set; }
-      public Ellipsoid? Size { get; set; }
-   }
-
-   public class Handler : IRequestHandler<Request, (Response, string)>
-   {
-      private readonly IMapper _mapper;
-      private readonly IStarClusterRepo _repo;
-
-      public Handler(IMapper mapper, IStarClusterRepo repo)
+      try
       {
-         _mapper = mapper;
-         _repo = repo;
+         var clusterCreateOptions = _mapper.Map<StarClusterBuilderOptions>(request);
+         var cluster = await _mediator.Send((StarClusterBuilder.Request)clusterCreateOptions, cancellationToken)
+            .ConfigureAwait(false);
+         var response = _mapper.Map<CreateStarClusterResponseDto>(cluster);
+
+         return (response, null)!;
       }
-
-      public async Task<(Response?, string)> Handle(Request request, CancellationToken cancellationToken)
+      // TODO: refactor this
+      catch (MongoWriteException ex)
       {
-         try
-         {
-            var cluster = _mapper.Map<StarCluster>(request, opts =>
-            {
-               opts.AfterMap((_, d) =>
-               {
-                  d.CreatedOn = DateTime.Now;
-               });
-            });
-            await _repo.InsertOneAsync(cluster, cancellationToken).ConfigureAwait(false);
-            var response = _mapper.Map<Response>(cluster);
-
-            return (response, null);
-         }
-         catch (MongoWriteException ex)
-         {
-            return (null, $"Cluster w/ name '{request.Name}' already exists.");
-         }
+         _logger.LogError(ex, $"Cluster w/ name '{request.Name}' already exists.");
+         return (null, $"Cluster w/ name '{request.Name}' already exists.")!;
       }
    }
 }
