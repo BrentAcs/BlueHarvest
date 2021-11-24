@@ -5,6 +5,7 @@ This document is to serve as design notes and documentation for Blue Harvest.
 # References
 
 [Markdown Ref](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) <br>
+[Git Flow Branching](https://nvie.com/posts/a-successful-git-branching-model/) </br>
 [DTO Naming](https://richarddingwall.name/2010/04/17/try-not-to-call-your-objects-dtos/)
 
 Web/RESTful Refs:<br>
