@@ -66,7 +66,7 @@ public class StarClusterBuilder
             while (toClose)
             {
                var pt = _rng.CreateRandomInside(options.ClusterSize);
-               toClose = points.Any(p => p.DistanceTo(pt) < options.SystemDistance.Min);
+               toClose = points.Any(p => p.DistanceTo(pt) < options.DistanceBetweenSystems.Min);
                if (!toClose)
                {
                   points.Add(pt);

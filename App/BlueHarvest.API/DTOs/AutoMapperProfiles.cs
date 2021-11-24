@@ -8,7 +8,9 @@ public class AutoMapperProfile : Profile
 {
    public AutoMapperProfile()
    {
-      CreateMap<CreateStarClusterRequestDto, StarClusterBuilderOptions>();
-      CreateMap<StarCluster, StarClusterResponseDto>();
+      CreateMap<CreateStarClusterRequest, StarClusterBuilderOptions>()
+         .ForMember(d => d.SystemOptions, opt => opt.MapFrom(s => s.PlanetarySystemOptions));
+
+      CreateMap<StarCluster, StarClusterResponse>();
    }
 }

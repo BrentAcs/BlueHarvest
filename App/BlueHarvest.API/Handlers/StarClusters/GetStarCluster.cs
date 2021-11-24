@@ -3,13 +3,13 @@ using BlueHarvest.Core.Storage.Repos;
 
 namespace BlueHarvest.API.Handlers.StarClusters;
 
-public class GetStarCluster : IRequestHandler<GetStarCluster.Request?, (StarClusterResponseDto, string)>
+public class GetStarCluster : IRequestHandler<GetStarCluster.Request?, (StarClusterResponse, string)>
 {
    private readonly IMapper _mapper;
    private readonly IStarClusterRepo _repo;
    private readonly ILogger<GetStarCluster> _logger;
 
-   public class Request : IRequest<(StarClusterResponseDto?, string)>
+   public class Request : IRequest<(StarClusterResponse?, string)>
    {
       public Request(string? starClusterName=default)
       {
@@ -26,7 +26,7 @@ public class GetStarCluster : IRequestHandler<GetStarCluster.Request?, (StarClus
       _logger = logger;
    }
 
-   public async Task<(StarClusterResponseDto?, string)> Handle(GetStarCluster.Request? request,
+   public async Task<(StarClusterResponse?, string)> Handle(GetStarCluster.Request? request,
       CancellationToken cancellationToken)
    {
       try
@@ -37,7 +37,7 @@ public class GetStarCluster : IRequestHandler<GetStarCluster.Request?, (StarClus
          {
             return (null, null);
          }
-         var response = _mapper.Map<StarClusterResponseDto>(cluster);
+         var response = _mapper.Map<StarClusterResponse>(cluster);
 
          return (response, null);
       }

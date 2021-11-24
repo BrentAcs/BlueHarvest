@@ -2,7 +2,7 @@
 
 namespace BlueHarvest.API.DTOs.Cosmic;
 
-public class StarClusterResponseDto
+public class StarClusterResponse
 {
    public string? Name { get; set; }
    public string? Description { get; set; }

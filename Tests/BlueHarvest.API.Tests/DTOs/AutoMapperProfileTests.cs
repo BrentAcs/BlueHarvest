@@ -17,15 +17,19 @@ public class AutoMapperProfileTests
       }).CreateMapper();
 
    [Test]
-   public void WillMap_CreateStarClusterRequestDto_To_StarClusterBuilderOptions()
+   public void WillMap_CreateStarClusterRequest_To_StarClusterBuilderOptions()
    {
-      var dto = new CreateStarClusterRequestDto
+      var dto = new CreateStarClusterRequest
       {
          Name = "test-name",
          Description = "test-description",
          Owner = "test-owner",
          ClusterSize = new Ellipsoid(10, 20, 30),
-         SystemDistance = new MinMax<double>(42, 69)
+         DistanceBetweenSystems = new MinMax<double>(42, 69),
+         PlanetarySystemOptions = new PlanetarySystemBuilderOptions
+         {
+            SystemRadius = new MinMax<double>(69, 42), DistanceMultiplier = 1.2345
+         }
       };
 
       var options = Mapper.Map<StarClusterBuilderOptions>(dto);
@@ -36,12 +40,15 @@ public class AutoMapperProfileTests
       Assert.AreEqual(10, options.ClusterSize.XRadius);
       Assert.AreEqual(20, options.ClusterSize.YRadius);
       Assert.AreEqual(30, options.ClusterSize.ZRadius);
-      Assert.AreEqual(42, options.SystemDistance.Min);
-      Assert.AreEqual(69, options.SystemDistance.Max);
+      Assert.AreEqual(42, options.DistanceBetweenSystems.Min);
+      Assert.AreEqual(69, options.DistanceBetweenSystems.Max);
+      Assert.AreEqual(69, options.SystemOptions.SystemRadius.Min);
+      Assert.AreEqual(42, options.SystemOptions.SystemRadius.Max);
+      Assert.AreEqual(1.2345, options.SystemOptions.DistanceMultiplier);
    }
 
    [Test]
-   public void WillMap_StarCluster_To_StarClusterResponseDto()
+   public void WillMap_StarCluster_To_StarClusterResponse()
    {
       var createdOn = DateTime.Now;
       var cluster = new StarCluster
@@ -54,7 +61,7 @@ public class AutoMapperProfileTests
          Size = new Sphere(11)
       };
 
-      var dto = Mapper.Map<StarClusterResponseDto>(cluster);
+      var dto = Mapper.Map<StarClusterResponse>(cluster);
 
       StringAssert.AreEqualIgnoringCase("test-name", dto.Name);
       StringAssert.AreEqualIgnoringCase("test-description", dto.Description);
