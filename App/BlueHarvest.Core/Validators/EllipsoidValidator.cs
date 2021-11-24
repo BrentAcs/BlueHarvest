@@ -2,7 +2,7 @@
 
 namespace BlueHarvest.Core.Validators;
 
-public abstract class EllipsoidValidator : AbstractValidator<Ellipsoid>
+public abstract class EllipsoidValidator<T> : AbstractValidator<Ellipsoid>
 {
    protected EllipsoidValidator()
    {

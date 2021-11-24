@@ -11,7 +11,12 @@ public class CreateStarClusterRequestValidator : AbstractValidator<CreateStarClu
       RuleFor(p => p.Name).NotEmpty().MinimumLength(4).MaximumLength(40);
       RuleFor(p => p.Description).NotEmpty().MinimumLength(4).MaximumLength(256);
       RuleFor(p => p.Owner).NotEmpty().MinimumLength(4).MaximumLength(40);
-      RuleFor(p => p.ClusterSize).NotNull().SetValidator( new InsideEllipsoidValidator(100,100,50));
+      RuleFor(p => p.ClusterSize).NotNull().InsideEllipsoid(100, 100, 50);
+      
+      //RuleFor(p => p.ClusterSize).NotNull().SetValidator(new InsideEllipsoidValidator(100, 100, 50)!);
+
+      //RuleFor(p => p.Name).MaximumLength()
+      
 
       RuleFor(dto => dto.Name).CustomAsync(async (name, context, cancellationToken) =>
       {
@@ -31,3 +36,11 @@ public class CreateStarClusterRequestValidator : AbstractValidator<CreateStarClu
       // TODO: Finish
    }
 }
+
+// public static IRuleBuilderOptions<T, string> EmailAddress<T>(
+//    this IRuleBuilder<T, string> ruleBuilder,
+//    EmailValidationMode mode = EmailValidationMode.AspNetCoreCompatible)
+// {
+//    PropertyValidator<T, string> validator = mode == EmailValidationMode.AspNetCoreCompatible ? (PropertyValidator<T, string>) new AspNetCoreCompatibleEmailValidator<T>() : (PropertyValidator<T, string>) new EmailValidator<T>();
+//    return ruleBuilder.SetValidator((IPropertyValidator<T, string>) validator);
+// }
