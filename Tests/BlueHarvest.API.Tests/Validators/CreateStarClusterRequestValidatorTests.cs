@@ -48,7 +48,7 @@ public class CreateStarClusterRequestValidatorTests
          Name = "test",
          Description = "test-description",
          Owner = "test-owner",
-         ClusterSize = new Ellipsoid(101,101,51)
+         ClusterSize = new Ellipsoid(100,100,50)
       });
    }
 
@@ -68,13 +68,13 @@ public class CreateStarClusterRequestValidatorTests
    private static IEnumerable<TestCaseData> InValidCreateStarClusterRequest()
    {
       yield return new TestCaseData(new CreateStarClusterRequest { });
-      // yield return new TestCaseData(new CreateStarClusterRequest {Name = "123", Description = "test-description"
-      // });
-      // yield return new TestCaseData(new CreateStarClusterRequest
-      // {
-      //    Name = "12345678901234567890123456789012345678901",
-      //    Description = "test-description"
-      // });
+      yield return new TestCaseData(new CreateStarClusterRequest
+      {
+         Name = "test",
+         Description = "test-description",
+         Owner = "test-owner",
+         ClusterSize = new Ellipsoid(101,101,51)
+      });
    }
 
    [Test]

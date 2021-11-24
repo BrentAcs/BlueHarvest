@@ -6,83 +6,55 @@ namespace BlueHarvest.Core.Tests.Validators;
 [TestFixture]
 public class EllipsoidValidatorTests
 {
-   [Test]
-   public void ValidateResult_IsValid_WillBeTrue_When_Validator_IsInitializedWithNullValues()
+   public class TestEllipsoidValidator : EllipsoidValidator
    {
-      var validator = new EllipsoidValidator(null, null, null);
-      var result = validator.Validate(new Ellipsoid(9, 19, 29));
-      Assert.IsTrue(result.IsValid);
    }
 
    [Test]
-   public void ValidateResult_IsValid_WillBeTrue_When_ValidatingXRadius_IsLessThan()
+   public void ValidateResult_IsValid_WillBeFalse_When_Ellipsoid_XRadius_IsZero()
    {
-      var validator = new EllipsoidValidator(10, null, null);
-      var result = validator.Validate(new Ellipsoid(9, 9, 9));
-      Assert.IsTrue(result.IsValid);
-   }
-
-   [Test]
-   public void ValidateResult_IsValid_WillBeTrue_When_ValidatingYRadius_IsLessThan()
-   {
-      var validator = new EllipsoidValidator(null, 10, null);
-      var result = validator.Validate(new Ellipsoid(9, 9, 9));
-      Assert.IsTrue(result.IsValid);
-   }
-
-   [Test]
-   public void ValidateResult_IsValid_WillBeTrue_When_ValidatingZRadius_IsLessThan()
-   {
-      var validator = new EllipsoidValidator(null, null, 10);
-      var result = validator.Validate(new Ellipsoid(9, 9, 9));
-      Assert.IsTrue(result.IsValid);
-   }
-
-   [Test]
-   public void ValidateResult_IsValid_WillBeTrue_When_ValidatingXRadius_IsEqualTo()
-   {
-      var validator = new EllipsoidValidator(10, null, null);
-      var result = validator.Validate(new Ellipsoid(10, 10, 10));
-      Assert.IsTrue(result.IsValid);
-   }
-
-   [Test]
-   public void ValidateResult_IsValid_WillBeTrue_When_ValidatingYRadius_IsEqualTo()
-   {
-      var validator = new EllipsoidValidator(null, 10, null);
-      var result = validator.Validate(new Ellipsoid(10, 10, 10));
-      Assert.IsTrue(result.IsValid);
-   }
-
-   [Test]
-   public void ValidateResult_IsValid_WillBeTrue_When_ValidatingZRadius_IsEqualTo()
-   {
-      var validator = new EllipsoidValidator(null, null, 10);
-      var result = validator.Validate(new Ellipsoid(10, 10, 10));
-      Assert.IsTrue(result.IsValid);
-   }
-
-   [Test]
-   public void ValidateResult_IsValid_WillBeFalse_When_ValidatingXRadius_IsGreaterThan()
-   {
-      var validator = new EllipsoidValidator(10, null, null);
-      var result = validator.Validate(new Ellipsoid(11, 11, 11));
+      var validator = new TestEllipsoidValidator();
+      var result = validator.Validate(new Ellipsoid(0, 10, 10));
       Assert.IsFalse(result.IsValid);
    }
 
    [Test]
-   public void ValidateResult_IsValid_WillBeFalse_When_ValidatingYRadius_IsGreaterThan()
+   public void ValidateResult_IsValid_WillBeFalse_When_Ellipsoid_XRadius_IsLessThanZero()
    {
-      var validator = new EllipsoidValidator(null, 10, null);
-      var result = validator.Validate(new Ellipsoid(11, 11, 11));
+      var validator = new TestEllipsoidValidator();
+      var result = validator.Validate(new Ellipsoid(-10, 10, 10));
       Assert.IsFalse(result.IsValid);
    }
 
    [Test]
-   public void ValidateResult_IsValid_WillBeFalse_When_ValidatingZRadius_IsGreaterThan()
+   public void ValidateResult_IsValid_WillBeFalse_When_Ellipsoid_YRadius_IsZero()
    {
-      var validator = new EllipsoidValidator(null, null, 10);
-      var result = validator.Validate(new Ellipsoid(11, 11, 11));
+      var validator = new TestEllipsoidValidator();
+      var result = validator.Validate(new Ellipsoid(10, 0, 10));
+      Assert.IsFalse(result.IsValid);
+   }
+
+   [Test]
+   public void ValidateResult_IsValid_WillBeFalse_When_Ellipsoid_YRadius_IsLessThanZero()
+   {
+      var validator = new TestEllipsoidValidator();
+      var result = validator.Validate(new Ellipsoid(10, -10, 10));
+      Assert.IsFalse(result.IsValid);
+   }
+
+   [Test]
+   public void ValidateResult_IsValid_WillBeFalse_When_Ellipsoid_ZRadius_IsZero()
+   {
+      var validator = new TestEllipsoidValidator();
+      var result = validator.Validate(new Ellipsoid(10, 10, -10));
+      Assert.IsFalse(result.IsValid);
+   }
+
+   [Test]
+   public void ValidateResult_IsValid_WillBeFalse_When_Ellipsoid_ZRadius_IsLessThanZero()
+   {
+      var validator = new TestEllipsoidValidator();
+      var result = validator.Validate(new Ellipsoid(10, 10, -10));
       Assert.IsFalse(result.IsValid);
    }
 }

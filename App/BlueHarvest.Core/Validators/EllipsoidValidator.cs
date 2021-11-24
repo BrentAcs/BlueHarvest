@@ -2,18 +2,12 @@
 
 namespace BlueHarvest.Core.Validators;
 
-public class EllipsoidValidator : AbstractValidator<Ellipsoid>
+public abstract class EllipsoidValidator : AbstractValidator<Ellipsoid>
 {
-   public EllipsoidValidator(double? maxXRadius, double? maxYRadius, double? maxZRadius)
+   protected EllipsoidValidator()
    {
-      RuleFor(p => p.XRadius)
-         .LessThanOrEqualTo( p=> maxXRadius)
-         .When(p => maxXRadius.HasValue);
-      RuleFor(p => p.YRadius)
-         .LessThanOrEqualTo( p=> maxYRadius)
-         .When(p => maxYRadius.HasValue);
-      RuleFor(p => p.ZRadius)
-         .LessThanOrEqualTo( p=> maxZRadius)
-         .When(p => maxZRadius.HasValue);
+      RuleFor(p => p.XRadius).GreaterThan(0);
+      RuleFor(p => p.YRadius).GreaterThan(0);
+      RuleFor(p => p.ZRadius).GreaterThan(0);
    }
 }

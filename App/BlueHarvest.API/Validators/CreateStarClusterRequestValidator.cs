@@ -11,7 +11,7 @@ public class CreateStarClusterRequestValidator : AbstractValidator<CreateStarClu
       RuleFor(p => p.Name).NotEmpty().MinimumLength(4).MaximumLength(40);
       RuleFor(p => p.Description).NotEmpty().MinimumLength(4).MaximumLength(256);
       RuleFor(p => p.Owner).NotEmpty().MinimumLength(4).MaximumLength(40);
-      RuleFor(p => p.ClusterSize).NotNull().SetValidator( new EllipsoidValidator(100,100,50));
+      RuleFor(p => p.ClusterSize).NotNull().SetValidator( new InsideEllipsoidValidator(100,100,50));
 
       RuleFor(dto => dto.Name).CustomAsync(async (name, context, cancellationToken) =>
       {
