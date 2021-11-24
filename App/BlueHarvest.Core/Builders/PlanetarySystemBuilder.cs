@@ -56,7 +56,7 @@ public class PlanetarySystemBuilder
          {
             ClusterId = request.ClusterId,
             StarType = starDescriptor.StarType,
-            StarMass = _rng.Next(starDescriptor.MassRange),
+            StarMass = _rng.Next(starDescriptor.MassRange ?? throw new InvalidOperationException()),
             Location = request.Location,
             Name = _entityDesignator.Generate(),
             Size = new Sphere(systemRadius)

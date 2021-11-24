@@ -1,6 +1,7 @@
 ﻿global using System.Linq.Expressions;
 global using System.Reflection;
 global using System.Runtime.Serialization;
+global using FluentValidation;
 global using MediatR;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;

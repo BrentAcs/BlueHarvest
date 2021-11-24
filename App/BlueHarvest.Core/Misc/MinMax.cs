@@ -1,3 +1,3 @@
 ﻿namespace BlueHarvest.Core.Misc;
 
-public record MinMax<T>(T Min, T Max);
+public record MinMax<T>(T? Min=default, T? Max=default);

@@ -1,15 +1,33 @@
 # Introduction
 
-[Markdown Ref](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-
 This document is to serve as design notes and documentation for Blue Harvest.
+
+# References
+
+[Markdown Ref](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) <br>
+[Git Flow Branching](https://nvie.com/posts/a-successful-git-branching-model/) </br>
+[DTO Naming](https://richarddingwall.name/2010/04/17/try-not-to-call-your-objects-dtos/)
+
+Web/RESTful Refs:<br>
+[First Web API](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-5.0&tabs=visual-studio) <br>
+[CRUD API design](https://stoplight.io/blog/crud-api-design/) <br>
+[Use CreateXXX](https://stackoverflow.com/questions/37839278/asp-net-core-rc2-web-api-post-when-to-use-create-createdataction-vs-created) <br>
+[CQRS in ASPNET Core](https://code-maze.com/cqrs-mediatr-in-aspnet-core/) <br>
+[Pragmatic RESTful API](https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api) <br>
+
+| API | route | Description | Request Body | Response Body |
+|:---|:---|:---|:---|:---|
+| POST | /api/persons | Add a Person | Person | Person |
+| GET | /api/persons/{id} | Get a Person by ID | None | Person |
+| GET | /api/persons | Get all Persons | None | Collection of Persons |
+| PUT | /api/persons/{id} | Update an existing Person | Person | None |
+| DELETE | /api/persons/{id} | Delete an Person | None | None |
 
 # Definitions
 
 - _Cluster_: - The 'World' in Blue Harvest. Collection of Stars, their planets and moons and other objects.
 - _Fleet_: Collection of one or more ships used by the player or NPCs.
 - _Jump Portal_: Method of travel in Blue Harvest.
-
 
 # Stars
 Links: <br>

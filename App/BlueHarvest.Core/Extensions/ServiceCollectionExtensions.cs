@@ -9,11 +9,13 @@ namespace BlueHarvest.Core.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-   public static IServiceCollection AddBlueHarvestCommon(this IServiceCollection services)
+   public static IServiceCollection AddBlueHarvestCommon(this IServiceCollection services,
+      IEnumerable<Assembly> assemblies)
    {
       services
          // https://medium.com/dotnet-hub/use-mediatr-in-asp-net-or-asp-net-core-cqrs-and-mediator-in-dotnet-how-to-use-mediatr-cqrs-aspnetcore-5076e2f2880c
-         .AddMediatR(typeof(IRootModel))
+         .AddMediatR(assemblies.ToArray())
+         .AddAutoMapper(assemblies)
          .AddSingleton<IEntityDesignator, EntityDesignator>()
          .AddSingleton<IRng, SimpleRng>()
          .AddScoped<IPlanetDescriptorService, PlanetDescriptorService>()

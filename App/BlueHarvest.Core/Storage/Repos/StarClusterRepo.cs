@@ -5,7 +5,7 @@ namespace BlueHarvest.Core.Storage.Repos;
 
 public interface IStarClusterRepo : IMongoRepository<StarCluster>
 {
-   Task<IAsyncCursor<StarCluster>> FindByNameAsync(string name);
+   Task<IAsyncCursor<StarCluster>> FindByNameAsync(string name, CancellationToken cancellationToken = default);
 }
 
 public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRepo
@@ -37,7 +37,7 @@ public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRep
       }
    }
 
-   public Task<IAsyncCursor<StarCluster>> FindByNameAsync(string name) =>
+   public Task<IAsyncCursor<StarCluster>> FindByNameAsync(string name, CancellationToken cancellationToken = default) =>
       Task.Run(() =>
       {
          var filter = Builders<StarCluster>
@@ -47,6 +47,6 @@ public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRep
             Collation = new Collation("en_US", strength: CollationStrength.Primary)
          };
 
-         return Collection.FindAsync(filter, options);
-      });
+         return Collection.FindAsync(filter, options, cancellationToken);
+      }, cancellationToken);
 }

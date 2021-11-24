@@ -13,7 +13,7 @@ public interface IChanceTable<T>
 
 public class ChanceTable<T> : IChanceTable<T>
 {
-   private record Item<T>
+   private record Item
    {
       public Item(T value, double chance = double.MaxValue)
       {
@@ -25,7 +25,7 @@ public class ChanceTable<T> : IChanceTable<T>
       public double Chance { get; set; }
    }
 
-   private readonly IList<Item<T>> _items = new List<Item<T>>();
+   private readonly IList<Item> _items = new List<Item>();
 
    public int Count => _items.Count;
 
@@ -49,7 +49,7 @@ public class ChanceTable<T> : IChanceTable<T>
             throw new ArgumentException("item chance will exceed 100%.");
       }
 
-      _items.Add(new Item<T>(item, chance));
+      _items.Add(new Item(item, chance));
    }
 
    public void Clear() =>

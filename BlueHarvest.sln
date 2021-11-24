@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.API", "App\Blue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.Core.IntegrationTests", "Tests\BlueHarvest.Core.IntegrationTests\BlueHarvest.Core.IntegrationTests.csproj", "{27ACE996-3CCF-45B2-9C76-0C36BBBAFC26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.API.Tests", "Tests\BlueHarvest.API.Tests\BlueHarvest.API.Tests.csproj", "{B381A946-ACCA-4C53-AF0C-A774D5FF6FD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{27ACE996-3CCF-45B2-9C76-0C36BBBAFC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27ACE996-3CCF-45B2-9C76-0C36BBBAFC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27ACE996-3CCF-45B2-9C76-0C36BBBAFC26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B381A946-ACCA-4C53-AF0C-A774D5FF6FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B381A946-ACCA-4C53-AF0C-A774D5FF6FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B381A946-ACCA-4C53-AF0C-A774D5FF6FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B381A946-ACCA-4C53-AF0C-A774D5FF6FD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{999A9278-45C2-4F3F-ACBB-43A7380AE94B} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
 		{2CE123C5-601E-4FAA-B72E-D6E39E623541} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
 		{27ACE996-3CCF-45B2-9C76-0C36BBBAFC26} = {2A50C8A1-DBA6-42AF-9B7B-C164B519ED79}
+		{B381A946-ACCA-4C53-AF0C-A774D5FF6FD7} = {2A50C8A1-DBA6-42AF-9B7B-C164B519ED79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D2D4C56-77DA-4DED-AC0E-30E4627BAB5F}

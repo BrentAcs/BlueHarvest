@@ -8,7 +8,7 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
    {
       MongoContext = mongoContext;
       Logger = logger;
-      Collection = MongoContext.Db.GetCollection<TDoc>(CollectionName);
+      Collection = MongoContext!.Db.GetCollection<TDoc>(CollectionName);
    }
 
    protected IMongoContext? MongoContext { get; set; }

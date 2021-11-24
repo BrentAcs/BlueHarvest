@@ -1,12 +1,9 @@
 ﻿using BlueHarvest.Core.Geometry;
-using BlueHarvest.Core.Storage;
 
-namespace BlueHarvest.Core.Models.Cosmic;
+namespace BlueHarvest.API.DTOs.Cosmic;
 
-[BsonCollection(CollectionNames.StarClusters)]
-public class StarCluster : IMongoDocument, IRootModel
+public class StarClusterResponse
 {
-   public ObjectId Id { get; set; }
    public string? Name { get; set; }
    public string? Description { get; set; }
    public string? Owner { get; set; }

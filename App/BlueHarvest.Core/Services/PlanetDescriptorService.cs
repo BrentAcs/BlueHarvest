@@ -48,7 +48,7 @@ public class PlanetDescriptorService : IPlanetDescriptorService
          .Select(d => d.PlanetType)
          .ToList();
 
-      return planetTypes[_rng.Next(0, planetTypes.Count - 1)];
+      return planetTypes![_rng.Next(0, planetTypes.Count - 1)];
    }
 
    public PlanetDescriptor GetRandomPlanetDescriptor(PlanetaryZone zone)
@@ -57,6 +57,6 @@ public class PlanetDescriptorService : IPlanetDescriptorService
          .Where(d => d?.Zones != null && d.Zones.Contains(zone))
          .ToList();
 
-      return range[_rng.Next(0, range.Count - 1)];
+      return range![_rng.Next(0, range.Count - 1)];
    }
 }

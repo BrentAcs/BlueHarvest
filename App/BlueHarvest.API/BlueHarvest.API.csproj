@@ -7,7 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="10.1.1" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
         <PackageReference Include="MediatR" Version="9.0.0" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
         <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
@@ -18,6 +21,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BlueHarvest.Core\BlueHarvest.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="_Logs" />
     </ItemGroup>
 
 </Project>

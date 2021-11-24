@@ -11,7 +11,7 @@ public class StarClusterBuilderOptions
       Description = "Work in Progress Cluster (Extra Large)",
       Owner = "System",
       ClusterSize = new Ellipsoid(150, 150, 25),
-      SystemDistance = new MinMax<double>(5, 10)
+      DistanceBetweenSystems = new MinMax<double>(5, 10)
    };
    
    public static StarClusterBuilderOptions Large => new()
@@ -20,7 +20,7 @@ public class StarClusterBuilderOptions
       Description = "Work in Progress Cluster (Large)",
       Owner = "System",
       ClusterSize = new Ellipsoid(100, 100, 20),
-      SystemDistance = new MinMax<double>(5, 10)
+      DistanceBetweenSystems = new MinMax<double>(5, 10)
    };
    
    public static StarClusterBuilderOptions Medium => new()
@@ -29,7 +29,7 @@ public class StarClusterBuilderOptions
       Description = "Work in Progress Cluster (Medium)",
       Owner = "System",
       ClusterSize = new Ellipsoid(50, 50, 15),
-      SystemDistance = new MinMax<double>(5, 10)
+      DistanceBetweenSystems = new MinMax<double>(5, 10)
    };
    
    public static StarClusterBuilderOptions Small => new()
@@ -38,7 +38,7 @@ public class StarClusterBuilderOptions
       Description = "Work in Progress Cluster (Small)",
       Owner = "System",
       ClusterSize = new Ellipsoid(25, 25, 10),
-      SystemDistance = new MinMax<double>(5, 10)
+      DistanceBetweenSystems = new MinMax<double>(5, 10)
    };
    
    public static StarClusterBuilderOptions Test => new()
@@ -47,7 +47,7 @@ public class StarClusterBuilderOptions
       Description = "Work in Progress Cluster (Test)",
       Owner = "System",
       ClusterSize = new Ellipsoid(5, 5, 5),
-      SystemDistance = new MinMax<double>(2, 5)
+      DistanceBetweenSystems = new MinMax<double>(2, 5)
    };
    
    // https://www.quora.com/How-many-balls-of-diameter-1-can-be-put-in-a-spherical-container-of-diameter-10
@@ -56,12 +56,12 @@ public class StarClusterBuilderOptions
    public string Name { get; set; } = "(default name)";
    public string Description { get; set; } = "(default description)";
    public string Owner { get; set; } = "(default owner)";
-   public Ellipsoid ClusterSize { get; set; } = new Ellipsoid(25, 25, 10);
-   public MinMax<double> SystemDistance { get; set; } = new(3.0, 10.0);
+   public Ellipsoid ClusterSize { get; set; } = new(25, 25, 10);
+   public MinMax<double> DistanceBetweenSystems { get; set; } = new(3.0, 10.0);
    
    public PlanetarySystemBuilderOptions? SystemOptions { get; set; } = new();
    
    [JsonIgnore]
    public long MaximumPossibleSystems =>
-      (long)((ClusterSize.Volume / new Sphere(SystemDistance.Min).Volume) * SpherePackFactor);
+      (long)((ClusterSize.Volume / new Sphere(DistanceBetweenSystems.Min).Volume) * SpherePackFactor);
 }
