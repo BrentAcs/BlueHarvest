@@ -11,3 +11,4 @@ public abstract class EllipsoidValidator<T> : AbstractValidator<Ellipsoid>
       RuleFor(p => p.ZRadius).GreaterThan(0);
    }
 }
+
