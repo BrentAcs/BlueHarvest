@@ -1,4 +1,5 @@
 ﻿using BlueHarvest.API.DTOs.Cosmic;
+using BlueHarvest.Core.Misc;
 using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Validators;
 
@@ -12,11 +13,7 @@ public class CreateStarClusterRequestValidator : AbstractValidator<CreateStarClu
       RuleFor(p => p.Description).NotEmpty().MinimumLength(4).MaximumLength(256);
       RuleFor(p => p.Owner).NotEmpty().MinimumLength(4).MaximumLength(40);
       RuleFor(p => p.ClusterSize).NotNull().InsideEllipsoid(100, 100, 50);
-      
-      //RuleFor(p => p.ClusterSize).NotNull().SetValidator(new InsideEllipsoidValidator(100, 100, 50)!);
-
-      //RuleFor(p => p.Name).MaximumLength()
-      
+      RuleFor(p => p.DistanceBetweenSystems).NotNull().InsideInclusive(3, 10);
 
       RuleFor(dto => dto.Name).CustomAsync(async (name, context, cancellationToken) =>
       {

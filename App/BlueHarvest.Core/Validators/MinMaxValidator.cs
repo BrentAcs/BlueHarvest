@@ -2,30 +2,48 @@
 
 namespace BlueHarvest.Core.Validators;
 
-// InsideExclusive
-// InsideInclusive
-// OutsideInclusive
-// OutsideExclusive
+// TODO: OutsideInclusive
+// TODO: OutsideExclusive
 
-public abstract class MinMaxValidator : AbstractValidator<MinMax<int>>
+public abstract class MinMaxValidator<T> : AbstractValidator<MinMax<T>>
 {
 }
 
-public class InsideExclusiveValidator : MinMaxValidator
+public class InsideInclusiveValidator<T> : MinMaxValidator<T> where T : IComparable<T?>, IComparable
 {
-   public InsideExclusiveValidator(int min, int max)
+   public InsideInclusiveValidator(T min, T max)
    {
-      RuleFor(p => p.Min).GreaterThan(min);
-      RuleFor(p => p.Max).LessThan(max);
+      RuleFor(p => p.Min).GreaterThanOrEqualTo(min)
+         .WithMessage($"'{min}' must be greater than or equal to Min value");
+      RuleFor(p => p.Max).LessThanOrEqualTo(max)
+         .WithMessage($"'{max}' must be less than or equal to Max value");
+   }
+}
+
+public class InsideExclusiveValidator<T> : MinMaxValidator<T> where T : IComparable<T?>, IComparable
+{
+   public InsideExclusiveValidator(T min, T max)
+   {
+      RuleFor(p => p.Min).GreaterThan(min)
+         .WithMessage($"'{min}' must be greater than to Min value");
+      RuleFor(p => p.Max).LessThan(max)
+         .WithMessage($"'{max}' must be less than to Max value");
    }
 }
 
 public static class MinMaxValidatorExtensions
 {
-   public static IRuleBuilderOptions<T, MinMax<int>> InsideInclusive<T>(
-      this IRuleBuilder<T, MinMax<int>> ruleBuilder, int min, int max)
+   public static IRuleBuilderOptions<T, MinMax<TV>> InsideInclusive<T, TV>(
+      this IRuleBuilder<T, MinMax<TV>> ruleBuilder, TV min, TV max) where TV : IComparable<TV?>, IComparable
    {
-      var validator = new InsideExclusiveValidator(min, max);
+      var validator = new InsideInclusiveValidator<TV>(min, max);
+      return ruleBuilder.SetValidator(validator);
+   }
+
+   public static IRuleBuilderOptions<T, MinMax<TV>> InsideExclusive<T, TV>(
+      this IRuleBuilder<T, MinMax<TV>> ruleBuilder, TV min, TV max) where TV : IComparable<TV?>, IComparable
+   {
+      var validator = new InsideExclusiveValidator<TV>(min, max);
       return ruleBuilder.SetValidator(validator);
    }
 }
