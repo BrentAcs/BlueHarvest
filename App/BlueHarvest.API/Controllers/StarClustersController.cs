@@ -15,12 +15,18 @@ public class StarClustersController : BaseController
    }
 
    [HttpPost(Name = "Create")]
-   [ProducesResponseType(StatusCodes.Status200OK)]
+   [ProducesResponseType(StatusCodes.Status201Created)]
+   [ProducesResponseType(StatusCodes.Status204NoContent)]
    [ProducesResponseType(StatusCodes.Status409Conflict)]
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
    public async Task<ActionResult<StarClusterResponse>> Create([FromBody] CreateStarClusterRequest request)
    {
       Logger.LogInformation("creating star cluster.");
+      if (IsValidateOnlyRequest())
+      {
+         Logger.LogInformation("Request was validate only, return no content.");
+         return NoContent();
+      }
 
       var (response, error) = await Mediator.Send(request, new CancellationToken(false)).ConfigureAwait(false);
       if (response is null)

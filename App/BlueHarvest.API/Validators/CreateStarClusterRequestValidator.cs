@@ -14,7 +14,6 @@ public class CreateStarClusterRequestValidator : AbstractValidator<CreateStarClu
       RuleFor(p => p.Owner).NotEmpty().MinimumLength(4).MaximumLength(40);
       RuleFor(p => p.ClusterSize).NotNull().InsideEllipsoid(100, 100, 50);
       RuleFor(p => p.DistanceBetweenSystems).NotNull().InsideInclusive(3, 10);
-
       RuleFor(dto => dto.Name).CustomAsync(async (name, context, cancellationToken) =>
       {
          var result = await repo.FindByNameAsync(name, cancellationToken).ConfigureAwait(false);
@@ -24,13 +23,8 @@ public class CreateStarClusterRequestValidator : AbstractValidator<CreateStarClu
          }
       });
 
-
-// public Ellipsoid? ClusterSize { get; set; }
-// public MinMax<double>? DistanceBetweenSystems { get; set; }
-//
-// public PlanetarySystemBuilderOptions? PlanetarySystemOptions { get; set; }
-
       // TODO: Finish
+      // public PlanetarySystemBuilderOptions? PlanetarySystemOptions { get; set; }
    }
 }
 
