@@ -3,7 +3,7 @@ using BlueHarvest.Core.Builders;
 
 namespace BlueHarvest.API.Handlers.StarClusters;
 
-public class CreateStarCluster : IRequestHandler<CreateStarClusterRequest, (StarClusterResponse, string)>
+public class CreateStarCluster : IRequestHandler<CreateStarClusterRequest, (StarClusterResponse?, string?)>
 {
    private readonly IMediator _mediator;
    private readonly IMapper _mapper;
@@ -16,7 +16,7 @@ public class CreateStarCluster : IRequestHandler<CreateStarClusterRequest, (Star
       _logger = logger;
    }
 
-   public async Task<(StarClusterResponse, string)> Handle(CreateStarClusterRequest request,
+   public async Task<(StarClusterResponse?, string?)> Handle(CreateStarClusterRequest request,
       CancellationToken cancellationToken)
    {
       try

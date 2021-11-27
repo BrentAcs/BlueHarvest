@@ -6,7 +6,6 @@ namespace BlueHarvest.API.DTOs.Cosmic;
 
 public class CreateStarClusterRequest : IRequest<(StarClusterResponse, string)>
 {
-   // StarClusterBuilderOptions
    /// <summary>
    /// Name of the Star Cluster, must be unique.
    /// </summary>

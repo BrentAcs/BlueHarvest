@@ -14,9 +14,9 @@ public class InsideInclusiveValidator<T> : MinMaxValidator<T> where T : ICompara
    public InsideInclusiveValidator(T min, T max)
    {
       RuleFor(p => p.Min).GreaterThanOrEqualTo(min)
-         .WithMessage($"'{min}' must be greater than or equal to Min value");
+         .WithMessage($"{min} must be greater than or equal to Min value");
       RuleFor(p => p.Max).LessThanOrEqualTo(max)
-         .WithMessage($"'{max}' must be less than or equal to Max value");
+         .WithMessage($"{max} must be less than or equal to Max value");
    }
 }
 
@@ -25,9 +25,9 @@ public class InsideExclusiveValidator<T> : MinMaxValidator<T> where T : ICompara
    public InsideExclusiveValidator(T min, T max)
    {
       RuleFor(p => p.Min).GreaterThan(min)
-         .WithMessage($"'{min}' must be greater than to Min value");
+         .WithMessage($"{min} must be greater than to Min value");
       RuleFor(p => p.Max).LessThan(max)
-         .WithMessage($"'{max}' must be less than to Max value");
+         .WithMessage($"{max} must be less than to Max value");
    }
 }
 
