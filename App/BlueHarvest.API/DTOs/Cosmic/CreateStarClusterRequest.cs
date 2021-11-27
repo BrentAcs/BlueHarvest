@@ -4,7 +4,7 @@ using BlueHarvest.Core.Misc;
 
 namespace BlueHarvest.API.DTOs.Cosmic;
 
-public class CreateStarClusterRequest : IRequest<(StarClusterResponse, string)>
+public class CreateStarClusterRequest : IRequest<(StarClusterResponse?, string?)>
 {
    /// <summary>
    /// Name of the Star Cluster, must be unique.

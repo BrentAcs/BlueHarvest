@@ -3,12 +3,8 @@ using BlueHarvest.Core.Storage.Repos;
 
 namespace BlueHarvest.API.Handlers.StarClusters;
 
-public class GetStarCluster : IRequestHandler<GetStarCluster.Request, (StarClusterResponse?, string?)>
+public class GetStarCluster
 {
-   private readonly IMapper _mapper;
-   private readonly IStarClusterRepo _repo;
-   private readonly ILogger<GetStarCluster> _logger;
-
    public class Request : IRequest<(StarClusterResponse?, string?)>
    {
       public Request(string? starClusterName = default)
@@ -19,34 +15,41 @@ public class GetStarCluster : IRequestHandler<GetStarCluster.Request, (StarClust
       public string? StarClusterName { get; set; }
    }
 
-   public GetStarCluster(IMapper mapper, IStarClusterRepo repo, ILogger<GetStarCluster> logger)
+   public class Handler : IRequestHandler<Request, (StarClusterResponse?, string?)>
    {
-      _mapper = mapper;
-      _repo = repo;
-      _logger = logger;
-   }
+      private readonly IMapper _mapper;
+      private readonly IStarClusterRepo _repo;
+      private readonly ILogger<GetStarCluster> _logger;
 
-   public async Task<(StarClusterResponse?, string?)> Handle(Request? request,
-      CancellationToken cancellationToken)
-   {
-      try
+      public Handler(IMapper mapper, IStarClusterRepo repo, ILogger<GetStarCluster> logger)
       {
-         var cursor = await _repo.FindByNameAsync(request.StarClusterName, cancellationToken).ConfigureAwait(false);
-         var cluster = await cursor.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-         if (cluster is null)
-         {
-            return (null, null);
-         }
-
-         var response = _mapper.Map<StarClusterResponse>(cluster);
-
-         return (response, null);
+         _mapper = mapper;
+         _repo = repo;
+         _logger = logger;
       }
-      catch (Exception? ex)
+
+      public async Task<(StarClusterResponse?, string?)> Handle(Request? request,
+         CancellationToken cancellationToken)
       {
-         _logger.LogError(ex,
-            $"Error getting star cluster for name '{request?.StarClusterName}'. Error: {ex?.Message}");
-         return (null, $"Error getting star cluster for name '{request?.StarClusterName}'. Error: {ex?.Message}");
+         try
+         {
+            var cursor = await _repo.FindByNameAsync(request.StarClusterName, cancellationToken).ConfigureAwait(false);
+            var cluster = await cursor.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+            if (cluster is null)
+            {
+               return (null, null);
+            }
+
+            var response = _mapper.Map<StarClusterResponse>(cluster);
+
+            return (response, null);
+         }
+         catch (Exception? ex)
+         {
+            _logger.LogError(ex,
+               $"Error getting star cluster for name '{request?.StarClusterName}'. Error: {ex?.Message}");
+            return (null, $"Error getting star cluster for name '{request?.StarClusterName}'. Error: {ex?.Message}");
+         }
       }
    }
 }
