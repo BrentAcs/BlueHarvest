@@ -11,4 +11,16 @@ public abstract class BaseController : Controller
       Mediator = mediator;
       Logger = logger;
    }
+
+   private const string ValidateOnly = "ValidateOnly";
+   protected bool IsValidateOnlyRequest()
+   {
+      bool validateOnly = false;
+      if (Request.Headers.ContainsKey(ValidateOnly))
+      {
+         _ = bool.TryParse(Request.Headers[ValidateOnly], out validateOnly);
+      }
+
+      return validateOnly;
+   }
 }

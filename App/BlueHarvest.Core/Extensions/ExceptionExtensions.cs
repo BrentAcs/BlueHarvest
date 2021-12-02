@@ -10,7 +10,6 @@ public static class ExceptionExtensions
       var detail = new
       {
          Message = ex?.Message,
-         HResult = $"0x{ex?.HResult:X}",
          Source = ex?.Source,
          StackTrace = ex?.StackTrace?.Split(Environment.NewLine),
          Inner = ex?.InnerException?.GetDeepDetail()
