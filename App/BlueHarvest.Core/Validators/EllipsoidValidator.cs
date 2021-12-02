@@ -2,7 +2,7 @@
 
 namespace BlueHarvest.Core.Validators;
 
-public abstract class EllipsoidValidator : AbstractValidator<Ellipsoid>
+public abstract class EllipsoidValidator<T> : AbstractValidator<Ellipsoid>
 {
    protected EllipsoidValidator()
    {
@@ -11,3 +11,4 @@ public abstract class EllipsoidValidator : AbstractValidator<Ellipsoid>
       RuleFor(p => p.ZRadius).GreaterThan(0);
    }
 }
+

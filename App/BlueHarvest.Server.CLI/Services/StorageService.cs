@@ -16,19 +16,12 @@ internal interface IStorageService : IBaseService
 
 internal class StorageService : BaseService,
    IStorageService
-   //, INotificationHandler<ServiceNotification>
 {
    private readonly IMediator _mediator;
    private readonly IMongoContext _mongoContext;
    private readonly IEnumerable<IMongoRepository> _mongoRepos;
    private readonly IStarClusterRepo _starClusterRepo;
    private readonly IPlanetarySystemRepo _planetarySystemRepo;
-
-   // public Task Handle(ServiceNotification notification, CancellationToken cancellationToken)
-   // {
-   //    WriteLine($"Svc Msg: {notification?.Message}");
-   //    return Task.CompletedTask;
-   // }
 
    public StorageService(
       IConfiguration configuration,
@@ -51,14 +44,18 @@ internal class StorageService : BaseService,
 
    protected override void AddActions()
    {
-      AddMenuAction(ConsoleKey.D, "Drop Database (Initialize)", DropDatabase);
-      AddMenuAction(ConsoleKey.I, "Initialize Database.", InitializeDatabase);
+      AddMenuAction(ConsoleKey.D, "Drop DB", DropDb);
+      AddMenuAction(ConsoleKey.I, "Initialize DB.", InitializeDb);
+      AddMenuAction(ConsoleKey.R, "Reset DB (drop and initialize).", ResetDb);
       AddMenuAction(ConsoleKey.L, "List Clusters", ListStarClusters);
       AddMenuAction(ConsoleKey.B, "Build Cluster", BuildStarCluster);
       AddMenuAction(ConsoleKey.T, "Test", TestProc);
    }
 
-   private void DropDatabase()
+   private void DropDb() =>
+      DropDb(false);
+
+   private void DropDb(bool initDb=false)
    {
       ClearScreen("Dropping Database...");
 
@@ -68,16 +65,18 @@ internal class StorageService : BaseService,
       {
          WriteLine("Deleting...");
          _mongoContext.Client.DropDatabaseAsync(_mongoContext.Settings.DatabaseName).ConfigureAwait(false);
-         WriteLine("Initializing...");
-         Task.WaitAll(_mongoRepos.InitializeAllIndexesAsync());
-         WriteLine("Seeding...");
-         Task.WaitAll(_mongoRepos.SeedAllDataAsync());
+
+         if (initDb)
+         {
+            InitializeDb();
+            return;
+         }
       }
 
       ShowContinue();
    }
 
-   private void InitializeDatabase()
+   private void InitializeDb()
    {
       WriteLine("Initializing...");
       Task.WaitAll(_mongoRepos.InitializeAllIndexesAsync());
@@ -85,6 +84,9 @@ internal class StorageService : BaseService,
       Task.WaitAll(_mongoRepos.SeedAllDataAsync());
       ShowContinue();
    }
+
+   private void ResetDb() =>
+      DropDb(true);
 
    private async void BuildStarCluster()
    {
@@ -206,13 +208,3 @@ internal class StorageService : BaseService,
       //WriteLine(fullCluster);
    }
 }
-
-// public record ServiceNotification : INotification
-// {
-//    public ServiceNotification(string message)
-//    {
-//       Message = message;
-//    }
-//
-//    public string? Message { get; set; }
-// }

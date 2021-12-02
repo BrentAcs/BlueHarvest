@@ -1,6 +1,7 @@
 ﻿using BlueHarvest.API.DTOs.Cosmic;
 using BlueHarvest.API.Validators;
 using BlueHarvest.Core.Geometry;
+using BlueHarvest.Core.Misc;
 using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Storage.Repos;
 using MongoDB.Driver;
@@ -48,7 +49,8 @@ public class CreateStarClusterRequestValidatorTests
          Name = "test",
          Description = "test-description",
          Owner = "test-owner",
-         ClusterSize = new Ellipsoid(100,100,50)
+         ClusterSize = new Ellipsoid(100,100,50),
+         DistanceBetweenSystems = new MinMax<double>(3, 10)
       });
    }
 
@@ -73,7 +75,8 @@ public class CreateStarClusterRequestValidatorTests
          Name = "test",
          Description = "test-description",
          Owner = "test-owner",
-         ClusterSize = new Ellipsoid(101,101,51)
+         ClusterSize = new Ellipsoid(101,101,51),
+         DistanceBetweenSystems = new MinMax<double>(2, 11)
       });
    }
 

@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		.gitignore = .gitignore
 		notes.md = notes.md
 		README.md = README.md
+		RunServerCLI.bat = RunServerCLI.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.API", "App\BlueHarvest.API\BlueHarvest.API.csproj", "{2CE123C5-601E-4FAA-B72E-D6E39E623541}"
