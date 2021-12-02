@@ -1,9 +1,10 @@
-﻿using BlueHarvest.API.DTOs.Cosmic;
-using BlueHarvest.Core.Builders;
+﻿using BlueHarvest.Core.Builders;
+using BlueHarvest.Core.Commands.Cosmic;
+using BlueHarvest.Core.Responses.Cosmic;
 
 namespace BlueHarvest.API.Handlers.StarClusters;
 
-public class CreateStarCluster : IRequestHandler<CreateStarClusterRequest, (StarClusterResponse?, string?)>
+public class CreateStarCluster : IRequestHandler<Core.Commands.Cosmic.CreateStarCluster, (StarClusterResponse?, string?)>
 {
    private readonly IMediator _mediator;
    private readonly IMapper _mapper;
@@ -16,7 +17,7 @@ public class CreateStarCluster : IRequestHandler<CreateStarClusterRequest, (Star
       _logger = logger;
    }
 
-   public async Task<(StarClusterResponse?, string?)> Handle(CreateStarClusterRequest request,
+   public async Task<(StarClusterResponse?, string?)> Handle(Core.Commands.Cosmic.CreateStarCluster request,
       CancellationToken cancellationToken)
    {
       try

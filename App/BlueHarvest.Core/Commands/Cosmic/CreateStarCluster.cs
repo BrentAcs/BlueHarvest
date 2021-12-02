@@ -1,10 +1,11 @@
 ﻿using BlueHarvest.Core.Builders;
 using BlueHarvest.Core.Geometry;
-using BlueHarvest.Core.Misc;
+using BlueHarvest.Core.Responses.Cosmic;
+using BlueHarvest.Core.Utilities;
 
-namespace BlueHarvest.API.DTOs.Cosmic;
+namespace BlueHarvest.Core.Commands.Cosmic;
 
-public class CreateStarClusterRequest : IRequest<(StarClusterResponse?, string?)>
+public class CreateStarCluster : IRequest<(StarClusterResponse?, string?)>
 {
    /// <summary>
    /// Name of the Star Cluster, must be unique.

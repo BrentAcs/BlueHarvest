@@ -1,6 +1,6 @@
 ﻿using BlueHarvest.Core.Geometry;
 
-namespace BlueHarvest.API.DTOs.Cosmic;
+namespace BlueHarvest.Core.Responses.Cosmic;
 
 public class StarClusterResponse
 {

@@ -1,4 +1,4 @@
-﻿using BlueHarvest.API.DTOs.Cosmic;
+﻿using BlueHarvest.Core.Responses.Cosmic;
 using BlueHarvest.Core.Storage.Repos;
 
 namespace BlueHarvest.API.Handlers.StarClusters;

@@ -1,9 +1,9 @@
-﻿using BlueHarvest.API.DTOs.Cosmic;
-using BlueHarvest.API.Validators;
+﻿using BlueHarvest.API.Validators;
+using BlueHarvest.Core.Commands.Cosmic;
 using BlueHarvest.Core.Geometry;
-using BlueHarvest.Core.Misc;
 using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Storage.Repos;
+using BlueHarvest.Core.Utilities;
 using MongoDB.Driver;
 
 namespace BlueHarvest.API.Tests.Validators;
@@ -44,7 +44,7 @@ public class CreateStarClusterRequestValidatorTests
 
    private static IEnumerable<TestCaseData> ValidCreateStarClusterRequest()
    {
-      yield return new TestCaseData(new CreateStarClusterRequest
+      yield return new TestCaseData(new CreateStarCluster
       {
          Name = "test",
          Description = "test-description",
@@ -56,7 +56,7 @@ public class CreateStarClusterRequestValidatorTests
 
    [Test]
    [TestCaseSource(nameof(ValidCreateStarClusterRequest))]
-   public void ValidateResult_IsValid_WillBe_True(CreateStarClusterRequest request)
+   public void ValidateResult_IsValid_WillBe_True(CreateStarCluster request)
    {
       var validator = CreateValidator();
       var result= validator.Validate(request);
@@ -69,8 +69,8 @@ public class CreateStarClusterRequestValidatorTests
 
    private static IEnumerable<TestCaseData> InValidCreateStarClusterRequest()
    {
-      yield return new TestCaseData(new CreateStarClusterRequest { });
-      yield return new TestCaseData(new CreateStarClusterRequest
+      yield return new TestCaseData(new CreateStarCluster { });
+      yield return new TestCaseData(new CreateStarCluster
       {
          Name = "test",
          Description = "test-description",
@@ -82,7 +82,7 @@ public class CreateStarClusterRequestValidatorTests
 
    [Test]
    [TestCaseSource(nameof(InValidCreateStarClusterRequest))]
-   public void ValidateResult_IsValid_WillBe_False(CreateStarClusterRequest request)
+   public void ValidateResult_IsValid_WillBe_False(CreateStarCluster request)
    {
       var validator = CreateValidator();
       var result= validator.Validate(request);
@@ -103,7 +103,7 @@ public class CreateStarClusterRequestValidatorTests
          .ReturnsAsync(cursorMock.Object);
       var validator = CreateValidator(repoMock);
 
-      var result= validator.Validate(new CreateStarClusterRequest
+      var result= validator.Validate(new CreateStarCluster
       {
          Name = "Test"
       });
