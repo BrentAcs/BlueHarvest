@@ -1,7 +1,6 @@
 ﻿using BlueHarvest.Core.Builders;
-using BlueHarvest.Core.Validators;
 
-namespace BlueHarvest.API.Validators;
+namespace BlueHarvest.Core.Validators;
 
 public class PlanetarySystemBuilderOptionsValidator : AbstractValidator<PlanetarySystemBuilderOptions>
 {

@@ -1,11 +1,9 @@
 ﻿using BlueHarvest.Core.Commands.Cosmic;
-using BlueHarvest.Core.Geometry;
 using BlueHarvest.Core.Storage.Repos;
-using BlueHarvest.Core.Validators;
 
-namespace BlueHarvest.API.Validators;
+namespace BlueHarvest.Core.Validators;
 
-public class CreateStarClusterRequestValidator : AbstractValidator<CreateStarCluster>
+public class CreateStarClusterValidator : AbstractValidator<CreateStarCluster>
 {
    private const int NameMinLength = 4;
    private const int NameMaxLength = 40;
@@ -19,7 +17,7 @@ public class CreateStarClusterRequestValidator : AbstractValidator<CreateStarClu
    private const double DistanceBetweenSystemsMin = 3.0;
    private const double DistanceBetweenSystemsMax = 10.0;
 
-   public CreateStarClusterRequestValidator(IStarClusterRepo repo)
+   public CreateStarClusterValidator(IStarClusterRepo repo)
    {
       RuleFor(request => request.Name).NotEmpty().MinimumLength(NameMinLength).MaximumLength(NameMaxLength);
       RuleFor(request => request.Description).NotEmpty().MinimumLength(DescriptionMinLength).MaximumLength(DescriptionMaxLength);

@@ -68,4 +68,9 @@ public class StarClustersController : BaseController
 
       return Ok(response);
    }
+
+   [HttpGet("GenError")]
+   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+   public Task<ActionResult> Error() =>
+      throw new NotImplementedException();
 }

@@ -4,13 +4,12 @@ using BlueHarvest.Core.Responses.Cosmic;
 
 namespace BlueHarvest.API.Handlers.StarClusters;
 
-public class CreateStarCluster : IRequestHandler<Core.Commands.Cosmic.CreateStarCluster, (StarClusterResponse?, string?)>
+public class CreateStarClusterHandler : IRequestHandler<Core.Commands.Cosmic.CreateStarCluster, (StarClusterResponse?, string?)>
 {
    private readonly IMediator _mediator;
    private readonly IMapper _mapper;
-   private readonly ILogger<CreateStarCluster> _logger;
-
-   public CreateStarCluster(IMediator mediator, IMapper mapper, ILogger<CreateStarCluster> logger)
+   private readonly ILogger<CreateStarClusterHandler> _logger;
+   public CreateStarClusterHandler(IMediator mediator, IMapper mapper, ILogger<CreateStarClusterHandler> logger)
    {
       _mediator = mediator;
       _mapper = mapper;

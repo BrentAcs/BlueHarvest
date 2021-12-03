@@ -1,9 +1,9 @@
-﻿using BlueHarvest.API.Validators;
-using BlueHarvest.Core.Commands.Cosmic;
+﻿using BlueHarvest.Core.Commands.Cosmic;
 using BlueHarvest.Core.Geometry;
 using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Storage.Repos;
 using BlueHarvest.Core.Utilities;
+using BlueHarvest.Core.Validators;
 using MongoDB.Driver;
 
 namespace BlueHarvest.API.Tests.Validators;
@@ -29,7 +29,7 @@ public class CreateStarClusterRequestValidatorTests
       return cursorMock;
    }
 
-   private CreateStarClusterRequestValidator CreateValidator(Mock<IStarClusterRepo>? repoMock = null)
+   private CreateStarClusterValidator CreateValidator(Mock<IStarClusterRepo>? repoMock = null)
    {
       if (repoMock is null)
       {
@@ -39,7 +39,7 @@ public class CreateStarClusterRequestValidatorTests
             .ReturnsAsync(mockCursor.Object);
       }
 
-      return new CreateStarClusterRequestValidator(repoMock.Object);
+      return new CreateStarClusterValidator(repoMock.Object);
    }
 
    private static IEnumerable<TestCaseData> ValidCreateStarClusterRequest()
