@@ -1,7 +1,7 @@
 ﻿using BlueHarvest.Core.Responses.Cosmic;
 using BlueHarvest.Core.Storage.Repos;
 
-namespace BlueHarvest.API.Handlers.StarClusters;
+namespace BlueHarvest.Core.Actions.Cosmic;
 
 public class GetAllStarClusters
 {

@@ -203,7 +203,7 @@ internal class StorageService : BaseService,
          .Result
          .ToList();
 
-      var fullCluster = new {Cluster = cluster, Systems = systems}.ToJsonIndented();
+      var fullCluster = new {Cluster = cluster, Systems = systems}.AsJsonIndented();
       File.WriteAllText(@"c:\t\starcluster.json", fullCluster);
       //WriteLine(fullCluster);
    }

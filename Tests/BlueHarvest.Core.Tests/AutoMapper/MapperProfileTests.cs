@@ -1,6 +1,6 @@
-﻿using BlueHarvest.Core.AutoMapper;
+﻿using BlueHarvest.Core.Actions.Cosmic;
+using BlueHarvest.Core.AutoMapper;
 using BlueHarvest.Core.Builders;
-using BlueHarvest.Core.Commands.Cosmic;
 using BlueHarvest.Core.Geometry;
 using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Responses.Cosmic;
@@ -21,7 +21,7 @@ public class AutoMapperProfileTests
    [Test]
    public void WillMap_CreateStarClusterRequest_To_StarClusterBuilderOptions()
    {
-      var dto = new CreateStarCluster
+      var dto = new CreateStarCluster.Request
       {
          Name = "test-name",
          Description = "test-description",

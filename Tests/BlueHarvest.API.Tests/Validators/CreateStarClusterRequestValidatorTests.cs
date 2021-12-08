@@ -1,4 +1,4 @@
-﻿using BlueHarvest.Core.Commands.Cosmic;
+﻿using BlueHarvest.Core.Actions.Cosmic;
 using BlueHarvest.Core.Geometry;
 using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Storage.Repos;
@@ -44,7 +44,7 @@ public class CreateStarClusterRequestValidatorTests
 
    private static IEnumerable<TestCaseData> ValidCreateStarClusterRequest()
    {
-      yield return new TestCaseData(new CreateStarCluster
+      yield return new TestCaseData(new CreateStarCluster.Request()
       {
          Name = "test",
          Description = "test-description",
@@ -56,7 +56,7 @@ public class CreateStarClusterRequestValidatorTests
 
    [Test]
    [TestCaseSource(nameof(ValidCreateStarClusterRequest))]
-   public void ValidateResult_IsValid_WillBe_True(CreateStarCluster request)
+   public void ValidateResult_IsValid_WillBe_True(CreateStarCluster.Request request)
    {
       var validator = CreateValidator();
       var result= validator.Validate(request);
@@ -69,8 +69,8 @@ public class CreateStarClusterRequestValidatorTests
 
    private static IEnumerable<TestCaseData> InValidCreateStarClusterRequest()
    {
-      yield return new TestCaseData(new CreateStarCluster { });
-      yield return new TestCaseData(new CreateStarCluster
+      yield return new TestCaseData(new CreateStarCluster.Request() { });
+      yield return new TestCaseData(new CreateStarCluster.Request()
       {
          Name = "test",
          Description = "test-description",
@@ -82,7 +82,7 @@ public class CreateStarClusterRequestValidatorTests
 
    [Test]
    [TestCaseSource(nameof(InValidCreateStarClusterRequest))]
-   public void ValidateResult_IsValid_WillBe_False(CreateStarCluster request)
+   public void ValidateResult_IsValid_WillBe_False(CreateStarCluster.Request request)
    {
       var validator = CreateValidator();
       var result= validator.Validate(request);
@@ -103,11 +103,11 @@ public class CreateStarClusterRequestValidatorTests
          .ReturnsAsync(cursorMock.Object);
       var validator = CreateValidator(repoMock);
 
-      var result= validator.Validate(new CreateStarCluster
+      var result= validator.Validate(new CreateStarCluster.Request
       {
          Name = "Test"
       });
 
-      Assert.IsFalse(result.IsValid);
+      Assert.IsFalse((bool)result.IsValid);
    }
 }

@@ -8,7 +8,7 @@ namespace BlueHarvest.Core.Extensions;
 
 public static class JsonCovertExtensions
 {
-   public static string? ToJson(this object? obj,
+   public static string? AsJson(this object? obj,
       Formatting formatting = Formatting.None,
       JsonSerializerSettings? settings = null)
    {
@@ -20,8 +20,8 @@ public static class JsonCovertExtensions
       return JsonConvert.SerializeObject(obj, formatting, settings);
    }
 
-   public static string? ToJsonIndented(this object obj) =>
-      obj.ToJson(Formatting.Indented);
+   public static string? AsJsonIndented(this object obj) =>
+      obj.AsJson(Formatting.Indented);
 
    public static void ToJsonFile(this object obj,
       string filename,
@@ -30,7 +30,7 @@ public static class JsonCovertExtensions
    {
       settings ??= new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate};
 
-      File.WriteAllText(filename, obj.ToJson(formatting, settings));
+      File.WriteAllText(filename, obj.AsJson(formatting, settings));
    }
 
    public static T? FromJson<T>(this string json, JsonSerializerSettings? settings = null)

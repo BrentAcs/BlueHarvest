@@ -1,8 +1,6 @@
 ﻿using System.Net;
-using BlueHarvest.API.Handlers.StarClusters;
-using BlueHarvest.Core.Commands.Cosmic;
+using BlueHarvest.Core.Actions.Cosmic;
 using BlueHarvest.Core.Responses.Cosmic;
-using CreateStarCluster = BlueHarvest.Core.Commands.Cosmic.CreateStarCluster;
 
 namespace BlueHarvest.API.Controllers;
 
@@ -21,7 +19,7 @@ public class StarClustersController : BaseController
    [ProducesResponseType(StatusCodes.Status204NoContent)]
    [ProducesResponseType(StatusCodes.Status409Conflict)]
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-   public async Task<ActionResult<StarClusterResponse>> Create([FromBody] CreateStarCluster request)
+   public async Task<ActionResult<StarClusterResponse>> Create([FromBody] CreateStarCluster.Request request)
    {
       Logger.LogInformation("creating star cluster.");
       if (IsValidateOnlyRequest())

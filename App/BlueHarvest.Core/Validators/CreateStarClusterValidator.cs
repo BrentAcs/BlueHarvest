@@ -1,9 +1,9 @@
-﻿using BlueHarvest.Core.Commands.Cosmic;
-using BlueHarvest.Core.Storage.Repos;
+﻿using BlueHarvest.Core.Storage.Repos;
+using BlueHarvest.Core.Actions.Cosmic;
 
 namespace BlueHarvest.Core.Validators;
 
-public class CreateStarClusterValidator : AbstractValidator<CreateStarCluster>
+public class CreateStarClusterValidator : AbstractValidator<CreateStarCluster.Request>
 {
    private const int NameMinLength = 4;
    private const int NameMaxLength = 40;

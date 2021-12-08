@@ -1,5 +1,5 @@
-﻿using BlueHarvest.Core.Builders;
-using BlueHarvest.Core.Commands.Cosmic;
+﻿using BlueHarvest.Core.Actions.Cosmic;
+using BlueHarvest.Core.Builders;
 using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Responses.Cosmic;
 
@@ -9,7 +9,7 @@ public class MapperProfile : Profile
 {
    public MapperProfile()
    {
-      CreateMap<CreateStarCluster, StarClusterBuilderOptions>()
+      CreateMap<CreateStarCluster.Request, StarClusterBuilderOptions>()
          .ForMember(d => d.SystemOptions, opt => opt.MapFrom(s => s.PlanetarySystemOptions));
 
       CreateMap<StarCluster, StarClusterResponse>();
