@@ -34,7 +34,7 @@ public class StarClustersController : BaseController
          return Problem(error, statusCode: (int?)HttpStatusCode.Conflict);
       }
 
-      return CreatedAtRoute("GetByName", new {name = response.Name}, response);
+      return CreatedAtRoute("GetByName", new { name = response.Name }, response);
    }
 
    [HttpGet("{name}", Name = "GetByName")]
@@ -44,8 +44,7 @@ public class StarClustersController : BaseController
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
    public async Task<ActionResult<StarClusterResponse>> GetByName([FromRoute(Name = "name")] string? name)
    {
-      var (response, error) = await Mediator.Send(new GetStarCluster.Request(name), new CancellationToken(false))
-         .ConfigureAwait(false);
+      var (response, error) = await Mediator.SendGetStarClusterByName(name).ConfigureAwait(false);
       if (error != null)
          return Problem(error, statusCode: (int?)HttpStatusCode.InternalServerError);
 
@@ -59,7 +58,7 @@ public class StarClustersController : BaseController
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
    public async Task<ActionResult<IEnumerable<StarClusterResponse>>> GetByName()
    {
-      var (response, error) = await Mediator.Send(new GetAllStarClusters.Request(), new CancellationToken(false))
+      var (response, error) = await Mediator.SendGetAllStarClusters()
          .ConfigureAwait(false);
       if (error != null)
          return Problem(error, statusCode: (int?)HttpStatusCode.InternalServerError);

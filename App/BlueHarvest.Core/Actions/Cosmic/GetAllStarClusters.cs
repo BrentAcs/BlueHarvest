@@ -31,3 +31,10 @@ public class GetAllStarClusters
       }
    }
 }
+
+public static class GetAllStarClustersExtensions
+{
+   public static Task<(IEnumerable<StarClusterResponse?>?, string?)> SendGetAllStarClusters(this IMediator mediator, CancellationToken cancellationToken = default(CancellationToken)) =>
+      mediator.Send(new GetAllStarClusters.Request(), cancellationToken);
+}
+

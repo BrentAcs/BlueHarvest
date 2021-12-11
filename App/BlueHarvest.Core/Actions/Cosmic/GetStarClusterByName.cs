@@ -3,7 +3,7 @@ using BlueHarvest.Core.Storage.Repos;
 
 namespace BlueHarvest.Core.Actions.Cosmic;
 
-public class GetStarCluster
+public class GetStarClusterByName
 {
    public class Request : IRequest<(StarClusterResponse?, string?)>
    {
@@ -19,9 +19,9 @@ public class GetStarCluster
    {
       private readonly IMapper _mapper;
       private readonly IStarClusterRepo _repo;
-      private readonly ILogger<GetStarCluster> _logger;
+      private readonly ILogger<GetStarClusterByName> _logger;
 
-      public Handler(IMapper mapper, IStarClusterRepo repo, ILogger<GetStarCluster> logger)
+      public Handler(IMapper mapper, IStarClusterRepo repo, ILogger<GetStarClusterByName> logger)
       {
          _mapper = mapper;
          _repo = repo;
@@ -52,4 +52,12 @@ public class GetStarCluster
          }
       }
    }
+
+}
+
+public static class GetStarClusterByNameExtensions
+{
+   public static Task<(StarClusterResponse?, string?)> SendGetStarClusterByName(this IMediator mediator, string? name,
+      CancellationToken cancellationToken = default(CancellationToken)) =>
+      mediator.Send(new GetStarClusterByName.Request(name), cancellationToken);
 }
