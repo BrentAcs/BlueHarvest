@@ -52,12 +52,4 @@ public class GetStarClusterByName
          }
       }
    }
-
-}
-
-public static class GetStarClusterByNameExtensions
-{
-   public static Task<(StarClusterResponse?, string?)> SendGetStarClusterByName(this IMediator mediator, string? name,
-      CancellationToken cancellationToken = default(CancellationToken)) =>
-      mediator.Send(new GetStarClusterByName.Request(name), cancellationToken);
 }

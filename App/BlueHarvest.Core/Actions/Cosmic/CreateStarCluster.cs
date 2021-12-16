@@ -9,17 +9,7 @@ public class CreateStarCluster
 {
    public class Request : IRequest<(StarClusterResponse?, string?)>
    {
-      /// <summary>
-      /// Name of the Star Cluster, must be unique.
-      /// </summary>
-      public string? Name { get; set; }
-
-      public string? Description { get; set; }
-      public string? Owner { get; set; }
-      public Ellipsoid? ClusterSize { get; set; }
-      public MinMax<double>? DistanceBetweenSystems { get; set; }
-
-      public PlanetarySystemBuilderOptions? PlanetarySystemOptions { get; set; }
+      public CreateStarClusterDto? Dto { get; set; }
    }
 
    public class Handler : IRequestHandler<Request, (StarClusterResponse?, string?)>
@@ -41,7 +31,7 @@ public class CreateStarCluster
       {
          try
          {
-            var clusterCreateOptions = _mapper.Map<StarClusterBuilderOptions>(request);
+            var clusterCreateOptions = _mapper.Map<StarClusterBuilderOptions>(request.Dto);
             var cluster = await _mediator
                .Send((StarClusterBuilder.Request)clusterCreateOptions, cancellationToken)
                .ConfigureAwait(false);
@@ -52,8 +42,8 @@ public class CreateStarCluster
          // TODO: refactor this
          catch (MongoWriteException ex)
          {
-            _logger.LogError(ex, $"Cluster w/ name '{request.Name}' already exists.");
-            return (null, $"Cluster w/ name '{request.Name}' already exists.")!;
+            _logger.LogError(ex, $"Cluster w/ name '{request.Dto.Name}' already exists.");
+            return (null, $"Cluster w/ name '{request.Dto.Name}' already exists.")!;
          }
       }
    }

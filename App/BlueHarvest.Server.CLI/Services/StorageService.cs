@@ -14,8 +14,7 @@ internal interface IStorageService : IBaseService
 {
 }
 
-internal class StorageService : BaseService,
-   IStorageService
+internal class StorageService : BaseService, IStorageService
 {
    private readonly IMediator _mediator;
    private readonly IMongoContext _mongoContext;
@@ -55,7 +54,7 @@ internal class StorageService : BaseService,
    private void DropDb() =>
       DropDb(false);
 
-   private void DropDb(bool initDb=false)
+   private void DropDb(bool initDb = false)
    {
       ClearScreen("Dropping Database...");
 

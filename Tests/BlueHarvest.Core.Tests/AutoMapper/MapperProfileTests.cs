@@ -21,7 +21,7 @@ public class AutoMapperProfileTests
    [Test]
    public void WillMap_CreateStarClusterRequest_To_StarClusterBuilderOptions()
    {
-      var dto = new CreateStarCluster.Request
+      var dto = new CreateStarClusterDto()
       {
          Name = "test-name",
          Description = "test-description",

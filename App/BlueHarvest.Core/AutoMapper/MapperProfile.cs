@@ -9,7 +9,7 @@ public class MapperProfile : Profile
 {
    public MapperProfile()
    {
-      CreateMap<CreateStarCluster.Request, StarClusterBuilderOptions>()
+      CreateMap<CreateStarClusterDto, StarClusterBuilderOptions>()
          .ForMember(d => d.SystemOptions, opt => opt.MapFrom(s => s.PlanetarySystemOptions));
 
       CreateMap<StarCluster, StarClusterResponse>();
