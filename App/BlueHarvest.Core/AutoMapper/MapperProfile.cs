@@ -12,7 +12,7 @@ public class MapperProfile : Profile
       CreateMap<CreateStarClusterDto, StarClusterBuilderOptions>()
          .ForMember(d => d.SystemOptions, opt => opt.MapFrom(s => s.PlanetarySystemOptions));
 
-      CreateMap<StarCluster, StarClusterResponse>();
+      CreateMap<StarCluster, StarClusterResponseDto>();
    }
 
 }

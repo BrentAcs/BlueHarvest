@@ -5,29 +5,31 @@ namespace BlueHarvest.Core.Actions.Cosmic;
 
 public class GetAllStarClusters
 {
-   public class Request : IRequest<(IEnumerable<StarClusterResponse?>?, string?)>
+   public class Request : IRequest<IEnumerable<StarClusterResponseDto?>>
    {
    }
 
-   public class Handler: IRequestHandler<Request, (IEnumerable<StarClusterResponse?>?, string?)>
+   public class Handler: BaseHandler<Request, IEnumerable<StarClusterResponseDto?>>
    {
-      private readonly IMapper _mapper;
       private readonly IStarClusterRepo _repo;
-      private readonly ILogger<Request> _logger;
 
-      public Handler(IMapper mapper, IStarClusterRepo repo, ILogger<Request> logger)
+      public Handler(IMediator mediator,
+         IMapper mapper,
+         IStarClusterRepo repo,
+         ILogger<Handler> logger)
+         : base(mediator, mapper, logger)
       {
-         _mapper = mapper;
          _repo = repo;
-         _logger = logger;
       }
 
-      public Task<(IEnumerable<StarClusterResponse?>?, string?)> Handle(Request request,
+      protected override string HandlerName => nameof(Handler);
+
+      protected override async Task<IEnumerable<StarClusterResponseDto>> OnHandle(Request request,
          CancellationToken cancellationToken)
       {
          var all = _repo.All();
-         var allMapped = _mapper.Map<IEnumerable<StarClusterResponse>>(all);
-         return Task.FromResult<(IEnumerable<StarClusterResponse?>?, string?)>((allMapped, null));
+         var allMapped = Mapper.Map<IEnumerable<StarClusterResponseDto>>(all);
+         return allMapped;
       }
    }
 }

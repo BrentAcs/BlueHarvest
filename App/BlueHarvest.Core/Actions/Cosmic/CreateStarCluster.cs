@@ -1,49 +1,44 @@
 ﻿using BlueHarvest.Core.Builders;
-using BlueHarvest.Core.Geometry;
+using BlueHarvest.Core.Exceptions;
 using BlueHarvest.Core.Responses.Cosmic;
-using BlueHarvest.Core.Utilities;
 
 namespace BlueHarvest.Core.Actions.Cosmic;
 
 public class CreateStarCluster
 {
-   public class Request : IRequest<(StarClusterResponse?, string?)>
+   public class Request : IRequest<StarClusterResponseDto?>
    {
       public CreateStarClusterDto? Dto { get; set; }
    }
 
-   public class Handler : IRequestHandler<Request, (StarClusterResponse?, string?)>
+   public class Handler : BaseHandler<Request, StarClusterResponseDto?>
    {
-      private readonly IMediator _mediator;
-      private readonly IMapper _mapper;
-      private readonly ILogger<Handler> _logger;
-
-      public Handler(IMediator mediator, IMapper mapper,
+      public Handler(IMediator mediator, 
+         IMapper mapper,
          ILogger<Handler> logger)
+         : base(mediator, mapper, logger)
       {
-         _mediator = mediator;
-         _mapper = mapper;
-         _logger = logger;
       }
 
-      public async Task<(StarClusterResponse?, string?)> Handle(Request request,
+      protected override string HandlerName => nameof(Handler);
+
+      protected override async Task<StarClusterResponseDto?> OnHandle(Request request,
          CancellationToken cancellationToken)
       {
          try
          {
-            var clusterCreateOptions = _mapper.Map<StarClusterBuilderOptions>(request.Dto);
-            var cluster = await _mediator
+            var clusterCreateOptions = Mapper.Map<StarClusterBuilderOptions>(request.Dto);
+            var cluster = await Mediator
                .Send((StarClusterBuilder.Request)clusterCreateOptions, cancellationToken)
                .ConfigureAwait(false);
-            var response = _mapper.Map<StarClusterResponse>(cluster);
+            var response = Mapper.Map<StarClusterResponseDto>(cluster);
 
-            return (response, null)!;
+            return response;
          }
-         // TODO: refactor this
          catch (MongoWriteException ex)
          {
-            _logger.LogError(ex, $"Cluster w/ name '{request.Dto.Name}' already exists.");
-            return (null, $"Cluster w/ name '{request.Dto.Name}' already exists.")!;
+            Logger.LogError(ex, $"Cluster w/ name '{request.Dto.Name}' already exists.");
+            throw new CreateStarClusterException($"Cluster w/ name '{request.Dto.Name}' already exists.", ex);
          }
       }
    }

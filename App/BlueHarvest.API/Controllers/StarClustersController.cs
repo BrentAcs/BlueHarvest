@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using BlueHarvest.Core.Actions.Cosmic;
+using BlueHarvest.Core.Exceptions;
 using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Responses.Cosmic;
 
@@ -16,11 +17,11 @@ public class StarClustersController : BaseController
    }
 
    [HttpPost(Name = "Create")]
-   [ProducesResponseType(StatusCodes.Status201Created)]
+   [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(StarClusterResponseDto))]
    [ProducesResponseType(StatusCodes.Status204NoContent)]
    [ProducesResponseType(StatusCodes.Status409Conflict)]
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-   public async Task<ActionResult<StarClusterResponse>> Create([FromBody] CreateStarClusterDto dto)
+   public async Task<IActionResult> Create([FromBody] CreateStarClusterDto dto)
    {
       Logger.LogInformation("creating star cluster.");
       if (IsValidateOnlyRequest())
@@ -29,29 +30,24 @@ public class StarClustersController : BaseController
          return NoContent();
       }
 
-      var (response, error) = await Mediator
+      var response = await Mediator
          .Send(new CreateStarCluster.Request {Dto = dto}, new CancellationToken(false))
          .ConfigureAwait(false);
-      if (error != null)
-      {
-         return Problem(error, statusCode: (int?)HttpStatusCode.Conflict);
-      }
-
       return CreatedAtRoute("GetByName", new {name = response.Name}, response);
    }
 
    [HttpGet("{name}", Name = "GetByName")]
    [Produces("application/json")]
-   [ProducesResponseType(StatusCodes.Status200OK)]
+   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StarClusterResponseDto))]
    [ProducesResponseType(StatusCodes.Status204NoContent)]
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-   public async Task<ActionResult<StarClusterResponse>> GetByName([FromRoute(Name = "name")] string? name)
+   public async Task<IActionResult> GetByName([FromRoute(Name = "name")] string? name)
    {
-      var (response, error) = await Mediator
-         .Send(new GetStarClusterByName.Request(name)).ConfigureAwait(false);
-      if (error != null)
-         return Problem(error, statusCode: (int?)HttpStatusCode.InternalServerError);
-
+      var response = await Mediator
+         .Send(new GetStarClusterByName.Request(name))
+         .ConfigureAwait(false);
+      if (response == null)
+         return NoContent();
       return Ok(response);
    }
 
@@ -60,13 +56,13 @@ public class StarClustersController : BaseController
    [ProducesResponseType(StatusCodes.Status200OK)]
    [ProducesResponseType(StatusCodes.Status204NoContent)]
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-   public async Task<ActionResult<IEnumerable<StarClusterResponse>>> GetByName()
+   public async Task<ActionResult<IEnumerable<StarClusterResponseDto>>> GetAll()
    {
-      var (response, error) = await Mediator
+      var response = await Mediator
          .Send(new GetAllStarClusters.Request())
          .ConfigureAwait(false);
-      if (error != null)
-         return Problem(error, statusCode: (int?)HttpStatusCode.InternalServerError);
+      if (response == null)
+         return NoContent();
 
       return Ok(response);
    }

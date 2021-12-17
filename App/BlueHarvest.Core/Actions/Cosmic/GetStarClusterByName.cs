@@ -1,11 +1,12 @@
-﻿using BlueHarvest.Core.Responses.Cosmic;
+﻿using BlueHarvest.Core.Exceptions;
+using BlueHarvest.Core.Responses.Cosmic;
 using BlueHarvest.Core.Storage.Repos;
 
 namespace BlueHarvest.Core.Actions.Cosmic;
 
 public class GetStarClusterByName
 {
-   public class Request : IRequest<(StarClusterResponse?, string?)>
+   public class Request : IRequest<StarClusterResponseDto?>
    {
       public Request(string? starClusterName = default)
       {
@@ -15,41 +16,30 @@ public class GetStarClusterByName
       public string? StarClusterName { get; set; }
    }
 
-   public class Handler : IRequestHandler<Request, (StarClusterResponse?, string?)>
+   public class Handler : BaseHandler<Request, StarClusterResponseDto?>
    {
-      private readonly IMapper _mapper;
       private readonly IStarClusterRepo _repo;
-      private readonly ILogger<GetStarClusterByName> _logger;
 
-      public Handler(IMapper mapper, IStarClusterRepo repo, ILogger<GetStarClusterByName> logger)
+      public Handler(IMediator mediator,
+         IMapper mapper,
+         ILogger<Handler> logger,
+         IStarClusterRepo repo)
+         : base(mediator, mapper, logger)
       {
-         _mapper = mapper;
          _repo = repo;
-         _logger = logger;
       }
 
-      public async Task<(StarClusterResponse?, string?)> Handle(Request? request,
-         CancellationToken cancellationToken)
+      protected override string HandlerName => nameof(Handler);
+
+      protected override async Task<StarClusterResponseDto?> OnHandle(Request? request, CancellationToken cancellationToken)
       {
-         try
-         {
-            var cursor = await _repo.FindByNameAsync(request.StarClusterName, cancellationToken).ConfigureAwait(false);
-            var cluster = await cursor.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-            if (cluster is null)
-            {
-               return (null, null);
-            }
+         var cursor = await _repo.FindByNameAsync(request.StarClusterName, cancellationToken).ConfigureAwait(false);
+         var cluster = await cursor.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+         if (cluster is null)
+            return null;
 
-            var response = _mapper.Map<StarClusterResponse>(cluster);
-
-            return (response, null);
-         }
-         catch (Exception? ex)
-         {
-            _logger.LogError(ex,
-               $"Error getting star cluster for name '{request?.StarClusterName}'. Error: {ex?.Message}");
-            return (null, $"Error getting star cluster for name '{request?.StarClusterName}'. Error: {ex?.Message}");
-         }
+         var response = Mapper.Map<StarClusterResponseDto>(cluster);
+         return response;
       }
    }
 }

@@ -63,7 +63,7 @@ public class AutoMapperProfileTests
          Size = new Sphere(11)
       };
 
-      var dto = Mapper.Map<StarClusterResponse>(cluster);
+      var dto = Mapper.Map<StarClusterResponseDto>(cluster);
 
       StringAssert.AreEqualIgnoringCase("test-name", dto.Name);
       StringAssert.AreEqualIgnoringCase("test-description", dto.Description);
