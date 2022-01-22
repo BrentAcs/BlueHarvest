@@ -56,7 +56,7 @@ internal abstract class BaseService : IBaseService
          WriteLine(Title);
          foreach (var pair in _actions)
          {
-            WriteLine($"{pair.Key} - {pair.Value.Name}");
+            WriteLine($"{GetKeyDisplay(pair.Key)} - {pair.Value.Name}");
          }
 
          var keyInfo = ReadKey(true);
@@ -70,6 +70,14 @@ internal abstract class BaseService : IBaseService
 
          _actions[keyInfo.Key].Action?.Invoke();
       }
+   }
+
+   private static string GetKeyDisplay(ConsoleKey key)
+   {
+      if (key is >= ConsoleKey.D0 and <= ConsoleKey.D9)
+         return $"{(int)key - (int)ConsoleKey.D0}";
+      
+      return $"{key}";
    }
 
    protected void ClearScreen(string? subTitle=null)

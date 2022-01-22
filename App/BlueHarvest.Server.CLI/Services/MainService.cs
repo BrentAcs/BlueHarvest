@@ -25,8 +25,8 @@ internal class MainService : BaseService, IHostedService
 
    protected override void AddActions()
    {
-      AddMenuAction(ConsoleKey.S, "Storage", _storageService.ProcessMenu);
-      AddMenuAction(ConsoleKey.T, "Types", _typeService.ProcessMenu);
+      AddMenuAction(ConsoleKey.D1, "Storage", _storageService.ProcessMenu);
+      AddMenuAction(ConsoleKey.D2, "Types", _typeService.ProcessMenu);
    }
 
    public Task StartAsync(CancellationToken cancellationToken)

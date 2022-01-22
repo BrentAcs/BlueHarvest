@@ -1,4 +1,4 @@
-﻿namespace BlueHarvest.Core.Misc;
+﻿namespace BlueHarvest.Core.Utilities;
 
 // NOTE: this name is TERRIBLE, please change.
 public interface IChanceTable<T>

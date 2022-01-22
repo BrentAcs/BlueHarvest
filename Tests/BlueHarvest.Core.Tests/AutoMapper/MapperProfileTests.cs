@@ -1,9 +1,11 @@
-﻿using BlueHarvest.API.DTOs;
-using BlueHarvest.API.DTOs.Cosmic;
+﻿using BlueHarvest.Core.Actions.Cosmic;
+using BlueHarvest.Core.AutoMapper;
 using BlueHarvest.Core.Builders;
 using BlueHarvest.Core.Geometry;
-using BlueHarvest.Core.Misc;
 using BlueHarvest.Core.Models.Cosmic;
+using BlueHarvest.Core.Responses.Cosmic;
+using BlueHarvest.Core.Utilities;
+using MongoDB.Bson;
 
 namespace BlueHarvest.API.Tests.DTOs;
 
@@ -13,13 +15,13 @@ public class AutoMapperProfileTests
    private static IMapper Mapper =>
       new MapperConfiguration(cfg =>
       {
-         cfg.AddProfile(typeof(AutoMapperProfile));
+         cfg.AddProfile(typeof(MapperProfile));
       }).CreateMapper();
 
    [Test]
    public void WillMap_CreateStarClusterRequest_To_StarClusterBuilderOptions()
    {
-      var dto = new CreateStarClusterRequest
+      var dto = new CreateStarClusterDto()
       {
          Name = "test-name",
          Description = "test-description",
@@ -61,7 +63,7 @@ public class AutoMapperProfileTests
          Size = new Sphere(11)
       };
 
-      var dto = Mapper.Map<StarClusterResponse>(cluster);
+      var dto = Mapper.Map<StarClusterResponseDto>(cluster);
 
       StringAssert.AreEqualIgnoringCase("test-name", dto.Name);
       StringAssert.AreEqualIgnoringCase("test-description", dto.Description);
