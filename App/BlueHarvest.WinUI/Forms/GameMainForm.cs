@@ -12,9 +12,22 @@ namespace BlueHarvest.WinUI.Forms
 {
    public partial class GameMainForm : Form
    {
-      public GameMainForm()
+      private readonly IAppOptions _appOptions;
+
+      public GameMainForm(IAppOptions appOptions)
       {
+         _appOptions = appOptions;
          InitializeComponent();
+      }
+
+      private void GameMainForm_Load(object sender, EventArgs e)
+      {
+
+      }
+
+      private void GameMainForm_FormClosed(object sender, FormClosedEventArgs e)
+      {
+
       }
    }
 }

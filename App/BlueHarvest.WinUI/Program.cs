@@ -38,7 +38,7 @@ static class Program
       services.AddSingleton(provider => AppOptionsFactory.Create())
          .AddBlueHarvestMongo(configuration)
          .AddBlueHarvestCommon(assemblies)
-         .AddSingleton<MainForm>()
+         .AddSingleton<BuilderMainForm>()
          .AddSingleton<LauncherForm>()
          ;
    }

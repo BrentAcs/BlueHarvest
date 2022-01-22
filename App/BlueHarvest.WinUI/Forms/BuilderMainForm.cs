@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 
 namespace BlueHarvest.WinUI.Forms;
 
@@ -8,6 +9,7 @@ public partial class BuilderMainForm : Form
 
    public BuilderMainForm(
       IConfiguration configuration,
+      IMediator mediator,
       IAppOptions appOptions)
    {
       InitializeComponent();

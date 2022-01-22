@@ -12,14 +12,16 @@ namespace BlueHarvest.WinUI.Forms
 {
    public partial class LauncherForm : Form
    {
+      private readonly IServiceProvider _serviceProvider;
       private readonly IAppOptions _appOptions;
-      private readonly MainForm _mainForm;
+      //private readonly BuilderMainForm _builderMainForm;
 
-      public LauncherForm(IAppOptions appOptions, MainForm mainForm)
+      public LauncherForm(IServiceProvider serviceProvider, IAppOptions appOptions, BuilderMainForm mainForm)
       {
          InitializeComponent();
+         _serviceProvider = serviceProvider;
          _appOptions = appOptions;
-         _mainForm = mainForm;
+//         _builderMainForm = mainForm;
       }
 
       private void LauncherForm_Load(object sender, EventArgs e)
@@ -34,13 +36,12 @@ namespace BlueHarvest.WinUI.Forms
 
       private void builderButton_Click_1(object sender, EventArgs e)
       {
-         _mainForm.ShowDialog(this);
+         var builder = _serviceProvider.GetRequiredService<BuilderMainForm>();
+         builder.ShowDialog(this);
       }
 
       private void gameButton_Click(object sender, EventArgs e)
       {
-
       }
-
    }
 }
