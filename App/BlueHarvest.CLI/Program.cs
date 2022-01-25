@@ -1,9 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-
 // https://codeopinion.com/why-use-mediatr-3-reasons-why-and-1-reason-not/
-
-Console.WriteLine("Hello, World!");
 
 Host.CreateDefaultBuilder()
    .ConfigureServices(ConfigureServices)
@@ -25,6 +22,8 @@ static void ConfigureServices(IServiceCollection services)
                                      
 public abstract class BaseMenu
 {
+   public IMediator Mediator { get; }
+
    protected record MenuAction
    {
       public string Name { get; set; } = "(not defined)";
@@ -32,11 +31,10 @@ public abstract class BaseMenu
    }
 
    private readonly IDictionary<ConsoleKey, MenuAction> _actions = new Dictionary<ConsoleKey, MenuAction>();
-   private readonly IMediator _mediator;
 
    protected BaseMenu(IMediator mediator)
    {
-      _mediator = mediator;
+      Mediator = mediator;
    }
 
    protected abstract string Title { get; }
@@ -65,7 +63,6 @@ public abstract class BaseMenu
       while (true)
       {
          Console.Clear();
-         //Console.WriteLine(Title);
          foreach (var pair in _actions)
          {
             Console.WriteLine($"{pair.Key} - {pair.Value.Name}");
@@ -96,8 +93,22 @@ public class MainMenu : BaseMenu
 
    protected override void AddActions()
    {
+      AddMenuAction(ConsoleKey.A, "List", () => Mediator.Send(new ListClusters()));
+      
    }
 }
+
+public class ListClusters : IRequest, IRequestHandler<ListClusters>
+{
+   public Task<Unit> Handle(ListClusters request, CancellationToken cancellationToken)
+   {
+      Console.WriteLine("Listing clusters.");
+      Console.ReadKey();
+
+      return Unit.Task;
+   }
+}
+
 
 public interface ITest
 {
