@@ -4,6 +4,8 @@ using static BlueHarvest.CLI.Utils.BlueHarvestConsole;
 
 namespace BlueHarvest.CLI.Actions;
 
+// https://codeopinion.com/fat-controller-cqrs-diet-command-pipeline/
+
 public class ListClusters
 {
    public static readonly Request Default = new();
@@ -25,7 +27,7 @@ public class ListClusters
       {
          ClearScreen("Listing Star Clusters...");
          int index = 0;
-         var clusters = await Mediator.Send(new GetAllStarClusters.Request()).ConfigureAwait(false);
+         var clusters = await Mediator.Send( GetAllStarClusters.Default).ConfigureAwait(false);
          foreach (var cluster in clusters)
          {
             WriteLine($"{++index} - {cluster.Name}: {cluster.Description}");

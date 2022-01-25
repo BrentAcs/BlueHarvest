@@ -5,6 +5,8 @@ namespace BlueHarvest.Core.Actions.Cosmic;
 
 public class GetAllStarClusters
 {
+   public static readonly Request Default = new();
+   
    public class Request : IRequest<IEnumerable<StarClusterResponseDto?>>
    {
    }
