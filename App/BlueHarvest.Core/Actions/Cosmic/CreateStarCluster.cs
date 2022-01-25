@@ -11,16 +11,16 @@ public class CreateStarCluster
       public CreateStarClusterDto? Dto { get; set; }
    }
 
-   public class Handler : BaseHandler<Request, StarClusterResponseDto?>
+   public class Query : BaseQuery<Request, StarClusterResponseDto?>
    {
-      public Handler(IMediator mediator, 
+      public Query(IMediator mediator, 
          IMapper mapper,
-         ILogger<Handler> logger)
+         ILogger<Query> logger)
          : base(mediator, mapper, logger)
       {
       }
 
-      protected override string HandlerName => nameof(Handler);
+      protected override string HandlerName => nameof(Query);
 
       protected override async Task<StarClusterResponseDto?> OnHandle(Request request,
          CancellationToken cancellationToken)

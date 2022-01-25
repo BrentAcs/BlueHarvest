@@ -16,20 +16,20 @@ public class GetStarClusterByName
       public string? StarClusterName { get; set; }
    }
 
-   public class Handler : BaseHandler<Request, StarClusterResponseDto?>
+   public class Query : BaseQuery<Request, StarClusterResponseDto?>
    {
       private readonly IStarClusterRepo _repo;
 
-      public Handler(IMediator mediator,
+      public Query(IMediator mediator,
          IMapper mapper,
-         ILogger<Handler> logger,
+         ILogger<Query> logger,
          IStarClusterRepo repo)
          : base(mediator, mapper, logger)
       {
          _repo = repo;
       }
 
-      protected override string HandlerName => nameof(Handler);
+      protected override string HandlerName => nameof(Query);
 
       protected override async Task<StarClusterResponseDto?> OnHandle(Request? request, CancellationToken cancellationToken)
       {

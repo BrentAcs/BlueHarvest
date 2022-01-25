@@ -2,6 +2,21 @@
 
 // https://codeopinion.com/why-use-mediatr-3-reasons-why-and-1-reason-not/
 
+
+using BlueHarvest.Core.Actions.Cosmic;
+
+IConfiguration configuration = new ConfigurationBuilder()
+   .SetBasePath(Directory.GetCurrentDirectory())
+   .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+   .AddJsonFile(
+      $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",
+      optional: true)
+   .AddEnvironmentVariables()
+   .Build();
+Log.Logger = new LoggerConfiguration()
+   .ReadFrom.Configuration(configuration)
+   .CreateLogger();
+
 Host.CreateDefaultBuilder()
    .ConfigureServices(ConfigureServices)
    .ConfigureServices(services => services.AddSingleton<MainMenu>())
@@ -12,16 +27,17 @@ Host.CreateDefaultBuilder()
 
 static void ConfigureServices(IServiceCollection services)
 {
-   var assembles = new[] { Assembly.GetExecutingAssembly() };
+   var assembles = new[] {Assembly.GetExecutingAssembly()};
 
    services
-      .AddMediatR(assembles)
-      .AddSingleton<ITest, Test>();
+      .AddMediatR(assembles);
+   //.AddSingleton<ITest, Test>();
 }
 
-                                     
+
 public abstract class BaseMenu
 {
+   public ILogger<BaseMenu> Logger { get; }
    public IMediator Mediator { get; }
 
    protected record MenuAction
@@ -32,8 +48,9 @@ public abstract class BaseMenu
 
    private readonly IDictionary<ConsoleKey, MenuAction> _actions = new Dictionary<ConsoleKey, MenuAction>();
 
-   protected BaseMenu(IMediator mediator)
+   protected BaseMenu(ILogger<BaseMenu> logger, IMediator mediator)
    {
+      Logger = logger;
       Mediator = mediator;
    }
 
@@ -70,9 +87,7 @@ public abstract class BaseMenu
 
          var keyInfo = Console.ReadKey(true);
          if (!_actions.ContainsKey(keyInfo.Key))
-         {
             continue;
-         }
 
          if (_actions[ keyInfo.Key ].Action is null)
             break;
@@ -84,8 +99,8 @@ public abstract class BaseMenu
 
 public class MainMenu : BaseMenu
 {
-   public MainMenu(IMediator mediator)
-      : base(mediator)
+   public MainMenu(ILogger<MainMenu> logger, IMediator mediator)
+      : base(logger, mediator)
    {
    }
 
@@ -93,31 +108,64 @@ public class MainMenu : BaseMenu
 
    protected override void AddActions()
    {
-      AddMenuAction(ConsoleKey.A, "List", () => Mediator.Send(new ListClusters()));
-      
+      AddMenuAction(ConsoleKey.A, "List", () => Mediator.Send(ListClusters.Default));
    }
 }
 
-public class ListClusters : IRequest, IRequestHandler<ListClusters>
+
+public abstract class MenuAction
 {
-   public Task<Unit> Handle(ListClusters request, CancellationToken cancellationToken)
+   protected ConsoleKeyInfo PressAnyKey() => PromptUser("Press any key to continue");
+
+   protected ConsoleKeyInfo PromptUser(string prompt)
    {
-      Console.WriteLine("Listing clusters.");
-      Console.ReadKey();
+      Console.Write(prompt);
+      return Console.ReadKey();
+   }
+}
 
-      return Unit.Task;
+public class ListClusters
+{
+   public static readonly Command Default = new();
+
+   public class Command : IRequest
+   {
+   }
+
+   public class Handler : MenuAction, IRequestHandler<Command>
+   {
+      private readonly IMediator _mediator;
+
+      public Handler(IMediator mediator)
+      {
+         _mediator = mediator;
+      }
+
+      public async Task<Unit> Handle(Command cmd, CancellationToken cancellationToken)
+      {
+         // ClearScreen("Listing Star Clusters...");
+         int index = 0;
+         var clusters = await _mediator.Send(new GetAllStarClusters.Request()).ConfigureAwait(false);
+         foreach (var cluster in clusters)
+         {
+            Console.WriteLine($"{++index} - {cluster.Name}: {cluster.Description}");
+         }
+
+         Console.WriteLine("Listing clusters.");
+         PressAnyKey();
+
+         return Unit.Value;
+      }
    }
 }
 
 
-public interface ITest
-{
-   void DoSomething();
-}
-
-public class Test : ITest
-{
-   public void DoSomething() => Console.WriteLine("something.");
-}
-
-
+// public interface ITest
+// {
+//    void DoSomething();
+// }
+//
+// public class Test : ITest
+// {
+//    public void DoSomething() => Console.WriteLine("something.");
+// }
