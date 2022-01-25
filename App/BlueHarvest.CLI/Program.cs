@@ -3,6 +3,7 @@
 // https://codeopinion.com/why-use-mediatr-3-reasons-why-and-1-reason-not/
 
 
+using AutoMapper;
 using BlueHarvest.Core.Actions.Cosmic;
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -92,7 +93,14 @@ public abstract class BaseMenu
          if (_actions[ keyInfo.Key ].Action is null)
             break;
 
-         _actions[ keyInfo.Key ].Action?.Invoke();
+         try
+         {
+            _actions[ keyInfo.Key ].Action?.Invoke();
+         }
+         catch (Exception ex)
+         {
+            Logger.LogError(ex, ex?.Message);            
+         }
       }
    }
 }
@@ -109,15 +117,15 @@ public class MainMenu : BaseMenu
    protected override void AddActions()
    {
       AddMenuAction(ConsoleKey.A, "List", () => Mediator.Send(ListClusters.Default));
+      AddMenuAction(ConsoleKey.B, "Test", () => Mediator.Send(new GetAllStarClusters.Request()));
    }
 }
 
-
-public abstract class MenuAction
+public static class BlueHarvestConsole
 {
-   protected ConsoleKeyInfo PressAnyKey() => PromptUser("Press any key to continue");
+   public static ConsoleKeyInfo PressAnyKey() => PromptUser("Press any key to continue");
 
-   protected ConsoleKeyInfo PromptUser(string prompt)
+   public static ConsoleKeyInfo PromptUser(string prompt)
    {
       Console.Write(prompt);
       return Console.ReadKey();
@@ -126,33 +134,33 @@ public abstract class MenuAction
 
 public class ListClusters
 {
-   public static readonly Command Default = new();
+   public static readonly Request Default = new();
 
-   public class Command : IRequest
+   public class Request : IRequest
    {
    }
 
-   public class Handler : MenuAction, IRequestHandler<Command>
+   public class Command : BaseCommand<Request>
    {
-      private readonly IMediator _mediator;
-
-      public Handler(IMediator mediator)
+      public Command(IMediator mediator, IMapper mapper, ILogger<BaseCommand<Request>> logger)
+         : base(mediator, mapper, logger)
       {
-         _mediator = mediator;
       }
 
-      public async Task<Unit> Handle(Command cmd, CancellationToken cancellationToken)
+      protected override string HandlerName => nameof(ListClusters.Command);
+
+      protected override async Task<Unit> OnHandle(Request request, CancellationToken cancellationToken)
       {
          // ClearScreen("Listing Star Clusters...");
          int index = 0;
-         var clusters = await _mediator.Send(new GetAllStarClusters.Request()).ConfigureAwait(false);
+         var clusters = await Mediator.Send(new GetAllStarClusters.Request()).ConfigureAwait(false);
          foreach (var cluster in clusters)
          {
             Console.WriteLine($"{++index} - {cluster.Name}: {cluster.Description}");
          }
 
          Console.WriteLine("Listing clusters.");
-         PressAnyKey();
+         BlueHarvestConsole.PressAnyKey();
 
          return Unit.Value;
       }
