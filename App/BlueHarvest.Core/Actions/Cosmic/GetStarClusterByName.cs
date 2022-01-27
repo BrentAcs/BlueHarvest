@@ -16,20 +16,22 @@ public class GetStarClusterByName
       public string? StarClusterName { get; set; }
    }
 
-   public class Handler : BaseHandler<Request, StarClusterResponseDto?>
+   public class Query : BaseQuery<Request, StarClusterResponseDto?>
    {
+      private readonly IMapper _mapper;
       private readonly IStarClusterRepo _repo;
 
-      public Handler(IMediator mediator,
+      public Query(IMediator mediator,
+         ILogger<Query> logger,
          IMapper mapper,
-         ILogger<Handler> logger,
          IStarClusterRepo repo)
-         : base(mediator, mapper, logger)
+         : base(mediator, logger)
       {
+         _mapper = mapper;
          _repo = repo;
       }
 
-      protected override string HandlerName => nameof(Handler);
+      protected override string HandlerName => nameof(Query);
 
       protected override async Task<StarClusterResponseDto?> OnHandle(Request? request, CancellationToken cancellationToken)
       {
@@ -38,7 +40,7 @@ public class GetStarClusterByName
          if (cluster is null)
             return null;
 
-         var response = Mapper.Map<StarClusterResponseDto>(cluster);
+         var response = _mapper.Map<StarClusterResponseDto>(cluster);
          return response;
       }
    }
