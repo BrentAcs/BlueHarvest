@@ -3,8 +3,8 @@
 public abstract class BaseQuery<TReq, TRes> : BaseHandler, IRequestHandler<TReq, TRes>
    where TReq : IRequest<TRes>
 {
-   protected BaseQuery(IMediator mediator, IMapper mapper, ILogger<BaseQuery<TReq, TRes>> logger)
-      : base(mediator, mapper, logger)
+   protected BaseQuery(IMediator mediator, ILogger<BaseQuery<TReq, TRes>> logger)
+      : base(mediator, logger)
    {
    }
 

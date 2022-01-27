@@ -13,8 +13,8 @@ public class BuildCluster
 
    public class Command : BaseCommand<Request>
    {
-      public Command(IMediator mediator, IMapper mapper, ILogger<BaseCommand<Request>> logger)
-         : base(mediator, mapper, logger)
+      public Command(IMediator mediator, ILogger<BaseCommand<Request>> logger)
+         : base(mediator, logger)
       {
       }
 

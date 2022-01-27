@@ -23,11 +23,10 @@ public class ResetDb
 
       public Command(
          IMediator mediator,
-         IMapper mapper, 
          ILogger<BaseCommand<Request>> logger,
          IMongoContext mongoContext,
          IEnumerable<IMongoRepository> mongoRepos)
-         : base(mediator, mapper, logger)
+         : base(mediator, logger)
       {
          _mongoContext = mongoContext;
          _mongoRepos = mongoRepos;

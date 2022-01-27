@@ -3,14 +3,12 @@
 public abstract class BaseHandler
 {
    protected IMediator Mediator { get; }
-   protected IMapper Mapper { get; }
    protected ILogger<BaseHandler> Logger { get; }
    
-   protected BaseHandler(IMediator mediator, IMapper mapper, ILogger<BaseHandler> logger)
+   protected BaseHandler(IMediator mediator, ILogger<BaseHandler> logger)
    {
       Mediator = mediator;
-      Mapper = mapper;
-      Logger = logger;
+       Logger = logger;
    }
    
    protected abstract string HandlerName { get; }

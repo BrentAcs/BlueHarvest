@@ -18,14 +18,16 @@ public class GetStarClusterByName
 
    public class Query : BaseQuery<Request, StarClusterResponseDto?>
    {
+      private readonly IMapper _mapper;
       private readonly IStarClusterRepo _repo;
 
       public Query(IMediator mediator,
-         IMapper mapper,
          ILogger<Query> logger,
+         IMapper mapper,
          IStarClusterRepo repo)
-         : base(mediator, mapper, logger)
+         : base(mediator, logger)
       {
+         _mapper = mapper;
          _repo = repo;
       }
 
@@ -38,7 +40,7 @@ public class GetStarClusterByName
          if (cluster is null)
             return null;
 
-         var response = Mapper.Map<StarClusterResponseDto>(cluster);
+         var response = _mapper.Map<StarClusterResponseDto>(cluster);
          return response;
       }
    }

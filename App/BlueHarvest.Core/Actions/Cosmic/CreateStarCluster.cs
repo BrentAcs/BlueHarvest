@@ -13,11 +13,14 @@ public class CreateStarCluster
 
    public class Query : BaseQuery<Request, StarClusterResponseDto?>
    {
+      private readonly IMapper _mapper;
+
       public Query(IMediator mediator, 
-         IMapper mapper,
-         ILogger<Query> logger)
-         : base(mediator, mapper, logger)
+         ILogger<Query> logger,
+         IMapper mapper)
+         : base(mediator, logger)
       {
+         _mapper = mapper;
       }
 
       protected override string HandlerName => nameof(Query);
@@ -27,11 +30,11 @@ public class CreateStarCluster
       {
          try
          {
-            var clusterCreateOptions = Mapper.Map<StarClusterBuilderOptions>(request.Dto);
+            var clusterCreateOptions = _mapper.Map<StarClusterBuilderOptions>(request.Dto);
             var cluster = await Mediator
                .Send((StarClusterBuilder.Request)clusterCreateOptions, cancellationToken)
                .ConfigureAwait(false);
-            var response = Mapper.Map<StarClusterResponseDto>(cluster);
+            var response = _mapper.Map<StarClusterResponseDto>(cluster);
 
             return response;
          }
