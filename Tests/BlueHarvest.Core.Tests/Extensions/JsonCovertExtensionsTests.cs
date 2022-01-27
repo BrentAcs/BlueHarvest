@@ -13,7 +13,7 @@ public class JsonCovertExtensionsTests
    [Test]
    public void WhenObject_IsNull_ToJson_ReturnsNull()
    {
-      var test = ((SamplePoco)null).ToJson();
+      var test = ((SamplePoco)null).AsJson();
 
       Assert.IsNull(test);
    }
@@ -21,7 +21,7 @@ public class JsonCovertExtensionsTests
    [Test]
    public void WhenObject_IsNotNull_ToJson_ReturnsNoneEmptyString()
    {
-      var test = new SamplePoco {AString = "AValue"}.ToJson();
+      var test = new SamplePoco {AString = "AValue"}.AsJson();
 
       Assert.IsNotEmpty(test);
    }
@@ -29,7 +29,7 @@ public class JsonCovertExtensionsTests
    [Test]
    public void WhenObject_IsNotNull_ToJsonIndented_ReturnsNoneEmptyString()
    {
-      var test = new SamplePoco {AString = "AValue"}.ToJsonIndented();
+      var test = new SamplePoco {AString = "AValue"}.AsJsonIndented();
 
       Assert.IsNotEmpty(test);
    }

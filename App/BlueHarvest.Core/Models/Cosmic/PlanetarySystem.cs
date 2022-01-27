@@ -12,3 +12,9 @@ public class PlanetarySystem : InterstellarObject, IMongoDocument
    public Sphere? Size { get; set; } = new(20);
    public List<StellarObject>? StellarObjects { get; set; } = new();
 }
+
+// public class Star
+// {
+//    public StarType StarType { get; set; } = StarType.ClassK;
+//    public double? StarMass { get; set; }
+// }

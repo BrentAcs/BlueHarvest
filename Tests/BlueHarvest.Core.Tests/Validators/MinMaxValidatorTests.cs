@@ -1,4 +1,4 @@
-﻿using BlueHarvest.Core.Misc;
+﻿using BlueHarvest.Core.Utilities;
 using BlueHarvest.Core.Validators;
 using NUnit.Framework.Internal.Execution;
 
