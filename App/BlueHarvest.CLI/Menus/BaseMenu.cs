@@ -36,7 +36,7 @@ public abstract class BaseMenu
    protected abstract void AddActions();
 
    protected virtual void AddTerminateAction() =>
-      AddMenuAction(ConsoleKey.Q, "Quit/Return", null);
+      AddMenuAction(ConsoleKey.Q, "Return", null);
 
    public void Execute()
    {

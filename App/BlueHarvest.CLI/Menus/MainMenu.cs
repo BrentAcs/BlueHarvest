@@ -12,6 +12,9 @@ public class MainMenu : BaseMenu
 
    protected override string Title => "Main Menu";
 
+   protected override void AddTerminateAction() =>
+      AddMenuAction(ConsoleKey.Q, "Quit", null);
+   
    protected override void AddActions()
    {
       AddMenuAction(ConsoleKey.B, "Builder", () => _builderMenu.Execute());

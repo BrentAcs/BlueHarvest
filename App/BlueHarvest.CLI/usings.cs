@@ -6,3 +6,7 @@ global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.DependencyInjection;
 global using Serilog;
+
+global using static System.Console;
+global using static BlueHarvest.CLI.Utils.BlueHarvestConsole;
+

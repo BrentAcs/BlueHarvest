@@ -14,6 +14,7 @@ public abstract class BaseHandler
    }
    
    protected abstract string HandlerName { get; }
+   
    protected virtual void LogError(Exception ex) =>
       Logger.LogError($"Exception in: '{HandlerName}'");
 }

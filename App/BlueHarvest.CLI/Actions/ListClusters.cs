@@ -21,7 +21,7 @@ public class ListClusters
       {
       }
 
-      protected override string HandlerName => nameof(ListClusters.Command);
+      protected override string HandlerName => nameof(Command);
 
       protected override async Task<Unit> OnHandle(Request request, CancellationToken cancellationToken)
       {
