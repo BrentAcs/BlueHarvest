@@ -1,40 +1,31 @@
-﻿using System.Reflection;
-using BlueHarvest.Core.Models;
-using BlueHarvest.Core.Storage;
-using BlueHarvest.Core.Utilities;
+﻿using BlueHarvest.Core.Rnd;
+using BlueHarvest.Core.Rnd.Extensions;
 using static System.Console;
 
-namespace BlueHarvest.CLI.Rnd;
+WriteLine("Blue Harvest CLI Rnd");
 
-class Program
+var satelliteSystem = new SatelliteSystem {Name = "Earth satellite system", Planet = new Planet { }};
+
+var asteroidField = new AsteroidField {Name = "Example asteroid field"};
+
+var planetarySystem = new PlanetarySystem {Name = "Sol planetary system.", Star = new Star { }};
+planetarySystem.StellarObjects.Add(satelliteSystem);
+planetarySystem.StellarObjects.Add(asteroidField);
+
+var cluster = new StarCluster();
+cluster.InterstellarObjects.Add(planetarySystem);
+
+
+var jsonSettings = new JsonSerializerSettings
 {
-   static async Task Main(string[] args)
-   {
-      var rng = new SimpleRng();
-      var col = new ChanceTable<StarType>();
-      col.Add(StarType.ClassB, 0.625);
-      col.Add(StarType.ClassA, 3.125);
-      col.Add(StarType.ClassF, 15.0);
-      col.Add(StarType.ClassG, 38.5);
-      col.Add(StarType.ClassK, 41.5);
+   Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore, TypeNameHandling = TypeNameHandling.All
+};
+var json = cluster.AsJson(settings: jsonSettings);
+WriteLine(json);
 
-      var results = new Dictionary<StarType, int>();
-      for (int i = 0; i < 100000; i++)
-      {
-         var star = col.GetItem(rng.Next(0.0, 100.00));
-         if (!results.ContainsKey(star))
-            results[ star ] = 1;
-         else
-            results[ star ]++;
-      }
+cluster.ToJsonFile(@"C:\Code\BlueHarvest\Logs\star-cluster.json", new JsonSerializerSettings {Formatting = Formatting.Indented});
 
-      foreach (var pair in results)
-      {
-         WriteLine($"{pair.Key}: {pair.Value}");
-      }      
-      
-      WriteLine("Done.");
-      ReadKey();
-   }
-}
+//var sc2 = json.FromJson<StarCluster>(jsonSettings);
 
+WriteLine("Done.");
+ReadKey();
