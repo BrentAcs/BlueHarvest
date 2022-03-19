@@ -4,11 +4,10 @@ using Faker;
 
 namespace BlueHarvest.Core.Rnd;
 
-// ------------------------------------------------------------------------------------------------
-// --- FakeFactory
-
 public static class FakeFactory
 {
+   public static bool Shallow { get; set; } = false;
+   
    public static StarCluster CreateStarCluster(int? planetSystemCount = null)
    {
       var cluster = new StarCluster
@@ -20,6 +19,9 @@ public static class FakeFactory
          Size = CreateEllipsoid()
       };
 
+      if (Shallow)
+         return cluster;
+         
       planetSystemCount ??= RandomNumber.Next(50, 200);
       for (int i = 0; i < planetSystemCount; ++i)
       {
