@@ -31,6 +31,14 @@ public class StarCluster : IMongoDocument, IRootModel
    public DateTime? CreatedOn { get; set; }
    public Ellipsoid? Size { get; set; }
    public List<InterstellarObject> InterstellarObjects { get; set; } = new();
+   
+   [System.Text.Json.Serialization.JsonIgnore]
+   [Newtonsoft.Json.JsonIgnore]
+   public IEnumerable<PlanetarySystem> PlanetarySystems => InterstellarObjects.OfType<PlanetarySystem>();
+
+   [System.Text.Json.Serialization.JsonIgnore]
+   [Newtonsoft.Json.JsonIgnore]
+   public IEnumerable<DeepSpaceObject> DeepSpaceObjects => InterstellarObjects.OfType<DeepSpaceObject>();
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -50,6 +58,7 @@ public abstract class InterstellarObject : IRootModel
 
 public class DeepSpaceObject : InterstellarObject
 {
+   public string? Description { get; set; }
 }
 
 //[BsonCollection(CollectionNames.PlanetarySystems)]
@@ -59,6 +68,14 @@ public class PlanetarySystem : InterstellarObject, IMongoDocument
    public Star? Star { get; set; } = new(); 
    public Sphere? Size { get; set; } = new(20);
    public List<StellarObject> StellarObjects { get; set; } = new();
+
+   [System.Text.Json.Serialization.JsonIgnore]
+   [Newtonsoft.Json.JsonIgnore]
+   public IEnumerable<SatelliteSystem> SatelliteSystems => StellarObjects.OfType<SatelliteSystem>();
+
+   [System.Text.Json.Serialization.JsonIgnore]
+   [Newtonsoft.Json.JsonIgnore]
+   public IEnumerable<AsteroidField> AsteroidFields => StellarObjects.OfType<AsteroidField>();
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -78,12 +95,20 @@ public abstract class StellarObject : IRootModel
 public class SatelliteSystem : StellarObject
 {
    public Planet? Planet { get; set; } = new();
-   public List<Satellite>? Satellites { get; set; }
+   public List<Satellite> Satellites { get; set; } = new();
+
+   [System.Text.Json.Serialization.JsonIgnore]
+   [Newtonsoft.Json.JsonIgnore]
+   public IEnumerable<NaturalSatellite> Moons => Satellites.OfType<NaturalSatellite>();
+
+   [System.Text.Json.Serialization.JsonIgnore]
+   [Newtonsoft.Json.JsonIgnore]
+   public IEnumerable<ArtificialSatellite> Stations => Satellites.OfType<ArtificialSatellite>();
 }
 
 public class AsteroidField : StellarObject
 {
-  
+   public int AsteroidCount { get; set; }
 }
 
 // ------------------------------------------------------------------------------------------------

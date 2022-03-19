@@ -20,7 +20,7 @@ public static class FakeFactory
          Size = CreateEllipsoid()
       };
 
-      planetSystemCount ??= RandomNumber.Next(10, 20);
+      planetSystemCount ??= RandomNumber.Next(50, 200);
       for (int i = 0; i < planetSystemCount; ++i)
       {
          var system = CreatePlanetarySystem();
@@ -30,9 +30,9 @@ public static class FakeFactory
       return cluster;
    }
 
-   public static PlanetarySystem CreatePlanetarySystem()
+   public static PlanetarySystem CreatePlanetarySystem(int? satelliteSystemCount=null, int? asteroidFieldCount=null)
    {
-      var system = new PlanetarySystem()
+      var planetarySystem = new PlanetarySystem()
       {
          Location = CreatePoint3D(),
          Name = EntityMonikerGeneratorService.Default.Generate(),
@@ -40,10 +40,57 @@ public static class FakeFactory
          Size = CreateSphere()
          // public List<StellarObject> StellarObjects { get; set; } = new();
       };
+
+      satelliteSystemCount ??= RandomNumber.Next(5, 10);
+      for (int i = 0; i < satelliteSystemCount; ++i)
+      {
+         var system = CreateSatelliteSystem();
+         planetarySystem.StellarObjects.Add(system);
+      }
+
+      asteroidFieldCount ??= RandomNumber.Next(1, 4);
+      for (int i = 0; i < asteroidFieldCount; ++i)
+      {
+         var field = CreateAsteroidField();
+         planetarySystem.StellarObjects.Add(field);
+      }
       
-      return system;
+      return planetarySystem;
    }
 
+   public static SatelliteSystem CreateSatelliteSystem(int? moonCount=null, int?stationCount=null)
+   {
+      var satelliteSystem = new SatelliteSystem
+      {
+         Name = EntityMonikerGeneratorService.Default.Generate(),
+         Location = CreatePoint3D(),
+         Planet = CreatePlanet(),
+      };
+
+      moonCount ??= RandomNumber.Next(0, 3);
+      for (int i = 0; i < moonCount; ++i)
+      {
+         var moon = CreateNaturalSatellite();
+         satelliteSystem.Satellites.Add(moon);
+      }
+
+      stationCount ??= RandomNumber.Next(0, 3);
+      for (int i = 0; i < stationCount; ++i)
+      {
+         var station = CreateArtificialSatellite();
+         satelliteSystem.Satellites.Add(station);
+      }
+
+      return satelliteSystem;
+   }
+
+   public static AsteroidField CreateAsteroidField() =>
+      new()
+      {
+         Name = EntityMonikerGeneratorService.Default.Generate(),
+         Location = CreatePoint3D(),
+         AsteroidCount = RandomNumber.Next(10,100)
+      };
 
    public static Point3D CreatePoint3D() =>
       new(RandomNumber.Next(10, 100), RandomNumber.Next(10, 100), RandomNumber.Next(10, 100));
@@ -76,4 +123,13 @@ public static class FakeFactory
          Name = EntityMonikerGeneratorService.Default.Generate(),
          Distance = RandomNumber.Next(1000, 10000)
       };
+
+   public static ArtificialSatellite CreateArtificialSatellite() =>
+      new()
+      {
+         Name = EntityMonikerGeneratorService.Default.Generate(),
+         Distance = RandomNumber.Next(100, 500)
+      };
+
+   
 }
