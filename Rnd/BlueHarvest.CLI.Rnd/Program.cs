@@ -1,22 +1,21 @@
 ﻿using BlueHarvest.Core.Rnd;
 using BlueHarvest.Core.Rnd.Extensions;
+using BlueHarvest.Core.Rnd.Utilities;
 using static System.Console;
 
 WriteLine("Blue Harvest CLI Rnd");
 
-var jsonSettings = new JsonSerializerSettings
-{
-   Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore, TypeNameHandling = TypeNameHandling.All
-};
-jsonSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
+// var p1 = FakeFactory.CreatePlanet();
+// var s1 = FakeFactory.CreateNaturalSatellite();
+
+EntityMonikerGeneratorService.Default.Reset();
+var obj = FakeFactory.CreateStarCluster();
+//var obj = FakeFactory.CreatePlanetarySystem();
 
 
-var p1 = Fake.CreatePlanet();
-var s1 = Fake.CreateNaturalSatellite();
-
-
-//var json =p1.AsJson(settings: jsonSettings);
-var json = s1.AsJson(settings: jsonSettings);
+var json = obj.AsJson(settings: JsonSettings.FormattedTypedNamedEnums);
+obj.ToJsonFile(@"C:\Code\BlueHarvest\Logs\star-cluster.json", JsonSettings.FormattedNamedEnums);
 
 WriteLine(json);
 

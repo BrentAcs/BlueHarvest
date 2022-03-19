@@ -1,6 +1,4 @@
 ﻿using BlueHarvest.Core.Rnd.Geometry;
-using BlueHarvest.Core.Rnd.Utilities;
-using Faker;
 
 namespace BlueHarvest.Core.Rnd;
 
@@ -46,7 +44,6 @@ public abstract class InterstellarObject : IRootModel
 {
    // [JsonConverter(typeof(ObjectIdConverter))]
    // public ObjectId ClusterId { get; set; }
-
    public Point3D? Location { get; set; }
    public string? Name { get; set; }
 }
@@ -130,26 +127,3 @@ public class Planet
    public PlanetType PlanetTypeType { get; set; }
    public double Mass { get; set; }
 }
-
-
-// ------------------------------------------------------------------------------------------------
-// --- FakeFactory
-
-public static class Fake
-{
-   public static Planet CreatePlanet() =>
-      new()
-      {
-         PlanetTypeType = Faker.Enum.Random<PlanetType>(),
-         Mass = RandomNumber.Next(1000,10000)
-      };
-
-   public static NaturalSatellite CreateNaturalSatellite() =>
-      new()                                           `
-      {
-         Name = EntityDesignator.Default.Generate(),
-         Distance = RandomNumber.Next(1000,10000)
-      };
-}
-
-

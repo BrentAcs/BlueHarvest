@@ -1,9 +1,44 @@
 ﻿namespace BlueHarvest.Core.Rnd.Extensions;
 
+public static class JsonSettings
+{
+   public static JsonSerializerSettings Formatted => new() {Formatting = Formatting.Indented};
+
+   public static JsonSerializerSettings FormattedNamedEnums
+   {
+      get
+      {
+         var settings = new JsonSerializerSettings
+         {
+            Formatting = Formatting.Indented,
+            //NullValueHandling = NullValueHandling.Ignore,
+         };
+         settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
+         return settings;
+      }
+   }
+
+   public static JsonSerializerSettings FormattedTypedNamedEnums
+   {
+      get
+      {
+         var settings = new JsonSerializerSettings
+         {
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore,
+            TypeNameHandling = TypeNameHandling.All
+         };
+         settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
+         return settings;
+      }
+   }
+}
+
 public static class JsonCovertExtensions
 {
-   public static string? AsJson(this object? obj,
-      JsonSerializerSettings? settings = null)
+   public static string? AsJson(this object? obj, JsonSerializerSettings? settings = null)
    {
       if (obj == null)
          return null;
@@ -14,15 +49,19 @@ public static class JsonCovertExtensions
    }
 
    public static string? AsJsonIndented(this object obj) =>
-      obj.AsJson(new JsonSerializerSettings{Formatting = Formatting.Indented});
+      obj.AsJson(new JsonSerializerSettings {Formatting = Formatting.Indented});
 
    public static void ToJsonFile(this object obj,
       string filename,
       // Formatting formatting = Formatting.Indented,
       JsonSerializerSettings? settings = null)
    {
-      settings ??= new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, Formatting = Formatting.Indented};
-   
+      settings ??= new JsonSerializerSettings
+      {
+         DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
+         Formatting = Formatting.Indented
+      };
+
       File.WriteAllText(filename, obj.AsJson(settings));
    }
 
