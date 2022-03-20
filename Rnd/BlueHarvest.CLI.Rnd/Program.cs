@@ -31,14 +31,16 @@ var col = new List<StarCluster>();
 
 //col.ForEach( c => WriteLine(c.Description));
 
+var mu = new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop).Alignment(Justify.Left);
+
 var table = new Table()
       .AddColumns(
-         new TableColumn("col 1").Width(30).Alignment(Justify.Center).NoWrap(),
-         new TableColumn("col 2").Width(10).Alignment(Justify.Center).NoWrap())
+         new TableColumn("col 1").Width(30).Alignment(Justify.Center).NoWrap())
+         //new TableColumn("col 2").Width(10).Alignment(Justify.Center).NoWrap())
       //.AddRow("1234567890", "1234567890")
-      .AddRow(
-         new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Ellipsis),
-         new Markup("1234567890").Overflow(Overflow.Ellipsis))
+      .AddRow(new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop).Alignment(Justify.Left))
+         //new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop),
+         //new Markup("1234567890").Overflow(Overflow.Ellipsis))
    //.AddRow("1234567890", "1234567890")
    ;
 
