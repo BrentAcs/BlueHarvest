@@ -29,28 +29,55 @@ var cluster = FakeFactory.CreateStarCluster();
 var col = new List<StarCluster>();
 50.TimesDo(() => col.Add(FakeFactory.CreateStarCluster()));
 
-//col.ForEach( c => WriteLine(c.Description));
+foreach (var item in col)
+{
+// public string? Name { get; set; }
+// public string? Description { get; set; }
+// public string? Owner { get; set; }
+// public DateTime? CreatedOn { get; set; }
+// public Ellipsoid? Size { get; set; }
+// public List<InterstellarObject> InterstellarObjects { get; set; } = new();
 
-var mu = new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop).Alignment(Justify.Left);
+   // {item.Size}
 
-var table = new Table()
-      .AddColumns(
-         new TableColumn("col 1").Width(30).Alignment(Justify.Center).NoWrap())
-         //new TableColumn("col 2").Width(10).Alignment(Justify.Center).NoWrap())
-      //.AddRow("1234567890", "1234567890")
-      .AddRow(new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop).Alignment(Justify.Left))
-         //new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop),
-         //new Markup("1234567890").Overflow(Overflow.Ellipsis))
-   //.AddRow("1234567890", "1234567890")
-   ;
+   var size = $"({item.Size.XRadius:0.00}, {item.Size.YRadius:0.00}, {item.Size.ZRadius:0.00})";
+   var text = $"[green]{item.Name}[/] {item.Description} [green]{item.Owner}[/] {item.CreatedOn} [green]{size}[/] {item.InterstellarObjects.Count}";
+   //WriteLine($"{item.Name} {item.Description} {item.Owner} {item.CreatedOn} {item.Size} {item.InterstellarObjects.Count}");
+   
+   AnsiConsole.Write( new Markup(text));
+   
+   WriteLine();
 
-AnsiConsole.Write(table);
+// table.AddRow("test data".ToMarkup(30, Color.Yellow), "boobs".ToMarkup(10));
+   break;
+}
+
+
+// var table = new Table()
+//    .AddColumns(
+//       new TableColumn("col 1").Width(30).Alignment(Justify.Center).NoWrap())
+//    .AddRow(new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop).Alignment(Justify.Left));
+
+// AnsiConsole.Write(table);
 #endif
 
 WriteLine("Done.");
 ReadKey();
 
-//public void ForEach(Action<T> action)
+public static class SpectreConsoleExtensions
+{
+   public static Markup ToMarkup(this string text, int colWidth, Color? color = null, Overflow overflow = Overflow.Crop)
+   {
+      if (text.Length > colWidth)
+      {
+         text = overflow == Overflow.Ellipsis ? $"{text[ ..(colWidth - 1) ]}…" : text[ ..colWidth ];
+      }
+
+      string markupText = color.HasValue ? $"[{color.Value}]{text}[/]" : text;
+
+      return new Markup(markupText);
+   }
+}
 
 public static class IterationExtensions
 {
