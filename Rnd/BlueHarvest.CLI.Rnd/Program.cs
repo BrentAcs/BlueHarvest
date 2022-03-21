@@ -27,64 +27,34 @@ FakeFactory.Shallow = true;
 var cluster = FakeFactory.CreateStarCluster();
 
 var col = new List<StarCluster>();
-50.IterationsDo(() => col.Add(FakeFactory.CreateStarCluster()));
+50.TimesDo(() => col.Add(FakeFactory.CreateStarCluster()));
 
 //col.ForEach( c => WriteLine(c.Description));
 
+var mu = new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop).Alignment(Justify.Left);
+
 var table = new Table()
-   .AddColumns(
-      new TableColumn("col 1").Width(30).Alignment(Justify.Center).NoWrap(),
-      new TableColumn("col 2").Width(10).Alignment(Justify.Center).NoWrap());
+      .AddColumns(
+         new TableColumn("col 1").Width(30).Alignment(Justify.Center).NoWrap())
+         //new TableColumn("col 2").Width(10).Alignment(Justify.Center).NoWrap())
+      //.AddRow("1234567890", "1234567890")
+      .AddRow(new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop).Alignment(Justify.Left))
+         //new Markup("[yellow]12345  67890  12345  67890  12345  67890  12345  67890[/]").Overflow(Overflow.Crop),
+         //new Markup("1234567890").Overflow(Overflow.Ellipsis))
+   //.AddRow("1234567890", "1234567890")
+   ;
 
-foreach (var item in col)
-{
-// public string? Name { get; set; }
-// public string? Description { get; set; }
-// public string? Owner { get; set; }
-// public DateTime? CreatedOn { get; set; }
-// public Ellipsoid? Size { get; set; }
-// public List<InterstellarObject> InterstellarObjects { get; set; } = new();
-
-   WriteLine($"{item.Name} {item.Description} {item.Owner} {item.CreatedOn} {item.Size} {item.InterstellarObjects.Count}");
-
-// table.AddRow("test data".ToMarkup(30, Color.Yellow), "boobs".ToMarkup(10));
-   break;
-}
-
-// table.AddRow("test data".ToMarkup(30, Color.Yellow), "boobs".ToMarkup(10));
-// 30.IterationsDo(() => table.AddRow("12345  67890  12345  67890  12345  67890  12345  67890".ToMarkup(30), "boobs".ToMarkup(10)));
-// table.AddRow("12345  67890  12345  67890  12345  67890  12345  67890".ToMarkup(30, Color.Yellow), "boobs".ToMarkup(10));
-// table.AddRow("12345  67890  12345  67890  12345  67890  12345  67890".ToMarkup(30, Color.Blue), "boobs".ToMarkup(10));
-// table.AddRow("12345  67890  12345  67890  12345  67890  12345  67890".ToMarkup(30, overflow: Overflow.Ellipsis), "boobs".ToMarkup(10));
-
-//AnsiConsole.Write(table);
+AnsiConsole.Write(table);
 #endif
-
-WriteLine();
-WriteLine($"{AnsiConsole.Profile.Capabilities.AsJsonIndented()}");
 
 WriteLine("Done.");
 ReadKey();
 
-public static class SpectreConsoleExtensions
-{
-   public static Markup ToMarkup(this string text, int colWidth, Color? color = null, Overflow overflow = Overflow.Crop)
-   {
-      if (text.Length > colWidth)
-      {
-         text = overflow == Overflow.Ellipsis ? $"{text[ ..(colWidth - 1) ]}…" : text[ ..colWidth ];
-      }
-
-      string markupText = color.HasValue ? $"[{color.Value}]{text}[/]" : text;
-
-      return new Markup(markupText);
-   }
-}
-
+//public void ForEach(Action<T> action)
 
 public static class IterationExtensions
 {
-   public static void IterationsDo(this int count, Action? action)
+   public static void TimesDo(this int count, Action? action)
    {
       for (int i = 0; i < count; i++)
       {
