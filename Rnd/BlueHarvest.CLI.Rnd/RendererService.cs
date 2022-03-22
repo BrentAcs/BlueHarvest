@@ -13,7 +13,7 @@ using Spectre.Console;
 
 namespace BlueHarvest.CLI.Rnd;
 
-public static class StarClusterTableRenderer
+public static class StarClusterTableExtensions
 {
    private const int IndexColWidth = 2;
    private const int NameColWidth = 8;
@@ -24,10 +24,10 @@ public static class StarClusterTableRenderer
    private const int ObjectsColWidth = 4;
    private const int FluffColWidth = 17;
 
-   public static Table Render(IEnumerable<StarCluster> clusters, int currentPage = 0, int pageSize = 20) =>
-      Render(clusters.ToList(), currentPage, pageSize);
+   public static Table Build(this IEnumerable<StarCluster> clusters, int currentPage = 0, int pageSize = 20) =>
+      Build(clusters.ToList(), currentPage, pageSize);
 
-   public static Table Render(IList<StarCluster> clusters, int currentPage = 0, int pageSize = 20)
+   public static Table Build(IList<StarCluster> clusters, int currentPage = 0, int pageSize = 20)
    {
       var table = new Table()
          .AddColumns(
@@ -48,50 +48,18 @@ public static class StarClusterTableRenderer
 
       for (int index = startIndex; index < endIndex; ++index)
       {
-         // TODO: refactor magic strings to constants.
-         
          var item = clusters[ index ];
-         table.AddRow(
-            (index+1).ToMarkup(2),
-            item.Name.ToMarkup(8, Color.Yellow),
-            item.Description.ToMarkup(24),
-            item.Owner.ToMarkup(20),
-            item.CreatedOn?.ToShortDateString().ToMarkup(10, color: Color.Yellow),
-            $"({item.Size?.XRadius:0.}, {item.Size?.YRadius:0.}, {item.Size?.ZRadius:0.})".ToMarkup(12),
-            item.InterstellarObjects.Count.ToMarkup(4),
-            Text.Empty
-         );
+         // table.AddRow(
+         //    (index+1).ToMarkup(IndexColWidth),
+         //    item.Name.ToMarkup(NameColWidth, Color.Yellow),
+         //    item.Description.ToMarkup(DescriptionColWidth),
+         //    item.Owner.ToMarkup(OwnerColWidth),
+         //    item.CreatedOn?.ToShortDateString().ToMarkup(CreatedOnColWidth, color: Color.Yellow),
+         //    $"({item.Size?.XRadius:0.}, {item.Size?.YRadius:0.}, {item.Size?.ZRadius:0.})".ToMarkup(SizeColWidth),
+         //    item.InterstellarObjects.Count.ToMarkup(ObjectsColWidth),
+         //    Text.Empty
+         // );
       }
-
-// var table = new Table()
-//    .AddColumns(
-//       new TableColumn(Text.Empty).Width(2).Alignment(Justify.Right).PadLeft(0).PadRight(0),
-//       new TableColumn("Name").Width(8).Alignment(Justify.Left),
-//       new TableColumn("Description").Width(24).Alignment(Justify.Left),
-//       new TableColumn("Owner").Width(20).Alignment(Justify.Left),
-//       new TableColumn("Created").Width(10).Alignment(Justify.Left),
-//       new TableColumn("Size").Width(12).Alignment(Justify.Left),
-//       new TableColumn("Objs").Width(4).Alignment(Justify.Right),
-//       new TableColumn("fluff").Width(17).Alignment(Justify.Right)
-//    );
-//
-// int index = 1;
-// foreach (var item in col)
-// {
-//    table.AddRow(
-//       index.ToMarkup(2),
-//       item.Name.ToMarkup(8, Color.Yellow),
-//       item.Description.ToMarkup(24),
-//       item.Owner.ToMarkup(20),
-//       item.CreatedOn?.ToShortDateString().ToMarkup(10, color: Color.Yellow),
-//       $"({item.Size?.XRadius:0.}, {item.Size?.YRadius:0.}, {item.Size?.ZRadius:0.})".ToMarkup(12),
-//       item.InterstellarObjects.Count.ToMarkup(4),
-//       Text.Empty      
-//    );
-//
-//    if (6 == ++index)
-//       break;
-// }
 
       return table;
    }
