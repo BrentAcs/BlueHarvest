@@ -11,4 +11,9 @@
     <PackageReference Include="Spectre.Console" Version="0.43.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BlueHarvest.Consoul.Common\BlueHarvest.Consoul.Common.csproj" />
+    <ProjectReference Include="..\Rnd\BlueHarvest.Core.Rnd\BlueHarvest.Core.Rnd.csproj" />
+  </ItemGroup>
+
 </Project>

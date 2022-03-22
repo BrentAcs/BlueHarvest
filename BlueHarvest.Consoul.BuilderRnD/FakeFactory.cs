@@ -1,8 +1,9 @@
+using BlueHarvest.Core.Rnd;
 using BlueHarvest.Core.Rnd.Geometry;
 using BlueHarvest.Core.Rnd.Utilities;
 using Faker;
 
-namespace BlueHarvest.Core.Rnd;
+namespace BlueHarvest.Consoul.Common;
 
 public static class FakeFactory
 {
