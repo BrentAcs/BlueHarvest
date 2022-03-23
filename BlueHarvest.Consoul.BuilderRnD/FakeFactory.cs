@@ -41,9 +41,11 @@ public static class FakeFactory
          Name = EntityMonikerGeneratorService.Default.Generate(),
          Star = CreateStar(), 
          Size = CreateSphere()
-         // public List<StellarObject> StellarObjects { get; set; } = new();
       };
 
+      if (Shallow)
+         return planetarySystem;
+      
       satelliteSystemCount ??= RandomNumber.Next(5, 10);
       for (int i = 0; i < satelliteSystemCount; ++i)
       {

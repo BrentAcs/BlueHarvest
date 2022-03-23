@@ -19,7 +19,7 @@ public class TablePreviewMenu : AppMenu
          new MenuItem
          {
             Display = "Planetary Systems",
-            Handler = () => { Console.WriteLine("Build planetary systems."); }
+            Handler = () => { Preview.PlanetarySystem.Show(); }
          },
          new MenuItem
          {

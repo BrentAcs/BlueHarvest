@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Rnd\BlueHarvest.Core.Rnd\BlueHarvest.Core.Rnd.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Previews\Trees" />
+  </ItemGroup>
+
 </Project>

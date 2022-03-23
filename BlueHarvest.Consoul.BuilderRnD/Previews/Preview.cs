@@ -1,8 +1,11 @@
+using BlueHarvest.Consoul.BuilderRnD.Previews.Tables;
+
 namespace BlueHarvest.Consoul.BuilderRnD.Previews;
 
 public abstract class Preview
 {
    public static readonly StarClusterPreview StarCluster = new();
+   public static readonly PlanetarySystemPreview PlanetarySystem = new();
    
    protected virtual string? Header => null;
    protected virtual string? Footer => null;
