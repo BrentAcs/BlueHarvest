@@ -1,6 +1,16 @@
 ﻿using BlueHarvest.Core.Rnd;
+using BlueHarvest.Core.Rnd.Geometry;
 
 namespace BlueHarvest.Consoul.Common;
+
+public static class TableExtensions
+{
+   public static string ToTableString(this Ellipsoid? ellipsoid) =>
+      $"({ellipsoid?.XRadius:0.}, {ellipsoid?.YRadius:0.}, {ellipsoid?.ZRadius:0.})";
+   
+   public static string ToTableString(this Point3D? point) =>
+      $"({point?.X:0.}, {point?.Y:0.}, {point?.Z:0.})";
+}
 
 public static class StarClusterTableExtensions
 {
@@ -44,7 +54,7 @@ public static class StarClusterTableExtensions
             item.Description.ToMarkup(DescriptionColWidth),
             item.Owner.ToMarkup(OwnerColWidth),
             item.CreatedOn?.ToShortDateString().ToMarkup(CreatedOnColWidth, color: Color.Yellow),
-            $"({item.Size?.XRadius:0.}, {item.Size?.YRadius:0.}, {item.Size?.ZRadius:0.})".ToMarkup(SizeColWidth),
+            item.Size.ToTableString().ToMarkup(SizeColWidth),
             item.InterstellarObjects.Count.ToMarkup(ObjectsColWidth),
             Text.Empty
          );
@@ -58,17 +68,10 @@ public static class PlanetarySystemTableExtensions
 {
    private const int IndexColWidth = 2;
    private const int NameColWidth = 8;
-   
    private const int StarColWidth = 12;
    private const int LocationColWidth = 12;
-
-   
-   // private const int DescriptionColWidth = 24;
-   // private const int OwnerColWidth = 20;
-   // private const int CreatedOnColWidth = 10;
    private const int SizeColWidth = 12;
    private const int ObjectsColWidth = 4;
-   // private const int FluffColWidth = 17;
 
    public static Table Build(this IEnumerable<PlanetarySystem> systems, int currentPage = 0, int pageSize = 20) =>
       Build(systems.ToList(), currentPage, pageSize);
@@ -98,9 +101,9 @@ public static class PlanetarySystemTableExtensions
             (index+1).ToMarkup(IndexColWidth),
             item.Name.ToMarkup(NameColWidth, Color.Yellow),
             $"{item.Star.StarType}".ToMarkup(StarColWidth),
-            //$"{item.Location}".ToMarkup(LocationColWidth),
-            "LOCATION".ToMarkup(LocationColWidth),
-            $"({item.Size?.XRadius:0.}, {item.Size?.YRadius:0.}, {item.Size?.ZRadius:0.})".ToMarkup(SizeColWidth),
+            item.Location.ToTableString().ToMarkup(LocationColWidth),
+            //"LOCATION".ToMarkup(LocationColWidth),
+            item.Size.ToTableString().ToMarkup(SizeColWidth),
             item.StellarObjects.Count.ToMarkup(ObjectsColWidth)
             // Text.Empty
          );
