@@ -15,7 +15,7 @@ var table = enumerable.Build();
 AnsiConsole.Write(table);
 #endif
 
-MainMenu.Default.Show();
+AppMenu.Main.Show();
 
 Console.WriteLine("Done.");
 Console.ReadKey(true);

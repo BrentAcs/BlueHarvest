@@ -2,6 +2,9 @@ namespace BlueHarvest.Consoul.BuilderRnD.Menus;
 
 public abstract class AppMenu
 {
+   public static readonly MainMenu Main = new();
+   public static readonly TablePreviewMenu TablePreview = new();
+   
    protected abstract string Title { get; }
    protected abstract IEnumerable<MenuItem> Items { get; }
    protected virtual SelectionMode Mode => SelectionMode.Independent;

@@ -1,10 +1,8 @@
-using BlueHarvest.Consoul.BuilderRnD.Previews;
-
 namespace BlueHarvest.Consoul.BuilderRnD.Menus;
 
 public class MainMenu : AppMenu
 {
-   public static readonly MainMenu Default = new();
+   // public static readonly MainMenu Default = new();
 
    protected override string Title => "Main Menu";
 
@@ -13,18 +11,13 @@ public class MainMenu : AppMenu
       {
          new MenuItem
          {
-            Display = "Star Cluster",
-            Handler = () => { new StarClusterPreview().Show(); }
+            Display = "Table Previews",
+            Handler = () => { TablePreview.Show(); }
          },
          new MenuItem
          {
-            Display = "Planetary Systems",
-            Handler = () => { Console.WriteLine("Build planetary systems."); }
-         },
-         new MenuItem
-         {
-            Display = "Satellite Systems",
-            Handler = () => { Console.WriteLine("Build Satellite systems."); }
+            Display = "Tree Previews",
+            //Handler = () => { TablePreviewMenu.Default.Show(); }
          },
          new MenuItem
          {

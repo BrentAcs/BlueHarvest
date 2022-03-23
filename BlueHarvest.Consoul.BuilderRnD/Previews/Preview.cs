@@ -2,6 +2,8 @@ namespace BlueHarvest.Consoul.BuilderRnD.Previews;
 
 public abstract class Preview
 {
+   public static readonly StarClusterPreview StarCluster = new();
+   
    protected virtual string? Header => null;
    protected virtual string? Footer => null;
    protected virtual string? Prompt => "Press any key to continue.";
