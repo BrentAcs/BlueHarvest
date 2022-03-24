@@ -17,5 +17,5 @@ AnsiConsole.Write(table);
 
 AppMenu.Main.Show();
 
-Console.WriteLine("Done.");
-Console.ReadKey(true);
+// Console.WriteLine("Done.");
+// Console.ReadKey(true);

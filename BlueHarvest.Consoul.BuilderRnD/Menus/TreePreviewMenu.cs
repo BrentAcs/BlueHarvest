@@ -1,10 +1,10 @@
-using BlueHarvest.Consoul.BuilderRnD.Previews;
+﻿using BlueHarvest.Consoul.BuilderRnD.Previews;
 
 namespace BlueHarvest.Consoul.BuilderRnD.Menus;
 
-public class TablePreviewMenu : AppMenu
+public class TreePreviewMenu : AppMenu
 {
-   protected override string Title => "Table Builder Menu";
+   protected override string Title => "Tree Builder Menu";
 
    protected override IEnumerable<MenuItem> Items =>
       new[]
@@ -12,12 +12,12 @@ public class TablePreviewMenu : AppMenu
          new MenuItem
          {
             Display = "Star Cluster",
-            Handler = () => { Preview.StarClusterTable.Show(); }
+            Handler = () => { Preview.StarClusterTree.Show(); }
          },
          new MenuItem
          {
             Display = "Planetary Systems",
-            Handler = () => { Preview.PlanetarySystemTable.Show(); }
+            //Handler = () => { Preview.PlanetarySystemTable.Show(); }
          },
          new MenuItem
          {

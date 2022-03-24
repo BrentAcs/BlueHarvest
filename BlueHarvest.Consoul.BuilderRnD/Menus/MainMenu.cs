@@ -2,8 +2,6 @@ namespace BlueHarvest.Consoul.BuilderRnD.Menus;
 
 public class MainMenu : AppMenu
 {
-   // public static readonly MainMenu Default = new();
-
    protected override string Title => "Main Menu";
 
    protected override IEnumerable<MenuItem> Items =>
@@ -17,7 +15,7 @@ public class MainMenu : AppMenu
          new MenuItem
          {
             Display = "Tree Previews",
-            //Handler = () => { TablePreviewMenu.Default.Show(); }
+            Handler = () => { TreePreview.Show(); }
          },
          new MenuItem
          {

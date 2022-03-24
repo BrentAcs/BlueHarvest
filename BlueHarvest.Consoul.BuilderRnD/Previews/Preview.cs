@@ -4,8 +4,10 @@ namespace BlueHarvest.Consoul.BuilderRnD.Previews;
 
 public abstract class Preview
 {
-   public static readonly StarClusterPreview StarCluster = new();
-   public static readonly PlanetarySystemPreview PlanetarySystem = new();
+   public static readonly StarClusterTablePreview StarClusterTable = new();
+   public static readonly PlanetarySystemTablePreview PlanetarySystemTable = new();
+
+   public static readonly StarClusterTreePreview StarClusterTree = new();
    
    protected virtual string? Header => null;
    protected virtual string? Footer => null;

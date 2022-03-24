@@ -4,6 +4,7 @@ public abstract class AppMenu
 {
    public static readonly MainMenu Main = new();
    public static readonly TablePreviewMenu TablePreview = new();
+   public static readonly TreePreviewMenu TreePreview = new();
    
    protected abstract string Title { get; }
    protected abstract IEnumerable<MenuItem> Items { get; }
