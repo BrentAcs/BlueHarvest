@@ -1,4 +1,4 @@
-namespace BlueHarvest.Consoul.BuilderRnD.Menus;
+namespace BlueHarvest.ConSoul.BuilderRnD.Menus;
 
 public enum MenuItemActions
 {

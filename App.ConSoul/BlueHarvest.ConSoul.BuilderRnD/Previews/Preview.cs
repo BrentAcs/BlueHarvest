@@ -1,6 +1,7 @@
-using BlueHarvest.Consoul.BuilderRnD.Previews.Tables;
+using BlueHarvest.ConSoul.BuilderRnD.Previews.Tables;
+using BlueHarvest.ConSoul.BuilderRnD.Previews.Trees;
 
-namespace BlueHarvest.Consoul.BuilderRnD.Previews;
+namespace BlueHarvest.ConSoul.BuilderRnD.Previews;
 
 public abstract class Preview
 {

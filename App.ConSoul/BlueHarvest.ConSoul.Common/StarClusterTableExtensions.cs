@@ -1,7 +1,7 @@
 ﻿using BlueHarvest.Core.Rnd;
 using BlueHarvest.Core.Rnd.Geometry;
 
-namespace BlueHarvest.Consoul.Common;
+namespace BlueHarvest.ConSoul.Common;
 
 public static class TableExtensions
 {

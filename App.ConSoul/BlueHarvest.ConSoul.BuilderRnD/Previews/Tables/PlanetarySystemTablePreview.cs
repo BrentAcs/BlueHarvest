@@ -1,7 +1,7 @@
-﻿using BlueHarvest.Consoul.Common;
+﻿using BlueHarvest.ConSoul.Common;
 using BlueHarvest.Core.Rnd;
 
-namespace BlueHarvest.Consoul.BuilderRnD.Previews.Tables;
+namespace BlueHarvest.ConSoul.BuilderRnD.Previews.Tables;
 
 public class PlanetarySystemTablePreview : TablePreview
 {

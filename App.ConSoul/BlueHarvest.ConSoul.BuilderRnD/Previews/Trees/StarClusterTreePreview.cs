@@ -1,9 +1,6 @@
-﻿using BlueHarvest.Consoul.BuilderRnD.Previews.Trees;
-using BlueHarvest.Consoul.Common;
-using BlueHarvest.Core.Rnd;
-using BlueHarvest.Core.Rnd.Utilities;
+﻿using BlueHarvest.Core.Rnd.Utilities;
 
-namespace BlueHarvest.Consoul.BuilderRnD.Previews.Tables;
+namespace BlueHarvest.ConSoul.BuilderRnD.Previews.Trees;
 
 public class StarClusterTreePreview : TreePreview
 {

@@ -1,7 +1,4 @@
-using BlueHarvest.Consoul.BuilderRnD.Previews.Tables;
-using BlueHarvest.Consoul.BuilderRnD.Previews.Trees;
-
-namespace BlueHarvest.Consoul.BuilderRnD.Menus;
+namespace BlueHarvest.ConSoul.BuilderRnD.Menus;
 
 public class MainMenu : AppMenu
 {

@@ -1,4 +1,4 @@
-namespace BlueHarvest.Consoul.BuilderRnD;
+namespace BlueHarvest.ConSoul.BuilderRnD;
 
 public static class AnsiConSoul
 {

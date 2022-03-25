@@ -1,6 +1,4 @@
-﻿using Spectre.Console;
-
-namespace BlueHarvest.Consoul.Common;
+﻿namespace BlueHarvest.ConSoul.Common;
 
 public static class SpectreConsoleExtensions
 {

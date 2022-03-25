@@ -1,6 +1,6 @@
-﻿using BlueHarvest.Consoul.BuilderRnD.Previews;
+﻿using BlueHarvest.ConSoul.BuilderRnD.Previews;
 
-namespace BlueHarvest.Consoul.BuilderRnD.Menus;
+namespace BlueHarvest.ConSoul.BuilderRnD.Menus;
 
 public class TreePreviewMenu : AppMenu
 {

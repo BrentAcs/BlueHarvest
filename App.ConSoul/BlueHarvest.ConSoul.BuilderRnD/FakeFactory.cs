@@ -3,7 +3,7 @@ using BlueHarvest.Core.Rnd.Geometry;
 using BlueHarvest.Core.Rnd.Utilities;
 using Faker;
 
-namespace BlueHarvest.Consoul.Common;
+namespace BlueHarvest.ConSoul.BuilderRnD;
 
 public static class FakeFactory
 {

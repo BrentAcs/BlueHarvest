@@ -1,4 +1,5 @@
-﻿using BlueHarvest.Consoul.BuilderRnD.Menus;
+﻿using BlueHarvest.ConSoul.BuilderRnD;
+using BlueHarvest.ConSoul.BuilderRnD.Menus;
 
 Console.Title = "Blue Harvest ConSoul Builder RnD";
 
@@ -31,6 +32,14 @@ public class StarClusterBrowser
    public static void Show()
    {
       Console.WriteLine("Star Cluster Browser");
+      
+      var cluster = FakeFactory.CreateStarCluster();
+      
+      
+      //File.WriteAllText("~/Code/");
+
+      
+      
       Console.ReadKey(true);
    }
 }
