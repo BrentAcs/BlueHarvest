@@ -7,9 +7,47 @@ namespace BlueHarvest.ConSoul.BuilderRnD;
 
 public static class FakeFactory
 {
-   public static bool Shallow { get; set; } = false;
-   
-   public static StarCluster CreateStarCluster(int? planetSystemCount = null)
+   public class StarClusterOptions
+   {
+      public static readonly StarClusterOptions Empty = new() {PlanetarySystemCount = 0};
+
+      public int? PlanetarySystemCount { get; set; }
+      public MinMax<int> PlanetarySystemCountMinMax { get; set; } = new(50, 200);
+
+      public PlanetarySystemOptions? PlanetarySystemOptions { get; set; } = new();
+   }
+
+   public class PlanetarySystemOptions
+   {
+      public static readonly PlanetarySystemOptions Empty = new()
+      {
+         SatelliteSystemCount = 0,
+         AsteroidFieldCount = 0
+      };
+
+      public int? SatelliteSystemCount { get; set; }
+      public MinMax<int> SatelliteSystemCountMinMax { get; set; } = new(5, 10);
+
+      public int? AsteroidFieldCount { get; set; }
+      public MinMax<int> AsteroidFieldCountMinMax { get; set; } = new(1, 4);
+   }
+
+   public class SatelliteSystemOptions
+   {
+      public static readonly SatelliteSystemOptions Empty = new()
+      {
+         MoonCount = 0,
+         StationCount = 0
+      };      
+      
+      public int? MoonCount { get; set; }
+      public MinMax<int> MoonCountMinMax { get; set; } = new(1, 10);
+      
+      public int? StationCount { get; set; }
+      public MinMax<int> StationCountMinMax { get; set; } = new(1, 10);
+   }
+
+   public static StarCluster CreateStarCluster(StarClusterOptions? options = null)
    {
       var cluster = new StarCluster
       {
@@ -20,50 +58,46 @@ public static class FakeFactory
          Size = CreateEllipsoid()
       };
 
-      if (Shallow)
-         return cluster;
-         
-      planetSystemCount ??= RandomNumber.Next(50, 200);
+      options ??= new StarClusterOptions();
+      int planetSystemCount = options.PlanetarySystemCount ?? RandomNumber.Next(options.PlanetarySystemCountMinMax.Min, options.PlanetarySystemCountMinMax.Max);
       for (int i = 0; i < planetSystemCount; ++i)
       {
-         var system = CreatePlanetarySystem();
+         var system = CreatePlanetarySystem(options.PlanetarySystemOptions);
          cluster.InterstellarObjects.Add(system);
       }
 
       return cluster;
    }
 
-   public static PlanetarySystem CreatePlanetarySystem(int? satelliteSystemCount=null, int? asteroidFieldCount=null)
+   public static PlanetarySystem CreatePlanetarySystem(PlanetarySystemOptions? options=null)
    {
       var planetarySystem = new PlanetarySystem()
       {
          Location = CreatePoint3D(),
          Name = EntityMonikerGeneratorService.Default.Generate(),
-         Star = CreateStar(), 
+         Star = CreateStar(),
          Size = CreateSphere()
       };
 
-      if (Shallow)
-         return planetarySystem;
-      
-      satelliteSystemCount ??= RandomNumber.Next(5, 10);
+      options ??= new PlanetarySystemOptions();
+      int satelliteSystemCount = options.SatelliteSystemCount ?? RandomNumber.Next(options.SatelliteSystemCountMinMax.Min, options.SatelliteSystemCountMinMax.Max);
       for (int i = 0; i < satelliteSystemCount; ++i)
       {
          var system = CreateSatelliteSystem();
          planetarySystem.StellarObjects.Add(system);
       }
 
-      asteroidFieldCount ??= RandomNumber.Next(1, 4);
+      int asteroidFieldCount = options.AsteroidFieldCount ?? RandomNumber.Next(options.AsteroidFieldCountMinMax.Min, options.AsteroidFieldCountMinMax.Max);
       for (int i = 0; i < asteroidFieldCount; ++i)
       {
          var field = CreateAsteroidField();
          planetarySystem.StellarObjects.Add(field);
       }
-      
+
       return planetarySystem;
    }
 
-   public static SatelliteSystem CreateSatelliteSystem(int? moonCount=null, int?stationCount=null)
+   public static SatelliteSystem CreateSatelliteSystem(SatelliteSystemOptions? options = null)
    {
       var satelliteSystem = new SatelliteSystem
       {
@@ -72,14 +106,15 @@ public static class FakeFactory
          Planet = CreatePlanet(),
       };
 
-      moonCount ??= RandomNumber.Next(0, 3);
+      options ??= new SatelliteSystemOptions();
+      int moonCount = options.MoonCount ?? RandomNumber.Next(options.MoonCountMinMax.Min, options.MoonCountMinMax.Min);
       for (int i = 0; i < moonCount; ++i)
       {
          var moon = CreateNaturalSatellite();
          satelliteSystem.Satellites.Add(moon);
       }
 
-      stationCount ??= RandomNumber.Next(0, 3);
+      int stationCount = options.StationCount ?? RandomNumber.Next(options.StationCountMinMax.Min, options.StationCountMinMax.Max);
       for (int i = 0; i < stationCount; ++i)
       {
          var station = CreateArtificialSatellite();
@@ -94,7 +129,7 @@ public static class FakeFactory
       {
          Name = EntityMonikerGeneratorService.Default.Generate(),
          Location = CreatePoint3D(),
-         AsteroidCount = RandomNumber.Next(10,100)
+         AsteroidCount = RandomNumber.Next(10, 100)
       };
 
    public static Point3D CreatePoint3D() =>
@@ -135,6 +170,4 @@ public static class FakeFactory
          Name = EntityMonikerGeneratorService.Default.Generate(),
          Distance = RandomNumber.Next(100, 500)
       };
-
-   
 }

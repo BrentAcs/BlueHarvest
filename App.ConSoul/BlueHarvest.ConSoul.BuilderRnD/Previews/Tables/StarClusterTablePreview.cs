@@ -12,11 +12,11 @@ public class StarClusterTablePreview : TablePreview
       // var items = new List<IndexedPromptString>();
       // items.Add(IndexedPromptString.None);
 
-      FakeFactory.Shallow = true;
+      //FakeFactory.Shallow = true;
       var col = new List<StarCluster>();
       for (int i = 0; i < 20; i++)
       {
-         var cluster = FakeFactory.CreateStarCluster();
+         var cluster = FakeFactory.CreateStarCluster(FakeFactory.StarClusterOptions.Empty);
          col.Add(cluster);
          // items.Add(IndexedPromptString.Create(i + 1, cluster.Name));
       }

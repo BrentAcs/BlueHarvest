@@ -9,7 +9,10 @@ public class PlanetarySystemTablePreview : TablePreview
    
    protected override void ShowPreview()
    {
-      FakeFactory.Shallow = true;
+      Console.WriteLine("Address this");
+      Console.ReadKey();
+      //FakeFactory.Shallow = true;
+
       var col = new List<PlanetarySystem>();
       for (int i = 0; i < 50; i++)
       {
