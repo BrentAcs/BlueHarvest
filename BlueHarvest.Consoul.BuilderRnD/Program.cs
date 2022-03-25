@@ -1,6 +1,8 @@
 ﻿using BlueHarvest.Consoul.BuilderRnD.Menus;
 
-Console.Title = "Blue Harvest Consoul Builder RnD";
+Console.Title = "Blue Harvest ConSoul Builder RnD";
+
+Console.WindowHeight = 50;
 
 #if false
 FakeFactory.Shallow = true;
@@ -15,7 +17,16 @@ var table = enumerable.Build();
 AnsiConsole.Write(table);
 #endif
 
-AppMenu.Main.Show();
+AppMenu.Show(MainMenu.Default);
 
 // Console.WriteLine("Done.");
 // Console.ReadKey(true);
+
+public class StarClusterBrowser
+{
+   public static void Show()
+   {
+      Console.WriteLine("Star Cluster Browser");
+      Console.ReadKey(true);
+   }
+}

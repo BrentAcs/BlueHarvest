@@ -3,8 +3,10 @@ namespace BlueHarvest.Consoul.BuilderRnD.Menus;
 public abstract class AppMenu
 {
    public static readonly MainMenu Main = new();
-   public static readonly TablePreviewMenu TablePreview = new();
-   public static readonly TreePreviewMenu TreePreview = new();
+   // public static readonly TablePreviewMenu TablePreview = new();
+   // public static readonly TreePreviewMenu TreePreview = new();
+
+   public static void Show(AppMenu menu) => menu.Show();
    
    protected abstract string Title { get; }
    protected abstract IEnumerable<MenuItem> Items { get; }
@@ -12,7 +14,8 @@ public abstract class AppMenu
    protected virtual int PageSize => 5;
    protected virtual Style HighlightStyle => null;
    protected virtual Style DisabledStyle => null;
-
+   
+   
    public virtual void Show(bool executeAction = true)
    {
       var menuItem = MenuItem.Default;
