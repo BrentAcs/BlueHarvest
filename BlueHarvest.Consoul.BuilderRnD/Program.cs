@@ -2,7 +2,15 @@
 
 Console.Title = "Blue Harvest ConSoul Builder RnD";
 
-Console.WindowHeight = 50;
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+{
+   Console.WindowHeight = 50;
+}
+
+MainMenu.ShowMenu();
+
+// Console.WriteLine("Done.");
+// Console.ReadKey(true);
 
 #if false
 FakeFactory.Shallow = true;
@@ -17,10 +25,6 @@ var table = enumerable.Build();
 AnsiConsole.Write(table);
 #endif
 
-AppMenu.Show(MainMenu.Default);
-
-// Console.WriteLine("Done.");
-// Console.ReadKey(true);
 
 public class StarClusterBrowser
 {

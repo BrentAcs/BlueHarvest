@@ -4,7 +4,7 @@ namespace BlueHarvest.Consoul.BuilderRnD.Menus;
 
 public class TreePreviewMenu : AppMenu
 {
-   public static readonly TreePreviewMenu Default = new();
+   public static void ShowMenu() => ((AppMenu)new TreePreviewMenu()).Show();
 
    protected override string Title => "Tree Builder Menu";
 

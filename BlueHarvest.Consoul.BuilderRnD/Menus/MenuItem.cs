@@ -9,6 +9,7 @@ public enum MenuItemActions
 public class MenuItem
 {
    public static readonly MenuItem Default = new();
+   
    public static MenuItem Create(string display, Action? handler = null, MenuItemActions action = MenuItemActions.Nothing) =>
       new()
       {

@@ -2,11 +2,11 @@ namespace BlueHarvest.Consoul.BuilderRnD.Menus;
 
 public abstract class AppMenu
 {
-   public static readonly MainMenu Main = new();
+   //public static readonly MainMenu Main = new();
    // public static readonly TablePreviewMenu TablePreview = new();
    // public static readonly TreePreviewMenu TreePreview = new();
 
-   public static void Show(AppMenu menu) => menu.Show();
+   //public static void Show(AppMenu menu) => menu.Show();
    
    protected abstract string Title { get; }
    protected abstract IEnumerable<MenuItem> Items { get; }
