@@ -19,45 +19,24 @@ public class StarClusterBrowser
    {
       //Console.WriteLine("Star Cluster Browser");
 
+      StarCluster? cluster = null;
 #if false
       // create new star cluster
 
       // var options = (FakeFactory.StarClusterOptions)null;
       // var options = FakeFactory.StarClusterOptions.Empty;
       var options = new FakeFactory.StarClusterOptions {PlanetarySystemCount = 100};
-      var cluster = FakeFactory.CreateStarCluster(options);
+      cluster = FakeFactory.CreateStarCluster(options);
       cluster.ToJsonFile("../../../../../SampleData/test-starcluster.json", JsonSettings.FormattedTypedNamedEnums);
 #else
       // load a star cluster
 
-      //var cluster = "../../../../../SampleData/test-starcluster.json".FromJsonFile<StarCluster>();
+      cluster = "../../../../../SampleData/test-starcluster.json".FromJsonFile<StarCluster>();
 #endif
       
-      new StarClusterView().Show();
+      new StarClusterView().Show(cluster);
       
-      // var favorites = AnsiConsole.Prompt(
-      //    new SelectionPrompt<string>()
-      //       .PageSize(10)
-      //       .Title("What are your [green]favorite fruits[/]?")
-      //       //.MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
-      //       .AddChoiceGroup("Berries", new[]
-      //       {
-      //          "Blackcurrant", "Blueberry", "Cloudberry",
-      //          "Elderberry", "Honeyberry", "Mulberry"
-      //       })
-      //       .AddChoices(new[]
-      //       {
-      //          "Apple", "Apricot", "Avocado", "Banana",
-      //          "Cherry", "Cocunut", "Date", "Dragonfruit", "Durian",
-      //          "Egg plant",  "Fig", "Grape", "Guava",
-      //          "Jackfruit", "Jambul", "Kiwano", "Kiwifruit", "Lime", "Lylo",
-      //          "Lychee", "Melon", "Nectarine", "Orange", "Olive"
-      //       }));      
-
-      
-      // Console.WriteLine($"cluster planetary count: {cluster?.PlanetarySystems.Count()}");
-      // cluster.p
-      Console.WriteLine("press any key.");
+      Console.WriteLine("press any key to exit.");
       Console.ReadKey(true);
    }
 }
