@@ -9,30 +9,37 @@ public class StarClusterView : View<StarCluster>
 
    protected override void ShowView()
    {
-      var detailsTable = new Table()
-         .Border(Theme.Active.MainTableBorder)
-         .BorderColor(Theme.Active.MainTableBorderColor)
-         .Width(Theme.Active.MainTableWidth)
-         .Title("[yellow]Star Cluster[/]")
-         .AddColumns( new TableColumn("Details"), new TableColumn(Text.Empty), new TableColumn(Text.Empty), new TableColumn(Text.Empty))
-         
-         // .AddColumn(new TableColumn("Item:").Width(null))
-         // .AddColumn(new TableColumn($"[yellow]{Source?.Name}[/]").Width(null))
-         // .AddColumn(new TableColumn("Owner:").Width(null))
-         // .AddColumn(new TableColumn($"[yellow]{Source?.Owner}[/]").Width(null))
+      var style1 = new Style(Color.Yellow, null, Decoration.Italic);
+      var mu1 = new Markup("boobs", style1);
+      
+      AnsiConsole.Write(mu1);
+      AnsiConsole.WriteLine();
 
-         
-         .AddRow("Created On:",
-            $"[yellow]{Source?.CreatedOn?.ToShortDateString()}[/]",
-            "Size:",
-            $"[yellow]{Source?.Size.ToTableString()}[/]")
-         .AddRow("Description:", $"[yellow]{Source?.Description}[/]");
-         
-         // .AddColumn(new TableColumn(Text.Empty).Centered())
-         // .AddRow(BuildDetailsTable())
-         //.AddRow(BuildSystemsTable())
-         ;
-      AnsiConsole.Write(detailsTable);
+
+      // var detailsTable = new Table()
+      //    .Border(Theme.Active.MainTableBorder)
+      //    .BorderColor(Theme.Active.MainTableBorderColor)
+      //    .Width(Theme.Active.MainTableWidth)
+      //    .Title("[yellow]Star Cluster[/]")
+      //    .AddColumns( new TableColumn("Details"), new TableColumn(Text.Empty), new TableColumn(Text.Empty), new TableColumn(Text.Empty))
+      //    
+      //    // .AddColumn(new TableColumn("Item:").Width(null))
+      //    // .AddColumn(new TableColumn($"[yellow]{Source?.Name}[/]").Width(null))
+      //    // .AddColumn(new TableColumn("Owner:").Width(null))
+      //    // .AddColumn(new TableColumn($"[yellow]{Source?.Owner}[/]").Width(null))
+      //
+      //    
+      //    .AddRow("Created On:",
+      //       $"[yellow]{Source?.CreatedOn?.ToShortDateString()}[/]",
+      //       "Size:",
+      //       $"[yellow]{Source?.Size.ToTableString()}[/]")
+      //    .AddRow("Description:", $"[yellow]{Source?.Description}[/]");
+      //    
+      //    // .AddColumn(new TableColumn(Text.Empty).Centered())
+      //    // .AddRow(BuildDetailsTable())
+      //    //.AddRow(BuildSystemsTable())
+      //    ;
+      // AnsiConsole.Write(detailsTable);
 
       // var systemsTable = new Table()
       //    ;

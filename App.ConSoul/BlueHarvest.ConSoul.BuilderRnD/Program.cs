@@ -11,7 +11,10 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
    Console.WindowHeight = 40;
 }
 
-MainMenu.ShowMenu();
+var cluster = "../../../../../SampleData/test-starcluster.json".FromJsonFile<StarCluster>();
+new StarClusterView().Show(cluster);
+
+//MainMenu.ShowMenu();
 
 public class StarClusterBrowser
 {
@@ -33,9 +36,9 @@ public class StarClusterBrowser
 
       cluster = "../../../../../SampleData/test-starcluster.json".FromJsonFile<StarCluster>();
 #endif
-      
+
       new StarClusterView().Show(cluster);
-      
+
       Console.WriteLine("press any key to exit.");
       Console.ReadKey(true);
    }
