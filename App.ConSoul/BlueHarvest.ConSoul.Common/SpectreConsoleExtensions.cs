@@ -17,4 +17,17 @@ public static class SpectreConsoleExtensions
 
       return new Markup(markupText);
    }
+
+   public static Markup ToMarkup(this string? text, int maxWidth, Style? style = null, Overflow overflow = Overflow.Ellipsis)
+   {
+      if (text is null)
+         throw new ArgumentNullException(nameof(text));
+
+      if (text.Length > maxWidth)
+      {
+         text = overflow == Overflow.Ellipsis ? $"{text[ ..(maxWidth - 1) ]}…" : text[ ..maxWidth ];
+      }
+
+      return new Markup(text, style);
+   }
 }

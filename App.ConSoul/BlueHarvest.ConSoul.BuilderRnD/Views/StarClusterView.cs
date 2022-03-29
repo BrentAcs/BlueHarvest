@@ -9,13 +9,29 @@ public class StarClusterView : View<StarCluster>
 
    protected override void ShowView()
    {
-      var style1 = new Style(Color.Yellow, null, Decoration.Italic);
-      var mu1 = new Markup("boobs", style1);
+      Console.CursorLeft = 54;
+      AnsiConsole.Write(new Markup("Star Cluster", Theme.Active.TableHeaderStyle));
+      AnsiConsole.WriteLine();
       
-      AnsiConsole.Write(mu1);
+      AnsiConsole.Write(new Markup("Name.........: ", Theme.Active.TableLabelStyle));
+      AnsiConsole.Write(Source?.Name.ToMarkup(42, Theme.Active.TableItemStyle));
+      Console.CursorLeft = 60;
+      AnsiConsole.Write(new Markup("Owner........: ", Theme.Active.TableLabelStyle));
+      AnsiConsole.Write(Source?.Owner.ToMarkup(42, Theme.Active.TableItemStyle));
       AnsiConsole.WriteLine();
 
+      AnsiConsole.Write(new Markup("Created On...: ", Theme.Active.TableLabelStyle));
+      AnsiConsole.Write(Source?.CreatedOn?.ToShortDateString().ToMarkup(42, Theme.Active.TableItemStyle));
+      Console.CursorLeft = 60;
+      AnsiConsole.Write(new Markup("Size.........: ", Theme.Active.TableLabelStyle));
+      AnsiConsole.Write(Source?.Size.ToTableString().ToMarkup(42, Theme.Active.TableItemStyle));
+      AnsiConsole.WriteLine();
 
+      AnsiConsole.Write(new Markup("Description..: ", Theme.Active.TableLabelStyle));
+      AnsiConsole.Write(Source?.Description.ToMarkup(42, Theme.Active.TableItemStyle));
+      AnsiConsole.WriteLine();
+      AnsiConsole.WriteLine();
+      
       // var detailsTable = new Table()
       //    .Border(Theme.Active.MainTableBorder)
       //    .BorderColor(Theme.Active.MainTableBorderColor)
