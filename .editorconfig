@@ -56,12 +56,13 @@ dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_
 dotnet_naming_symbols.constant_fields.applicable_kinds            = field 
 dotnet_naming_symbols.constant_fields.applicable_accessibilities  = * 
 dotnet_naming_symbols.constant_fields.required_modifiers          = const 
+tab_width=3
 ############################### 
 # C# Coding Conventions       # 
 ############################### 
 [*.cs] 
 # var preferences 
-csharp_style_var_for_built_in_types = true:silent 
+csharp_style_var_for_built_in_types =false:silent
 csharp_style_var_when_type_is_apparent = true:silent 
 csharp_style_var_elsewhere = true:silent 
 # Expression-bodied members 

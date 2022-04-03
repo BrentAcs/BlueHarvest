@@ -5,9 +5,23 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Grids\**" />
+    <Compile Remove="BaseUnit.cs" />
+  </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\App\BlueHarvest.Core\BlueHarvest.Core.csproj" />
+    <EmbeddedResource Remove="Grids\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Grids\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Faker.Net" Version="2.0.154" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>

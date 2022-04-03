@@ -5,11 +5,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>BlueHarvest.ConSoul</AssemblyName>
+    <RootNamespace>BlueHarvest.ConSoul</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BlueHarvest.Core.Rnd\BlueHarvest.Core.Rnd.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Spectre.Console" Version="0.43.0" />

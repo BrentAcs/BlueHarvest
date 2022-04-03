@@ -1,40 +1,35 @@
-﻿using System.Reflection;
-using BlueHarvest.Core.Models;
-using BlueHarvest.Core.Storage;
-using BlueHarvest.Core.Utilities;
-using static System.Console;
+﻿using static System.Console;
 
-namespace BlueHarvest.CLI.Rnd;
+WriteLine("Blue Harvest CLI Rnd");
 
-class Program
-{
-   static async Task Main(string[] args)
-   {
-      var rng = new SimpleRng();
-      var col = new ChanceTable<StarType>();
-      col.Add(StarType.ClassB, 0.625);
-      col.Add(StarType.ClassA, 3.125);
-      col.Add(StarType.ClassF, 15.0);
-      col.Add(StarType.ClassG, 38.5);
-      col.Add(StarType.ClassK, 41.5);
+#if false
+EntityMonikerGeneratorService.Default.Reset();
+var obj = FakeFactory.CreateStarCluster();
+//var obj = FakeFactory.CreatePlanetarySystem();
+//var obj = FakeFactory.CreateSatelliteSystem();
 
-      var results = new Dictionary<StarType, int>();
-      for (int i = 0; i < 100000; i++)
-      {
-         var star = col.GetItem(rng.Next(0.0, 100.00));
-         if (!results.ContainsKey(star))
-            results[ star ] = 1;
-         else
-            results[ star ]++;
-      }
+var json = obj.AsJson(settings: JsonSettings.FormattedTypedNamedEnums);
+obj.ToJsonFile(@"C:\Code\BlueHarvest\SampleData\star-cluster.json", JsonSettings.FormattedTypedNamedEnums);
 
-      foreach (var pair in results)
-      {
-         WriteLine($"{pair.Key}: {pair.Value}");
-      }      
-      
-      WriteLine("Done.");
-      ReadKey();
-   }
-}
+WriteLine(json);
+#endif
 
+#if false
+var cluster = @"C:\Code\BlueHarvest\SampleData\star-cluster.json".FromJsonFile<StarCluster>(JsonSettings.FormattedTypedNamedEnums);
+#endif
+
+#if false
+FakeFactory.Shallow = true;
+var cluster = FakeFactory.CreateStarCluster();
+var col = new List<StarCluster>();
+50.TimesDo(() => col.Add(FakeFactory.CreateStarCluster()));
+
+var enumerable = col as IEnumerable<StarCluster>;
+//var table = col.Build( 0, 10);
+var table = enumerable.Build();
+
+AnsiConsole.Write(table);
+#endif
+
+WriteLine("Done.");
+ReadKey();
