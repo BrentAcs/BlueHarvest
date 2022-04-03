@@ -23,3 +23,23 @@ Please feel free to drop any and all comments, feedback, ideas, critques at bren
 Enjoy and/or Laugh.
 
 Or would it be Laugh and/or Enjoy
+
+
+**Star Cluster**<br/>
+├── InterstellarObjects : PlanetarySystems<br/>
+│   ├── PlanetarySystem<br/>
+├── InterstellarObjects : DeepSpaceObjects<br/>
+│   ├── DeepSpaceObject<br/>
+
+<br/>
+<br/>
+
+**Star Cluster**<br/>
++-- PlanetarySystems<br/>
++-- +-- **PlanetarySystem** : InterstellarObjects<br/>
++-- +-- +-- **SatelliteSystems** :StellarObject<br/>
++-- +-- +-- +-- SatelliteSystem<br/>
++-- +-- +-- +-- +-- NaturalSatellite : Satellite<br/>
++-- +-- +-- +-- +-- ArtificialSatellite: Satellite<br/>
++-- +-- +-- **AsteroidFields** :StellarObject<br/>
++-- +-- **DeepSpaceObjects** : InterstellarObjects<br/>
