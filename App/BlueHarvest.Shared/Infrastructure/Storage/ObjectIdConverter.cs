@@ -1,7 +1,4 @@
-﻿using MongoDB.Bson;
-using Newtonsoft.Json.Linq;
-
-namespace BlueHarvest.Core.Infastructure.Storage;
+﻿namespace BlueHarvest.Shared.Infrastructure.Storage;
 
 public class ObjectIdConverter : JsonConverter
 {

@@ -1,4 +1,4 @@
-namespace BlueHarvest.Core.Models;
+namespace BlueHarvest.Shared.Models;
 
 // /// <summary>
 // /// Represents system or collection of (T) things

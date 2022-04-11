@@ -1,4 +1,4 @@
-﻿namespace BlueHarvest.Core.Geometry;
+﻿namespace BlueHarvest.Shared.Models.Geometry;
 
 public record Ellipsoid(double XRadius = 0.0, double YRadius = 0.0, double ZRadius = 0.0) : IHaveVolume
 {

@@ -1,4 +1,4 @@
-﻿namespace BlueHarvest.Core.Geometry;
+﻿namespace BlueHarvest.Shared.Models.Geometry;
 
 public record Sphere : Ellipsoid
 {

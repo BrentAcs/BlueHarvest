@@ -1,6 +1,6 @@
-using BlueHarvest.Core.Infastructure.Storage;
+using BlueHarvest.Shared.Infrastructure.Storage;
 
-namespace BlueHarvest.Core.Models;
+namespace BlueHarvest.Shared.Models;
 
 public interface IMongoDocument
 {

@@ -1,4 +1,4 @@
-namespace BlueHarvest.Core.Models.Cosmic;
+namespace BlueHarvest.Shared.Models.Cosmic;
 
 public class NaturalSatellite : Satellite
 {

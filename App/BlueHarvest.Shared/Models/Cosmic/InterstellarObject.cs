@@ -1,7 +1,7 @@
-using BlueHarvest.Core.Geometry;
-using BlueHarvest.Core.Infastructure.Storage;
+using BlueHarvest.Shared.Infrastructure.Storage;
+using BlueHarvest.Shared.Models.Geometry;
 
-namespace BlueHarvest.Core.Models.Cosmic;
+namespace BlueHarvest.Shared.Models.Cosmic;
 
 /// <summary>
 /// Base of objects found in interstellar space.

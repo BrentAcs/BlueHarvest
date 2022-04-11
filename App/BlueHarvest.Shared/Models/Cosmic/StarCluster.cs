@@ -1,6 +1,6 @@
-﻿using BlueHarvest.Core.Geometry;
+﻿using BlueHarvest.Shared.Models.Geometry;
 
-namespace BlueHarvest.Core.Models.Cosmic;
+namespace BlueHarvest.Shared.Models.Cosmic;
 
 /// <summary>
 /// The overall 'world' object. All things exist inside a star cluster
