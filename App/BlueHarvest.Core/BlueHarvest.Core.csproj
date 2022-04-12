@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\Builders" />
+      <ProjectReference Include="..\BlueHarvest.Shared\BlueHarvest.Shared.csproj" />
     </ItemGroup>
 
 </Project>
