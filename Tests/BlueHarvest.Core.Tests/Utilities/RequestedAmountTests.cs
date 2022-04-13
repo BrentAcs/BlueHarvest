@@ -7,7 +7,7 @@ public class RequestedAmountTests
    [Test]
    public void WhenCreated_WithExactAmount_GetAmount_WillReturn_ExactAmount()
    {
-      var sut = new RequestedAmount(10);
+      var sut = new SystemAmount(10);
 
       var amount = sut.GetAmount();
 
@@ -17,7 +17,7 @@ public class RequestedAmountTests
    [Test]
    public void WhenCreated_WithRange_GetAmount_WillReturn_AmountInRange()
    {
-      var sut = new RequestedAmount(1, 10);
+      var sut = new SystemAmount(1, 10);
 
       var amount = sut.GetAmount();
 

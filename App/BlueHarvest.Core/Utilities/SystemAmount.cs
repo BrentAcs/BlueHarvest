@@ -1,21 +1,21 @@
 namespace BlueHarvest.Core.Utilities;
 
-public class RequestedAmount
+public class SystemAmount
 {
    private readonly int? _exactAmount;
    private readonly MinMax<int>? _range;
 
-   public RequestedAmount(int exactAmount)
+   public SystemAmount(int exactAmount)
    {
       _exactAmount = exactAmount;
       _range = null;
    }
 
-   public RequestedAmount(int min, int max) : this(new MinMax<int>(min, max))
+   public SystemAmount(int min, int max) : this(new MinMax<int>(min, max))
    {
    }
 
-   public RequestedAmount(MinMax<int> minMax)
+   public SystemAmount(MinMax<int> minMax)
    {
       _exactAmount = default;
       _range = minMax;
