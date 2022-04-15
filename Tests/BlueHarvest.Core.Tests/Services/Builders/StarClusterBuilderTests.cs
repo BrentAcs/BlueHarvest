@@ -25,8 +25,10 @@ public class StarClusterBuilderTests
       Mock<IRng> rngMock = new Mock<IRng>();
       var options = StarClusterBuilderOptions.Test;
       options.SystemAmount = new SystemAmount(11);
+
       var sut = new StarClusterBuilder(rngMock.Object);
 
-      Assert.Throws<BuilderException>(() => sut.Build(options));
+      sut.Invoking(s => s.Build(options))
+         .Should().Throw<BuilderException>();
    }
 }
