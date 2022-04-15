@@ -1,4 +1,5 @@
 using BlueHarvest.Core.Utilities;
+using FluentAssertions;
 
 namespace BlueHarvest.Core.Tests;
 
@@ -11,7 +12,7 @@ public class RequestedAmountTests
 
       var amount = sut.GetAmount();
 
-      Assert.AreEqual(10, amount);
+      amount.Should().Be(10);
    }
 
    [Test]
@@ -21,6 +22,6 @@ public class RequestedAmountTests
 
       var amount = sut.GetAmount();
 
-      Assert.That(amount, Is.InRange(1, 10));
+      amount.Should().BeInRange(1, 10);
    }
 }

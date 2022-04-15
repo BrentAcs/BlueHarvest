@@ -1,5 +1,7 @@
 ﻿using BlueHarvest.Core.Services.Builders;
 using BlueHarvest.Core.Utilities;
+using FluentAssertions;
+using MongoDB.Driver;
 
 namespace BlueHarvest.Core.Tests.Services.Builders;
 
@@ -14,7 +16,7 @@ public class StarClusterBuilderTests
 
       var cluster = sut.Build(options);
       
-      Assert.AreEqual(options.Name, cluster.Name);
+      cluster.Name.Should().Be(options.Name);
    }
    
    [Test]

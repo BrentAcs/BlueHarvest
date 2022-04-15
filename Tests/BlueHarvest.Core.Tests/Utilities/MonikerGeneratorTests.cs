@@ -1,4 +1,5 @@
 using BlueHarvest.Core.Utilities;
+using FluentAssertions;
 
 namespace BlueHarvest.Core.Tests;
 
@@ -10,8 +11,8 @@ public class MonikerGeneratorTests
       var sut = new MonikerGenerator(new SimpleRng());
 
       var moniker = sut.Generate();
-      
-      Assert.IsNotEmpty(moniker);
+
+      moniker.Should().NotBeEmpty();
    }
 
    [Test]
@@ -20,8 +21,7 @@ public class MonikerGeneratorTests
       var sut = new MonikerGenerator(new SimpleRng());
 
       var moniker = sut.Generate("AAAA-AAAA");
-      
-      Assert.AreEqual("AAAA-AAAA".Length, moniker.Length);
-   }
 
+      moniker.Should().HaveLength(9).And.Contain("-");
+   }
 }
