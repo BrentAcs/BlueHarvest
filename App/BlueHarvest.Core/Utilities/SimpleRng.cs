@@ -2,6 +2,8 @@ namespace BlueHarvest.Core.Utilities;
 
 public sealed class SimpleRng : IRng
 {
+   public static readonly IRng Instance = new SimpleRng(); 
+   
    private readonly Random _random = new();
 
    public int Next() =>

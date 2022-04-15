@@ -5,6 +5,42 @@ namespace BlueHarvest.Core.Services.Builders;
 
 public class StarClusterBuilderOptions
 {
+   public static StarClusterBuilderOptions ExtraLarge => new()
+   {
+      Name = "Extra Large",
+      Description = "Work in Progress Cluster (Extra Large)",
+      Owner = "System",
+      ClusterSize = new Ellipsoid(150, 150, 25),
+      DistanceBetweenSystems = new MinMax<double>(5, 10)
+   };
+   
+   public static StarClusterBuilderOptions Large => new()
+   {
+      Name = "Large",
+      Description = "Work in Progress Cluster (Large)",
+      Owner = "System",
+      ClusterSize = new Ellipsoid(100, 100, 20),
+      DistanceBetweenSystems = new MinMax<double>(5, 10)
+   };
+   
+   public static StarClusterBuilderOptions Medium => new()
+   {
+      Name = "Medium",
+      Description = "Work in Progress Cluster (Medium)",
+      Owner = "System",
+      ClusterSize = new Ellipsoid(50, 50, 15),
+      DistanceBetweenSystems = new MinMax<double>(5, 10)
+   };
+   
+   public static StarClusterBuilderOptions Small => new()
+   {
+      Name = "Small",
+      Description = "Work in Progress Cluster (Small)",
+      Owner = "System",
+      ClusterSize = new Ellipsoid(25, 25, 10),
+      DistanceBetweenSystems = new MinMax<double>(5, 10)
+   };
+   
    public static StarClusterBuilderOptions Test => new()
    {
       Name = "Test",
