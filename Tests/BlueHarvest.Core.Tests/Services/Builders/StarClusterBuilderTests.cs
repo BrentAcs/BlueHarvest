@@ -24,7 +24,22 @@ public class StarClusterBuilderTests
    {
       Mock<IRng> rngMock = new Mock<IRng>();
       var options = StarClusterBuilderOptions.Test;
-      options.SystemAmount = new SystemAmount(11);
+      options.DesiredPlanetarySystems = new DesiredAmount(11);
+      options.DesiredDeepSpaceObjects = new DesiredAmount(0);
+
+      var sut = new StarClusterBuilder(rngMock.Object);
+
+      sut.Invoking(s => s.Build(options))
+         .Should().Throw<BuilderException>();
+   }
+   
+   [Test]
+   public void Build_WillThrow_WhenTooManyDeepSpaceObjects()
+   {
+      Mock<IRng> rngMock = new Mock<IRng>();
+      var options = StarClusterBuilderOptions.Test;
+      options.DesiredPlanetarySystems = new DesiredAmount(0);
+      options.DesiredDeepSpaceObjects = new DesiredAmount(11);
 
       var sut = new StarClusterBuilder(rngMock.Object);
 

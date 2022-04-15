@@ -12,6 +12,7 @@ public class StarClusterBuilderOptions
       Owner = "System",
       ClusterSize = new Ellipsoid(150, 150, 25),
       DistanceBetweenSystems = new MinMax<double>(5, 10)
+      // TODO: determine DesiredPlanetarySystems and DesiredDeepSpaceObjects
    };
    
    public static StarClusterBuilderOptions Large => new()
@@ -21,6 +22,7 @@ public class StarClusterBuilderOptions
       Owner = "System",
       ClusterSize = new Ellipsoid(100, 100, 20),
       DistanceBetweenSystems = new MinMax<double>(5, 10)
+      // TODO: determine DesiredPlanetarySystems and DesiredDeepSpaceObjects
    };
    
    public static StarClusterBuilderOptions Medium => new()
@@ -30,6 +32,7 @@ public class StarClusterBuilderOptions
       Owner = "System",
       ClusterSize = new Ellipsoid(50, 50, 15),
       DistanceBetweenSystems = new MinMax<double>(5, 10)
+      // TODO: determine DesiredPlanetarySystems and DesiredDeepSpaceObjects
    };
    
    public static StarClusterBuilderOptions Small => new()
@@ -39,6 +42,7 @@ public class StarClusterBuilderOptions
       Owner = "System",
       ClusterSize = new Ellipsoid(25, 25, 10),
       DistanceBetweenSystems = new MinMax<double>(5, 10)
+      // TODO: determine DesiredPlanetarySystems and DesiredDeepSpaceObjects
    };
    
    public static StarClusterBuilderOptions Test => new()
@@ -48,7 +52,8 @@ public class StarClusterBuilderOptions
       Owner = "System",
       ClusterSize = new Ellipsoid(5, 5, 5),
       DistanceBetweenSystems = new MinMax<double>(2, 5),
-      SystemAmount = new SystemAmount(10)
+      DesiredPlanetarySystems = new DesiredAmount(9),
+      DesiredDeepSpaceObjects = new DesiredAmount(1),
    };
    
    // https://www.quora.com/How-many-balls-of-diameter-1-can-be-put-in-a-spherical-container-of-diameter-10
@@ -59,7 +64,8 @@ public class StarClusterBuilderOptions
    public string Owner { get; set; } = "(default owner)";
    public Ellipsoid ClusterSize { get; set; } = new(25, 25, 10);
    public MinMax<double> DistanceBetweenSystems { get; set; } = new(3.0, 10.0);
-   public SystemAmount SystemAmount { get; set; }
+   public DesiredAmount? DesiredPlanetarySystems { get; set; }
+   public DesiredAmount? DesiredDeepSpaceObjects { get; set; }
    
    //public PlanetarySystemBuilderOptions? SystemOptions { get; set; } = new();
    

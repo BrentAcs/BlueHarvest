@@ -1,22 +1,27 @@
 ﻿using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Cosmic;
+using BlueHarvest.Shared.Models.Geometry;
 
 namespace BlueHarvest.Core.Services.Builders;
 
 /// <summary>
 /// Stock, for game play, star cluster builder
 /// </summary>
-public class StarClusterBuilder : IStarClusterBuilder
+public class StarClusterBuilder : BaseBuilder, IStarClusterBuilder
 {
-   private readonly IRng _rng;
-
-   public StarClusterBuilder(IRng rng)
+   public StarClusterBuilder(IRng rng) : base(rng)
    {
-      _rng = rng;
    }
 
    public StarCluster Build(StarClusterBuilderOptions options)
    {
+      if (options is null)
+         throw new ArgumentNullException(nameof(options));
+      if (options.DesiredPlanetarySystems is null)
+         throw new ArgumentException($"{nameof(options.DesiredPlanetarySystems)} is null.");
+      if (options.DesiredDeepSpaceObjects is null)
+         throw new ArgumentException($"{nameof(options.DesiredDeepSpaceObjects)} is null.");
+
       var cluster = new StarCluster
       {
          CreatedOn = DateTime.Now,
@@ -26,11 +31,47 @@ public class StarClusterBuilder : IStarClusterBuilder
          Size = options.ClusterSize
       };
 
-      int systemCount = options.SystemAmount.GetAmount(_rng);
-      if (systemCount > options.MaximumPossibleSystems)
-         BuilderException.CreateTooManySystems(options.MaximumPossibleSystems, systemCount);
+      int systemCount = options.DesiredPlanetarySystems.GetAmount(Rng);
+      int deepSpaceCount = options.DesiredDeepSpaceObjects.GetAmount(Rng);
+      if (systemCount + deepSpaceCount > options.MaximumPossibleSystems)
+         BuilderException.CreateTooManyInterstellarObjects(options.MaximumPossibleSystems, systemCount + deepSpaceCount);
+
+      var systemLocs = BuildPlanetarySystems(options, systemCount, cluster);
+      _ = BuildDeepSpaceObjects(options, deepSpaceCount, systemLocs, cluster);
 
       return cluster;
    }
-}
-;
+
+   private IEnumerable<Point3D> BuildPlanetarySystems(StarClusterBuilderOptions options, int systemCount, StarCluster cluster)
+   {
+      var systemLocs = GeneratePointsInEllipsoid(systemCount, options.ClusterSize, options.DistanceBetweenSystems);
+      foreach (var location in systemLocs)
+      {
+         var system = new PlanetarySystem
+         {
+            Name = MonikerGenerator.Default.Generate(),
+            Location = location
+         };
+         cluster.InterstellarObjects.Add(system);
+      }
+
+      return systemLocs;
+   }
+
+   private IEnumerable<Point3D> BuildDeepSpaceObjects(StarClusterBuilderOptions options, int deepSpaceCount, IEnumerable<Point3D> systemLocs,
+      StarCluster cluster)
+   {
+      var deepSpaceLocs = GeneratePointsInEllipsoid(deepSpaceCount, options.ClusterSize, options.DistanceBetweenSystems, systemLocs);
+      foreach (var location in deepSpaceLocs)
+      {
+         var system = new DeepSpaceObject
+         {
+            Name = MonikerGenerator.Default.Generate(),
+            Location = location
+         };
+         cluster.InterstellarObjects.Add(system);
+      }
+
+      return deepSpaceLocs;
+   }
+};

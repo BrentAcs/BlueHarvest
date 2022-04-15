@@ -3,12 +3,12 @@ using FluentAssertions;
 
 namespace BlueHarvest.Core.Tests;
 
-public class RequestedAmountTests
+public class DesiredAmountTests
 {
    [Test]
    public void WhenCreated_WithExactAmount_GetAmount_WillReturn_ExactAmount()
    {
-      var sut = new SystemAmount(10);
+      var sut = new DesiredAmount(10);
 
       var amount = sut.GetAmount();
 
@@ -18,7 +18,7 @@ public class RequestedAmountTests
    [Test]
    public void WhenCreated_WithRange_GetAmount_WillReturn_AmountInRange()
    {
-      var sut = new SystemAmount(1, 10);
+      var sut = new DesiredAmount(1, 10);
 
       var amount = sut.GetAmount();
 

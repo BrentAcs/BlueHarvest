@@ -16,6 +16,6 @@ public class BuilderException : Exception
    {
    }
 
-   public static BuilderException CreateTooManySystems(long maxPossible, long count) =>
-      throw new BuilderException($"Too many systems. Max possible: {maxPossible}, amount specified in options: {count}");
+   public static BuilderException CreateTooManyInterstellarObjects(long maxPossible, long count) =>
+      throw new BuilderException($"Too many Interstellar Objects requested. Max possible: {maxPossible}, amount specified in options: {count}");
 }
