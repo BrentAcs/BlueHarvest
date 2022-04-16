@@ -12,6 +12,7 @@ do
       .Title("Blue Harvest PoC CLI")
       .AddChoiceGroup(new ActionPrompt("Test Factories"), new[]
       {
+         new ActionPrompt($"Toggle Save-To-File (current: {factoryActions.SaveToFile})", factoryActions.ToggleSaveToFile), 
          new ActionPrompt("Star Cluster", factoryActions.TestClusterFactory),
          new ActionPrompt("Planetary System", factoryActions.TestPlanetarySystemFactory),
          new ActionPrompt("Planetary Distance", factoryActions.TestPlanetDistanceFactory),

@@ -34,11 +34,27 @@ internal class TestFactoryActions : MenuActions
       _starClusterFactory = new StarClusterFactory(_rng, _planetarySystemFactory);
    }
 
+   public bool SaveToFile { get; private set; }
+
+   private void SaveObjectToFile<T>(T obj, string filename, JsonSerializerSettings settings = null)
+   {
+      string basePath = "../../../../../SampleData/";
+
+      settings ??= JsonSettings.FormattedTypedNamedEnums;
+      string filePath = Path.ChangeExtension(Path.Combine(basePath, filename), ".json");
+
+      obj.ToJsonFile(filePath, settings);
+   }
+
+   public void ToggleSaveToFile() =>
+      SaveToFile = !SaveToFile;
+
    public void TestClusterFactory()
    {
       ShowTitle("Test Star Cluster Factory");
       var cluster = _starClusterFactory.Build(StarClusterFactoryOptions.Test);
       ShowResult(cluster);
+      SaveObjectToFile(cluster, "star-cluster");
       ShowReturn();
    }
 
@@ -47,6 +63,7 @@ internal class TestFactoryActions : MenuActions
       ShowTitle("Test Planetary System Factory");
       var system = _planetarySystemFactory.Create(PlanetarySystemFactoryOptions.Test, ObjectId.Empty, new Point3D(42, 69, 0));
       ShowResult(system);
+      SaveObjectToFile(system, "planetary-system");
       ShowReturn();
    }
 
@@ -55,6 +72,7 @@ internal class TestFactoryActions : MenuActions
       ShowTitle("Test Satellite System Factory");
       var system = _satelliteSystemFactory.Create(1.0);
       ShowResult(system);
+      SaveObjectToFile(system, "satellite-system");
       ShowReturn();
    }
 
@@ -68,6 +86,7 @@ internal class TestFactoryActions : MenuActions
          Zone = d.IdentifyPlanetaryZone()
       });
       ShowResult(data);
+      SaveObjectToFile(data, "planet-distances");
       ShowReturn();
    }
 
@@ -76,6 +95,7 @@ internal class TestFactoryActions : MenuActions
       ShowTitle("Test Planet Factory");
       var planet = _planetFactory.Create(1.0);
       ShowResult(planet);
+      SaveObjectToFile(planet, "planet");
       ShowReturn();
    }
 }
