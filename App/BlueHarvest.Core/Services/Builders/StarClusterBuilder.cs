@@ -10,8 +10,11 @@ namespace BlueHarvest.Core.Services.Builders;
 /// </summary>
 public class StarClusterBuilder : BaseBuilder, IStarClusterBuilder
 {
-   public StarClusterBuilder(IRng rng) : base(rng)
+   private readonly IPlanetarySystemBuilder _planetarySystemBuilder;
+
+   public StarClusterBuilder(IRng rng, IPlanetarySystemBuilder planetarySystemBuilder) : base(rng)
    {
+      _planetarySystemBuilder = planetarySystemBuilder;
    }
 
    public StarCluster Build(StarClusterBuilderOptions options)
@@ -48,11 +51,12 @@ public class StarClusterBuilder : BaseBuilder, IStarClusterBuilder
       var systemLocs = GeneratePointsInEllipsoid(systemCount, options.ClusterSize, options.DistanceBetweenSystems);
       foreach (var location in systemLocs)
       {
-         var system = new PlanetarySystem
-         {
-            Name = MonikerGenerator.Default.Generate(),
-            Location = location
-         };
+         var system = _planetarySystemBuilder.Build(options.PlanetarySystemOptions, cluster.Id, location);
+         // var system = new PlanetarySystem
+         // {
+         //    Name = MonikerGenerator.Default.Generate(),
+         //    Location = location
+         // };
          cluster.InterstellarObjects.Add(system);
       }
 

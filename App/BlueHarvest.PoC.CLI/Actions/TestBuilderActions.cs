@@ -15,8 +15,10 @@ internal class TestBuilderActions : MenuActions
    {
       ShowTitle("Build Test Star Cluster.");
 
-      var builder = new StarClusterBuilder(_rng);
-      var cluster = builder.Build(StarClusterBuilderOptions.Test);
+      var starFactory = new StarFactory(_rng);
+      var systemBuilder = new PlanetarySystemBuilder(_rng, _monikerGeneratorService, starFactory);
+      var builder = new StarClusterBuilder(_rng, systemBuilder);
+      var cluster = builder.Build(StarClusterBuilderOptions.Large);
 
       ShowResult(cluster);
       ShowReturn();
@@ -26,7 +28,8 @@ internal class TestBuilderActions : MenuActions
    {
       ShowTitle("Build Test Planetary System.");
 
-      var builder = new PlanetarySystemBuilder(_rng, _monikerGeneratorService);
+      var starFactory = new StarFactory(_rng);
+      var builder = new PlanetarySystemBuilder(_rng, _monikerGeneratorService, starFactory);
       var system = builder.Build(PlanetarySystemBuilderOptions.Test, ObjectId.Empty, new Point3D(42,69,0));
       
       ShowResult(system);

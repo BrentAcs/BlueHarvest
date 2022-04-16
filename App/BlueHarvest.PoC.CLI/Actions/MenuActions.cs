@@ -11,8 +11,11 @@ public class MenuActions
       WriteLine(title);
    }
 
-   protected static void ShowResult<T>(T obj) =>
-      WriteLine(obj.AsJsonIndented());
+   protected static void ShowResult<T>(T obj, JsonSerializerSettings settings = null)
+   {
+      settings ??= JsonSettings.FormattedNamedEnums;
+      WriteLine(obj.AsJson(settings));
+   }
 
    protected static void ShowReturn()
    {
