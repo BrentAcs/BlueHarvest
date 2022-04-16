@@ -1,4 +1,4 @@
-﻿namespace BlueHarvest.Core;
+﻿namespace BlueHarvest.Core.Exceptions;
 
 public class BuilderException : Exception
 {
@@ -17,5 +17,5 @@ public class BuilderException : Exception
    }
 
    public static BuilderException CreateTooManyInterstellarObjects(long maxPossible, long count) =>
-      throw new BuilderException($"Too many Interstellar Objects requested. Max possible: {maxPossible}, amount specified in options: {count}");
+      new BuilderException($"Too many Interstellar Objects requested. Max possible: {maxPossible}, amount specified in options: {count}");
 }

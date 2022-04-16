@@ -1,4 +1,5 @@
-﻿using BlueHarvest.Core.Utilities;
+﻿using BlueHarvest.Core.Exceptions;
+using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Cosmic;
 using BlueHarvest.Shared.Models.Geometry;
 
@@ -18,9 +19,9 @@ public class StarClusterBuilder : BaseBuilder, IStarClusterBuilder
       if (options is null)
          throw new ArgumentNullException(nameof(options));
       if (options.DesiredPlanetarySystems is null)
-         throw new ArgumentException($"{nameof(options.DesiredPlanetarySystems)} is null.");
+         throw ArgumentPropertyNullException.Create(nameof(options), nameof(options.DesiredPlanetarySystems));
       if (options.DesiredDeepSpaceObjects is null)
-         throw new ArgumentException($"{nameof(options.DesiredDeepSpaceObjects)} is null.");
+         throw ArgumentPropertyNullException.Create(nameof(options), nameof(options.DesiredDeepSpaceObjects));
 
       var cluster = new StarCluster
       {
@@ -34,7 +35,7 @@ public class StarClusterBuilder : BaseBuilder, IStarClusterBuilder
       int systemCount = options.DesiredPlanetarySystems.GetAmount(Rng);
       int deepSpaceCount = options.DesiredDeepSpaceObjects.GetAmount(Rng);
       if (systemCount + deepSpaceCount > options.MaximumPossibleSystems)
-         BuilderException.CreateTooManyInterstellarObjects(options.MaximumPossibleSystems, systemCount + deepSpaceCount);
+         throw BuilderException.CreateTooManyInterstellarObjects(options.MaximumPossibleSystems, systemCount + deepSpaceCount);
 
       var systemLocs = BuildPlanetarySystems(options, systemCount, cluster);
       _ = BuildDeepSpaceObjects(options, deepSpaceCount, systemLocs, cluster);
