@@ -51,12 +51,7 @@ public class StarClusterFactory : BaseFactory, IStarClusterFactory
       var systemLocs = GeneratePointsInEllipsoid(systemCount, options.ClusterSize, options.DistanceBetweenSystems);
       foreach (var location in systemLocs)
       {
-         var system = _planetarySystemFactory.Build(options.PlanetarySystemOptions, cluster.Id, location);
-         // var system = new PlanetarySystem
-         // {
-         //    Name = MonikerGenerator.Default.Generate(),
-         //    Location = location
-         // };
+         var system = _planetarySystemFactory.Create(options.PlanetarySystemOptions, cluster.Id, location);
          cluster.InterstellarObjects.Add(system);
       }
 

@@ -24,7 +24,7 @@ public static class RngExtensions
 
    public static double Next(this IRng rng, MinMax<double> range) =>
       rng.Next(range.Min, range.Max);
-      
+   
    public static int Next(this IRng rng, MinMax<int> range) =>
-      rng.Next(range.Min, range.Max);
+      rng.Next(range.Min, range.Max+1);
 }

@@ -5,15 +5,6 @@ namespace BlueHarvest.Shared.Models.Cosmic;
 /// </summary>
 public class Star
 {
-   public enum StarType
-   {
-      ClassB = 1,
-      ClassA,
-      ClassF,
-      ClassG,
-      ClassK,
-   }
-
    public StarType Type { get; set; }
    public double Mass { get; set; }
 }

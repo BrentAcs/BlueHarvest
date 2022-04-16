@@ -1,18 +1,22 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using BlueHarvest.PoC.CLI;
 using BlueHarvest.PoC.CLI.Actions;
 using Spectre.Console;
+
+var factoryActions = new TestFactoryActions();
 
 do
 {
    Console.Clear();
    var prompt = new SelectionPrompt<ActionPrompt>()
       .Title("Blue Harvest PoC CLI")
-      .AddChoiceGroup(new ActionPrompt("Test Builders"), new[]
+      .AddChoiceGroup(new ActionPrompt("Test Factories"), new[]
       {
-         new ActionPrompt("Star Cluster", TestFactoryActions.BuildTestCluster),
-         new ActionPrompt("Planetary System", TestFactoryActions.BuildTestPlanetarySystem),
+         new ActionPrompt("Star Cluster", factoryActions.TestClusterFactory),
+         new ActionPrompt("Planetary System", factoryActions.TestPlanetarySystemFactory),
+         new ActionPrompt("Planetary Distance", factoryActions.TestPlanetDistanceFactory),
+         new ActionPrompt("Satellite System", factoryActions.TestSatelliteSystemFactory),
+         new ActionPrompt("Planet", factoryActions.TestPlanetFactory),
       })
       .AddChoices(
          new ActionPrompt("Quit")

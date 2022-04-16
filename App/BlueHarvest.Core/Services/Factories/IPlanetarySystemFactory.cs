@@ -5,5 +5,5 @@ namespace BlueHarvest.Core.Services.Factories;
 
 public interface IPlanetarySystemFactory
 {
-   PlanetarySystem Build(PlanetarySystemFactoryOptions options, ObjectId clusterId, Point3D location);
+   PlanetarySystem Create(PlanetarySystemFactoryOptions options, ObjectId clusterId, Point3D location);
 }

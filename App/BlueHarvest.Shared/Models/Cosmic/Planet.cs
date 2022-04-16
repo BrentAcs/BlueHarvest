@@ -5,17 +5,8 @@ namespace BlueHarvest.Shared.Models.Cosmic;
 /// </summary>
 public class Planet
 {
-   public enum PlanetType
-   {
-      Desert = 1,
-      GasGiant,
-      IceGiant,
-      Ice,
-      Lava,
-      Oceanic,
-      Terrestrial,
-   }
-
    public PlanetType Type { get; set; }
-   public double Mass { get; set; }
+   public PlanetaryZone Zone { get; set; }
+   public double Distance { get; set; }
+   public int Diameter { get; set; }
 }

@@ -10,16 +10,22 @@ public class PlanetarySystemFactory : BaseFactory, IPlanetarySystemFactory
 {
    private readonly IMonikerGeneratorService _monikerGeneratorService;
    private readonly IStarFactory _starFactory;
+   private readonly IPlanetaryDistanceFactory _planetaryDistanceFactory;
+   private readonly ISatelliteSystemFactory _satelliteSystemFactory;
 
    public PlanetarySystemFactory(IRng rng,
       IMonikerGeneratorService monikerGeneratorService,
-      IStarFactory starFactory) : base(rng)
+      IStarFactory starFactory,
+      IPlanetaryDistanceFactory planetaryDistanceFactory,
+      ISatelliteSystemFactory satelliteSystemFactory) : base(rng)
    {
       _monikerGeneratorService = monikerGeneratorService;
       _starFactory = starFactory;
+      _planetaryDistanceFactory = planetaryDistanceFactory;
+      _satelliteSystemFactory = satelliteSystemFactory;
    }
 
-   public PlanetarySystem Build(PlanetarySystemFactoryOptions options, ObjectId clusterId, Point3D location)
+   public PlanetarySystem Create(PlanetarySystemFactoryOptions options, ObjectId clusterId, Point3D location)
    {
       if (options is null)
          throw new ArgumentNullException(nameof(options));
@@ -37,8 +43,14 @@ public class PlanetarySystemFactory : BaseFactory, IPlanetarySystemFactory
          Star = _starFactory.Create()
       };
 
-      // public List<StellarObject>? StellarObjects { get; set; } = new();
+      var planetDistances = _planetaryDistanceFactory.Create(system.Size.XRadius);
+      foreach (double planetDistance in planetDistances)
+      {
+         var satelliteSystem = _satelliteSystemFactory.Create(planetDistance);
+         system.StellarObjects.Add(satelliteSystem);
+      }
 
       return system;
    }
 }
+
