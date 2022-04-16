@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using BlueHarvest.PoC.CLI;
+using BlueHarvest.PoC.CLI.Actions;
 using Spectre.Console;
 
 do
@@ -7,8 +9,12 @@ do
    Console.Clear();
    var prompt = new SelectionPrompt<ActionPrompt>()
       .Title("Blue Harvest PoC CLI")
+      .AddChoiceGroup(new ActionPrompt("Test Builders"), new[]
+      {
+         new ActionPrompt("Star Cluster", TestBuilderActions.BuildTestCluster),
+         new ActionPrompt("Planetary System", TestBuilderActions.BuildTestPlanetarySystem),
+      })
       .AddChoices(
-         new ActionPrompt("Build Cluster", MainActions.BuildTestCluster),
          new ActionPrompt("Quit")
       );
 
