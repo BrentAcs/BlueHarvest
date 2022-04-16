@@ -1,18 +1,25 @@
 ﻿using BlueHarvest.Core.Exceptions;
-using BlueHarvest.Core.Services.Builders;
+using BlueHarvest.Core.Services.Factories;
 using BlueHarvest.Core.Utilities;
 
 namespace BlueHarvest.Core.Tests.Services.Builders;
 
-public class StarClusterBuilderTests
+public class StarClusterFactoryTests
 {
-   protected IRng Rng = new SimpleRng();
+   private static readonly IRng _rng = new SimpleRng();
+
+   private StarClusterFactory CreateStarClusterFactory(IMock<IPlanetarySystemFactory>? planetarySystemFactoryMock=null)
+   {
+      planetarySystemFactoryMock ??= new Mock<IPlanetarySystemFactory>();
+
+      return new StarClusterFactory(_rng, planetarySystemFactoryMock.Object);
+   }   
    
    [Test]
    public void Build_WillReturnCluster_WithProperties()
    {
-      var options = StarClusterBuilderOptions.Test;
-      var sut = new StarClusterBuilder(Rng);
+      var options = StarClusterFactoryOptions.Test;
+      var sut = CreateStarClusterFactory();
 
       var cluster = sut.Build(options);
       
@@ -22,12 +29,11 @@ public class StarClusterBuilderTests
    [Test]
    public void Build_WillThrow_When_TooManySystems()
    {
-      Mock<IRng> rngMock = new Mock<IRng>();
-      var options = StarClusterBuilderOptions.Test;
+      var options = StarClusterFactoryOptions.Test;
       options.DesiredPlanetarySystems = new DesiredAmount(11);
       options.DesiredDeepSpaceObjects = new DesiredAmount(0);
 
-      var sut = new StarClusterBuilder(Rng);
+      var sut = CreateStarClusterFactory();
 
       sut.Invoking(s => s.Build(options))
          .Should().Throw<BuilderException>();
@@ -36,12 +42,11 @@ public class StarClusterBuilderTests
    [Test]
    public void Build_WillThrow_When_TooManyDeepSpaceObjects()
    {
-      Mock<IRng> rngMock = new Mock<IRng>();
-      var options = StarClusterBuilderOptions.Test;
+      var options = StarClusterFactoryOptions.Test;
       options.DesiredPlanetarySystems = new DesiredAmount(0);
       options.DesiredDeepSpaceObjects = new DesiredAmount(11);
 
-      var sut = new StarClusterBuilder(Rng);
+      var sut = CreateStarClusterFactory();
 
       sut.Invoking(s => s.Build(options))
          .Should().Throw<BuilderException>();
@@ -50,11 +55,10 @@ public class StarClusterBuilderTests
    [Test]
    public void Build_WillThrow_When_Options_DesiredPlanetarySystems_IsNull()
    {
-      Mock<IRng> rngMock = new Mock<IRng>();
-      var options = StarClusterBuilderOptions.Test;
+      var options = StarClusterFactoryOptions.Test;
       options.DesiredPlanetarySystems = null;
 
-      var sut = new StarClusterBuilder(Rng);
+      var sut = CreateStarClusterFactory();
 
       sut.Invoking(s => s.Build(options))
          .Should().Throw<ArgumentPropertyNullException>();

@@ -4,19 +4,14 @@ using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Cosmic;
 using BlueHarvest.Shared.Models.Geometry;
 
-namespace BlueHarvest.Core.Services.Builders;
+namespace BlueHarvest.Core.Services.Factories;
 
-public interface IPlanetarySystemBuilder
-{
-   PlanetarySystem Build(PlanetarySystemBuilderOptions options, ObjectId clusterId, Point3D location);
-}
-
-public class PlanetarySystemBuilder : BaseBuilder, IPlanetarySystemBuilder
+public class PlanetarySystemFactory : BaseFactory, IPlanetarySystemFactory
 {
    private readonly IMonikerGeneratorService _monikerGeneratorService;
    private readonly IStarFactory _starFactory;
 
-   public PlanetarySystemBuilder(IRng rng,
+   public PlanetarySystemFactory(IRng rng,
       IMonikerGeneratorService monikerGeneratorService,
       IStarFactory starFactory) : base(rng)
    {
@@ -24,7 +19,7 @@ public class PlanetarySystemBuilder : BaseBuilder, IPlanetarySystemBuilder
       _starFactory = starFactory;
    }
 
-   public PlanetarySystem Build(PlanetarySystemBuilderOptions options, ObjectId clusterId, Point3D location)
+   public PlanetarySystem Build(PlanetarySystemFactoryOptions options, ObjectId clusterId, Point3D location)
    {
       if (options is null)
          throw new ArgumentNullException(nameof(options));

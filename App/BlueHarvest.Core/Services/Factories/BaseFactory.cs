@@ -2,11 +2,11 @@
 using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Geometry;
 
-namespace BlueHarvest.Core.Services.Builders;
+namespace BlueHarvest.Core.Services.Factories;
 
-public abstract class BaseBuilder
+public abstract class BaseFactory
 {
-   protected BaseBuilder(IRng rng)
+   protected BaseFactory(IRng rng)
    {
       Rng = rng;
    }

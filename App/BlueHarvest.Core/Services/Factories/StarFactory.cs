@@ -2,7 +2,7 @@
 using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Cosmic;
 
-namespace BlueHarvest.Core.Services.Builders;
+namespace BlueHarvest.Core.Services.Factories;
 
 public interface IStarFactory
 {

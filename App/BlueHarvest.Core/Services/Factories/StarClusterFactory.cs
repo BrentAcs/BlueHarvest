@@ -3,21 +3,21 @@ using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Cosmic;
 using BlueHarvest.Shared.Models.Geometry;
 
-namespace BlueHarvest.Core.Services.Builders;
+namespace BlueHarvest.Core.Services.Factories;
 
 /// <summary>
 /// Stock, for game play, star cluster builder
 /// </summary>
-public class StarClusterBuilder : BaseBuilder, IStarClusterBuilder
+public class StarClusterFactory : BaseFactory, IStarClusterFactory
 {
-   private readonly IPlanetarySystemBuilder _planetarySystemBuilder;
+   private readonly IPlanetarySystemFactory _planetarySystemFactory;
 
-   public StarClusterBuilder(IRng rng, IPlanetarySystemBuilder planetarySystemBuilder) : base(rng)
+   public StarClusterFactory(IRng rng, IPlanetarySystemFactory planetarySystemFactory) : base(rng)
    {
-      _planetarySystemBuilder = planetarySystemBuilder;
+      _planetarySystemFactory = planetarySystemFactory;
    }
 
-   public StarCluster Build(StarClusterBuilderOptions options)
+   public StarCluster Build(StarClusterFactoryOptions options)
    {
       if (options is null)
          throw new ArgumentNullException(nameof(options));
@@ -46,12 +46,12 @@ public class StarClusterBuilder : BaseBuilder, IStarClusterBuilder
       return cluster;
    }
 
-   private IEnumerable<Point3D> BuildPlanetarySystems(StarClusterBuilderOptions options, int systemCount, StarCluster cluster)
+   private IEnumerable<Point3D> BuildPlanetarySystems(StarClusterFactoryOptions options, int systemCount, StarCluster cluster)
    {
       var systemLocs = GeneratePointsInEllipsoid(systemCount, options.ClusterSize, options.DistanceBetweenSystems);
       foreach (var location in systemLocs)
       {
-         var system = _planetarySystemBuilder.Build(options.PlanetarySystemOptions, cluster.Id, location);
+         var system = _planetarySystemFactory.Build(options.PlanetarySystemOptions, cluster.Id, location);
          // var system = new PlanetarySystem
          // {
          //    Name = MonikerGenerator.Default.Generate(),
@@ -63,7 +63,7 @@ public class StarClusterBuilder : BaseBuilder, IStarClusterBuilder
       return systemLocs;
    }
 
-   private IEnumerable<Point3D> BuildDeepSpaceObjects(StarClusterBuilderOptions options, int deepSpaceCount, IEnumerable<Point3D> systemLocs,
+   private IEnumerable<Point3D> BuildDeepSpaceObjects(StarClusterFactoryOptions options, int deepSpaceCount, IEnumerable<Point3D> systemLocs,
       StarCluster cluster)
    {
       var deepSpaceLocs = GeneratePointsInEllipsoid(deepSpaceCount, options.ClusterSize, options.DistanceBetweenSystems, systemLocs);

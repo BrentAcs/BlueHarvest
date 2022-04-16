@@ -1,11 +1,11 @@
 using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Geometry;
 
-namespace BlueHarvest.Core.Services.Builders;
+namespace BlueHarvest.Core.Services.Factories;
 
-public class StarClusterBuilderOptions
+public class StarClusterFactoryOptions
 {
-   public static StarClusterBuilderOptions ExtraLarge => new()
+   public static StarClusterFactoryOptions ExtraLarge => new()
    {
       Name = "Extra Large",
       Description = "Work in Progress Cluster (Extra Large)",
@@ -16,7 +16,7 @@ public class StarClusterBuilderOptions
       DesiredDeepSpaceObjects = new DesiredAmount(100, 600),
    };
 
-   public static StarClusterBuilderOptions Large => new()
+   public static StarClusterFactoryOptions Large => new()
    {
       Name = "Large",
       Description = "Work in Progress Cluster (Large)",
@@ -27,7 +27,7 @@ public class StarClusterBuilderOptions
       DesiredDeepSpaceObjects = new DesiredAmount(50, 200),
    };
 
-   public static StarClusterBuilderOptions Medium => new()
+   public static StarClusterFactoryOptions Medium => new()
    {
       Name = "Medium",
       Description = "Work in Progress Cluster (Medium)",
@@ -38,7 +38,7 @@ public class StarClusterBuilderOptions
       DesiredDeepSpaceObjects = new DesiredAmount(10, 25),
    };
 
-   public static StarClusterBuilderOptions Small => new()
+   public static StarClusterFactoryOptions Small => new()
    {
       Name = "Small",
       Description = "Work in Progress Cluster (Small)",
@@ -49,7 +49,7 @@ public class StarClusterBuilderOptions
       DesiredDeepSpaceObjects = new DesiredAmount(1, 5),
    };
 
-   public static StarClusterBuilderOptions Test => new()
+   public static StarClusterFactoryOptions Test => new()
    {
       Name = "Test",
       Description = "Work in Progress Cluster (Test)",
@@ -70,9 +70,9 @@ public class StarClusterBuilderOptions
    public MinMax<double> DistanceBetweenSystems { get; set; } = new(3.0, 10.0);
    public DesiredAmount? DesiredPlanetarySystems { get; set; }
    public DesiredAmount? DesiredDeepSpaceObjects { get; set; }
-   public PlanetarySystemBuilderOptions? PlanetarySystemOptions { get; set; } = new();
+   public PlanetarySystemFactoryOptions? PlanetarySystemOptions { get; set; } = new();
 
-   [System.Text.Json.Serialization.JsonIgnore, Newtonsoft.Json.JsonIgnore]
+   [System.Text.Json.Serialization.JsonIgnore, JsonIgnore]
    public long MaximumPossibleSystems =>
       (long)((ClusterSize.Volume / new Sphere(DistanceBetweenSystems.Min).Volume) * SpherePackFactor);
 }

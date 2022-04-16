@@ -11,8 +11,8 @@ do
       .Title("Blue Harvest PoC CLI")
       .AddChoiceGroup(new ActionPrompt("Test Builders"), new[]
       {
-         new ActionPrompt("Star Cluster", TestBuilderActions.BuildTestCluster),
-         new ActionPrompt("Planetary System", TestBuilderActions.BuildTestPlanetarySystem),
+         new ActionPrompt("Star Cluster", TestFactoryActions.BuildTestCluster),
+         new ActionPrompt("Planetary System", TestFactoryActions.BuildTestPlanetarySystem),
       })
       .AddChoices(
          new ActionPrompt("Quit")
