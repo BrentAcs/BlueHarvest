@@ -31,6 +31,7 @@ Host.CreateDefaultBuilder()
          .AddBlueHarvestMongo(configuration)
          .AddBlueHarvestCommon(assembles)
          .AddSingleton<TestFactoryActions>()
+         .AddSingleton<DbUtilities>()
          .AddSingleton<MainMenu>()
          ;
    })

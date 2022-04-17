@@ -1,10 +1,7 @@
 ﻿using BlueHarvest.Core.Extensions;
-using BlueHarvest.Core.Infrastructure.Storage.Repos;
-using BlueHarvest.Core.Services;
 using BlueHarvest.Core.Services.Factories;
 using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Geometry;
-using MongoDB.Bson;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 
