@@ -8,7 +8,10 @@ public class MenuActions
    protected static void ShowTitle(string title)
    {
       Clear();
-      WriteLine(title);
+      if (!string.IsNullOrEmpty(title))
+      {
+         WriteLine(title);
+      }
    }
 
    protected static void ShowResult<T>(T obj, JsonSerializerSettings settings = null)

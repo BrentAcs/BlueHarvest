@@ -1,5 +1,6 @@
 ﻿using BlueHarvest.Core.Infrastructure.Storage.Repos;
 using BlueHarvest.Core.Services.Factories;
+using BlueHarvest.PoC.CLI.Menus;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 
@@ -14,32 +15,43 @@ public class ClusterPlaygroundActions : MenuActions
       _starClusterRepo = starClusterRepo;
    }
 
+   public class CreatePromptItem : PromptItem<StarClusterFactoryOptions>
+   {
+      public CreatePromptItem(string display, StarClusterFactoryOptions? data = default) : base(display, data)
+      {
+      }
+   }
+
    public async Task CreateStarCluster()
    {
       ShowTitle("Test Star Cluster Factory");
       
-      //StarClusterFactoryOptions.Test
-      //StarClusterFactoryOptions.Small
-      //StarClusterFactoryOptions.Medium
-      //StarClusterFactoryOptions.Large
-      //StarClusterFactoryOptions.ExtraLarge
-
-      var prompt = new SelectionPrompt<StarClusterFactoryOptions>()
-         .Title("[blue]Blue Harvest[/] PoC CLI")
+      var prompt = new SelectionPrompt<CreatePromptItem>()
+         //.Title("Test Star Cluster Factory")
          .PageSize(20)
          .AddChoices(new[]
          {
-            StarClusterFactoryOptions.Test,
-            StarClusterFactoryOptions.Small,
-            StarClusterFactoryOptions.Medium,
-            StarClusterFactoryOptions.Large,
-            StarClusterFactoryOptions.ExtraLarge
+            new CreatePromptItem("Test", StarClusterFactoryOptions.Test),
+            new CreatePromptItem("Small", StarClusterFactoryOptions.Small),
+            new CreatePromptItem("Medium", StarClusterFactoryOptions.Medium),
+            new CreatePromptItem("Large", StarClusterFactoryOptions.Large),
+            new CreatePromptItem("Extra Large", StarClusterFactoryOptions.ExtraLarge),
+            new CreatePromptItem("[gray]None[/]"),
          });
       var item = AnsiConsole.Prompt(prompt);
+
+      if (item.Data is not null)
+      {
+         var cluster = await _starClusterFactory.Create(item.Data).ConfigureAwait(false); 
+         //ShowResult(cluster);
+         AnsiConsole.WriteLine($"Cluster created with id: [/white]'{cluster.Id}'[/]");
+      }
+      else
+      {
+         AnsiConsole.WriteLine($"No cluster created.");
+      }
      
       
-      // var cluster = await _starClusterFactory.Create(StarClusterFactoryOptions.Test).ConfigureAwait(false); 
-      // ShowResult(cluster);
       ShowReturn();
    }
    
