@@ -1,4 +1,4 @@
-﻿using BlueHarvest.Core.Storage;
+﻿using BlueHarvest.Core.Infrastructure.Storage;
 
 namespace BlueHarvest.Core.Extensions;
 

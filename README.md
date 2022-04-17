@@ -23,3 +23,36 @@ Please feel free to drop any and all comments, feedback, ideas, critques at bren
 Enjoy and/or Laugh.
 
 Or would it be Laugh and/or Enjoy
+ 
+##Cosmic Objects
+**Star Cluster**<br/>
++-- **PlanetarySystem** : InterstellarObjects<br/>
++-- +-- **SatelliteSystems** :StellarObject<br/>
++-- +-- +-- SatelliteSystem<br/>
++-- +-- +-- +-- NaturalSatellite : Satellite<br/>
++-- +-- +-- +-- ArtificialSatellite: Satellite<br/>
++-- +-- **AsteroidFields** :StellarObject<br/>
++-- **DeepSpaceObjects** : InterstellarObjects<br/>
+
+##Planetary Zones
+| Zone | Distance Range (AU) | # (Range) | (Min Distance) |
+| --- |---------------------|-----------|----------------|
+| Inner | .1  - .25           | 0 - 2     | .1             |
+| InnerHabitable | .25  - 1.5          | 0 - 2     | .5             |
+| Habitable | 1.5  - 3.5         | 0 - 2     | .5             |     
+| OuterHabitable | 3.5 - 5.0           | 0 - 2     | .5             |
+| Outer | 5.0  - ~            | 2 - 10    | 1              |         
+
+      switch (distance)
+      {
+         case <= 0.2499:
+            return PlanetaryZone.Inner;
+         case <= 1.499:
+            return PlanetaryZone.InnerHabitable;
+         case <= 3.499:
+            return PlanetaryZone.Habitable;
+         case <= 4.999:
+            return PlanetaryZone.OuterHabitable;
+         default:
+            return PlanetaryZone.Outer;
+      }

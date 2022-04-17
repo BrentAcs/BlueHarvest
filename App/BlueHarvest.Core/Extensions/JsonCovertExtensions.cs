@@ -1,41 +1,38 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-namespace BlueHarvest.Core.Extensions;
-// Ref:  https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-migrate-from-newtonsoft-how-to?pivots=dotnet-5-0
+﻿namespace BlueHarvest.Core.Extensions;
 
 public static class JsonCovertExtensions
 {
-   public static string? AsJson(this object? obj,
-      Formatting formatting = Formatting.None,
-      JsonSerializerSettings? settings = null)
+   public static string? AsJson(this object? obj, JsonSerializerSettings? settings = null)
    {
       if (obj == null)
          return null;
 
       settings ??= new JsonSerializerSettings();
 
-      return JsonConvert.SerializeObject(obj, formatting, settings);
+      return JsonConvert.SerializeObject(obj, settings);
    }
 
    public static string? AsJsonIndented(this object obj) =>
-      obj.AsJson(Formatting.Indented);
+      obj.AsJson(new JsonSerializerSettings {Formatting = Formatting.Indented});
 
    public static void ToJsonFile(this object obj,
       string filename,
-      Formatting formatting = Formatting.Indented,
+      // Formatting formatting = Formatting.Indented,
       JsonSerializerSettings? settings = null)
    {
-      settings ??= new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate};
+      settings ??= new JsonSerializerSettings
+      {
+         DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
+         Formatting = Formatting.Indented
+      };
 
-      File.WriteAllText(filename, obj.AsJson(formatting, settings));
+      File.WriteAllText(filename, obj.AsJson(settings));
    }
 
    public static T? FromJson<T>(this string json, JsonSerializerSettings? settings = null)
    {
       settings ??= new JsonSerializerSettings();
+      settings.TypeNameHandling = TypeNameHandling.All;
       return JsonConvert.DeserializeObject<T>(json, settings);
    }
 
