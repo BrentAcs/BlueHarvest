@@ -5,16 +5,18 @@ using BlueHarvest.Shared.Models.Geometry;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 
-public class TestFactoryActions : MenuActions
+public class FactoryTestActions : MenuActions
 {
    private readonly IRng _rng;
+   private readonly IStarFactory _starFactory;
    private readonly IPlanetFactory _planetFactory;
    private readonly IPlanetaryDistanceFactory _planetaryDistanceFactory;
    private readonly ISatelliteSystemFactory _satelliteSystemFactory;
    private readonly IPlanetarySystemFactory _planetarySystemFactory;
    private readonly IStarClusterFactory _starClusterFactory;
 
-   public TestFactoryActions(IRng rng,
+   public FactoryTestActions(IRng rng,
+      IStarFactory starFactory,
       IPlanetFactory planetFactory,
       IPlanetaryDistanceFactory planetaryDistanceFactory,
       ISatelliteSystemFactory satelliteSystemFactory,
@@ -22,6 +24,7 @@ public class TestFactoryActions : MenuActions
       IStarClusterFactory starClusterFactory)
    {
       _rng = rng;
+      _starFactory = starFactory;
       _planetFactory = planetFactory;
       _planetaryDistanceFactory = planetaryDistanceFactory;
       _satelliteSystemFactory = satelliteSystemFactory;
@@ -37,6 +40,10 @@ public class TestFactoryActions : MenuActions
          return;
 
       string basePath = "../../../../../SampleData/";
+      if (!Directory.Exists(basePath))
+      {
+         Directory.CreateDirectory(basePath);
+      }
 
       settings ??= JsonSettings.FormattedTypedNamedEnums;
       string filePath = Path.ChangeExtension(Path.Combine(basePath, filename), ".json");
@@ -46,16 +53,7 @@ public class TestFactoryActions : MenuActions
 
    public void ToggleSaveToFile() =>
       SaveToFile = !SaveToFile;
-
-   public void TestClusterFactory()
-   {
-      ShowTitle("Test Star Cluster Factory");
-      var cluster = _starClusterFactory.Create(StarClusterFactoryOptions.Test).ConfigureAwait(false).GetAwaiter().GetResult();
-      ShowResult(cluster);
-      SaveObjectToFile(cluster, "star-cluster");
-      ShowReturn();
-   }
-
+   
    public void TestPlanetarySystemFactory()
    {
       ShowTitle("Test Planetary System Factory");
@@ -98,6 +96,15 @@ public class TestFactoryActions : MenuActions
       var planet = _planetFactory.Create(1.0);
       ShowResult(planet);
       SaveObjectToFile(planet, "planet");
+      ShowReturn();
+   }
+
+   public void TestStarFactory()
+   {
+      ShowTitle("Test Star Factory");
+      var star = _starFactory.Create();
+      ShowResult(star);
+      SaveObjectToFile(star, "star");
       ShowReturn();
    }
 }

@@ -2,7 +2,13 @@
 
 using BlueHarvest.Core.Extensions;
 using BlueHarvest.PoC.CLI.Actions;
-using Serilog;
+using BlueHarvest.PoC.CLI.Menus;
+
+if (OperatingSystem.IsWindows())
+{
+   Console.WindowWidth = 120;
+   Console.WindowHeight = 40;
+}
 
 IConfiguration configuration = new ConfigurationBuilder()
    .SetBasePath(Directory.GetCurrentDirectory())
@@ -30,8 +36,9 @@ Host.CreateDefaultBuilder()
          // .AddMediatR(assembles)
          .AddBlueHarvestMongo(configuration)
          .AddBlueHarvestCommon(assembles)
-         .AddSingleton<TestFactoryActions>()
-         .AddSingleton<DbUtilities>()
+         .AddSingleton<FactoryTestActions>()
+         .AddSingleton<DbUtilityActions>()
+         .AddSingleton<ClusterPlaygroundActions>()
          .AddSingleton<MainMenu>()
          ;
    })
