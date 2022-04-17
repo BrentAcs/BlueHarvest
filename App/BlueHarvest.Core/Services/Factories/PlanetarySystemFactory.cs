@@ -1,5 +1,6 @@
 ﻿using BlueHarvest.Core.Exceptions;
 using BlueHarvest.Core.Extensions;
+using BlueHarvest.Core.Infrastructure.Storage.Repos;
 using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Cosmic;
 using BlueHarvest.Shared.Models.Geometry;
@@ -12,20 +13,23 @@ public class PlanetarySystemFactory : BaseFactory, IPlanetarySystemFactory
    private readonly IStarFactory _starFactory;
    private readonly IPlanetaryDistanceFactory _planetaryDistanceFactory;
    private readonly ISatelliteSystemFactory _satelliteSystemFactory;
+   private readonly IPlanetarySystemRepo _planetarySystemRepo;
 
    public PlanetarySystemFactory(IRng rng,
       IMonikerGeneratorService monikerGeneratorService,
       IStarFactory starFactory,
       IPlanetaryDistanceFactory planetaryDistanceFactory,
-      ISatelliteSystemFactory satelliteSystemFactory) : base(rng)
+      ISatelliteSystemFactory satelliteSystemFactory,
+      IPlanetarySystemRepo planetarySystemRepo ) : base(rng)
    {
       _monikerGeneratorService = monikerGeneratorService;
       _starFactory = starFactory;
       _planetaryDistanceFactory = planetaryDistanceFactory;
       _satelliteSystemFactory = satelliteSystemFactory;
+      _planetarySystemRepo = planetarySystemRepo;
    }
 
-   public PlanetarySystem Create(PlanetarySystemFactoryOptions options, ObjectId clusterId, Point3D location)
+   public async Task<PlanetarySystem> Create(PlanetarySystemFactoryOptions options, ObjectId clusterId, Point3D location)
    {
       if (options is null)
          throw new ArgumentNullException(nameof(options));
@@ -49,7 +53,9 @@ public class PlanetarySystemFactory : BaseFactory, IPlanetarySystemFactory
          var satelliteSystem = _satelliteSystemFactory.Create(planetDistance);
          system.StellarObjects.Add(satelliteSystem);
       }
-
+      
+      await _planetarySystemRepo.InsertOneAsync(system).ConfigureAwait(false);
+      
       return system;
    }
 }

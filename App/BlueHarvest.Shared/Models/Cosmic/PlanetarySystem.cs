@@ -1,7 +1,9 @@
-﻿using BlueHarvest.Shared.Models.Geometry;
+﻿using BlueHarvest.Shared.Infrastructure.Storage;
+using BlueHarvest.Shared.Models.Geometry;
 
 namespace BlueHarvest.Shared.Models.Cosmic;
 
+[BsonCollection("PlanetarySystems")]
 public class PlanetarySystem : InterstellarObject, IMongoDocument
 {
    public ObjectId Id { get; set; }

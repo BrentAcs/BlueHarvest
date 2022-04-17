@@ -4,5 +4,5 @@ namespace BlueHarvest.Core.Services.Factories;
 
 public interface IStarClusterFactory
 {
-   StarCluster Build(StarClusterFactoryOptions options);
+   Task<StarCluster> Create(StarClusterFactoryOptions options);
 }

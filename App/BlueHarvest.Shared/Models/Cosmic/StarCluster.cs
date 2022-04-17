@@ -1,4 +1,5 @@
-﻿using BlueHarvest.Shared.Models.Geometry;
+﻿using BlueHarvest.Shared.Infrastructure.Storage;
+using BlueHarvest.Shared.Models.Geometry;
 
 namespace BlueHarvest.Shared.Models.Cosmic;
 
@@ -6,7 +7,7 @@ namespace BlueHarvest.Shared.Models.Cosmic;
 /// The overall 'world' object. All things exist inside a star cluster
 /// Size is measured in light-years
 /// </summary>
-//[BsonCollection(CollectionNames.StarClusters)]
+[BsonCollection("StarClusters")]
 public class StarCluster : IMongoDocument //, ISystemModel
 {
    public ObjectId Id { get; set; }
@@ -15,14 +16,12 @@ public class StarCluster : IMongoDocument //, ISystemModel
    public string? Owner { get; set; }
    public DateTime? CreatedOn { get; set; }
    public Ellipsoid? Size { get; set; }
-   public List<InterstellarObject> InterstellarObjects { get; set; } = new();
    
-   [System.Text.Json.Serialization.JsonIgnore, Newtonsoft.Json.JsonIgnore]
-   public IEnumerable<PlanetarySystem> PlanetarySystems => InterstellarObjects.OfType<PlanetarySystem>();
-   
-   [System.Text.Json.Serialization.JsonIgnore, Newtonsoft.Json.JsonIgnore]
-   public IEnumerable<DeepSpaceObject> DeepSpaceObjects => InterstellarObjects.OfType<DeepSpaceObject>();
+   // public List<InterstellarObject> InterstellarObjects { get; set; } = new();
+   //
+   // [System.Text.Json.Serialization.JsonIgnore, Newtonsoft.Json.JsonIgnore]
+   // public IEnumerable<PlanetarySystem> PlanetarySystems => InterstellarObjects.OfType<PlanetarySystem>();
+   //
+   // [System.Text.Json.Serialization.JsonIgnore, Newtonsoft.Json.JsonIgnore]
+   // public IEnumerable<DeepSpaceObject> DeepSpaceObjects => InterstellarObjects.OfType<DeepSpaceObject>();
 }
-
-// TODO: reintroduce Mongo support 
-//[BsonCollection(CollectionNames.PlanetarySystems)]

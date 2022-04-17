@@ -1,30 +1,40 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using BlueHarvest.Core.Extensions;
 using BlueHarvest.PoC.CLI.Actions;
-using Spectre.Console;
+using Serilog;
 
-var factoryActions = new TestFactoryActions();
+IConfiguration configuration = new ConfigurationBuilder()
+   .SetBasePath(Directory.GetCurrentDirectory())
+   .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+   .AddJsonFile(
+      $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",
+      optional: true)
+   .AddEnvironmentVariables()
+   .Build();
 
-do
+Log.Logger = new LoggerConfiguration()
+   .ReadFrom.Configuration(configuration)
+   .CreateLogger();
+
+var assembles = new[]
 {
-   Console.Clear();
-   var prompt = new SelectionPrompt<ActionPrompt>()
-      .Title("Blue Harvest PoC CLI")
-      .AddChoiceGroup(new ActionPrompt("Test Factories"), new[]
-      {
-         new ActionPrompt($"Toggle Save-To-File (current: {factoryActions.SaveToFile})", factoryActions.ToggleSaveToFile), 
-         new ActionPrompt("Star Cluster", factoryActions.TestClusterFactory),
-         new ActionPrompt("Planetary System", factoryActions.TestPlanetarySystemFactory),
-         new ActionPrompt("Planetary Distance", factoryActions.TestPlanetDistanceFactory),
-         new ActionPrompt("Satellite System", factoryActions.TestSatelliteSystemFactory),
-         new ActionPrompt("Planet", factoryActions.TestPlanetFactory),
-      })
-      .AddChoices(
-         new ActionPrompt("Quit")
-      );
+   Assembly.GetExecutingAssembly(),
+   //typeof(BaseHandler).Assembly
+};
 
-   var item = AnsiConsole.Prompt(prompt);
-   if (item.Action is null)
-      break;
-   item.Action?.Invoke();
-} while (true);
+Host.CreateDefaultBuilder()
+   .ConfigureServices(services =>
+   {
+      services
+         // .AddMediatR(assembles)
+         .AddBlueHarvestMongo(configuration)
+         .AddBlueHarvestCommon(assembles)
+         .AddSingleton<TestFactoryActions>()
+         .AddSingleton<MainMenu>()
+         ;
+   })
+   .Build()
+   .Services
+   .GetService<MainMenu>()
+   ?.Execute();

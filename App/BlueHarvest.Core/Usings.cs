@@ -1,4 +1,9 @@
 global using System;
+global using System.Reflection;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
 global using MongoDB.Bson;
+global using MongoDB.Driver;
 global using Newtonsoft.Json;
 global using Newtonsoft.Json.Linq;
