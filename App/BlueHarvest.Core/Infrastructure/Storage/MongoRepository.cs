@@ -147,16 +147,11 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
       //return (totalPages, data);
    }
 
-   // --- privates
-
    private static string? GetCollectionName(Type documentType) =>
       ((BsonCollectionAttribute)documentType.GetCustomAttributes(
             typeof(BsonCollectionAttribute),
             true)
          .FirstOrDefault()!)?.CollectionName;
-
-
-   // ----------------------
 
 #if USE_LINQ_TO_MONGO
    public virtual TDoc FindOne(Expression<Func<TDoc, bool>> filterExpression) =>
