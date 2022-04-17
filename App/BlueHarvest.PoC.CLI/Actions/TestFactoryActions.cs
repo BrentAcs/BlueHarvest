@@ -33,6 +33,9 @@ public class TestFactoryActions : MenuActions
 
    private void SaveObjectToFile<T>(T obj, string filename, JsonSerializerSettings settings = null)
    {
+      if (!SaveToFile)
+         return;
+
       string basePath = "../../../../../SampleData/";
 
       settings ??= JsonSettings.FormattedTypedNamedEnums;
