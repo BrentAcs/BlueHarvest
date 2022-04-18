@@ -1,6 +1,10 @@
 ﻿using BlueHarvest.Shared.Models.Cosmic;
 
-public class AppState
+namespace BlueHarvest.PoC.CLI;
+
+public static class AppState
 {
-   public static StarCluster Cluster { get; set; }
+   public static StarCluster? Cluster { get; set; }
+
+   public static bool HasCluster => Cluster is not null;
 }

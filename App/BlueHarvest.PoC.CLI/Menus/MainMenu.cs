@@ -28,19 +28,21 @@ public class MainMenu
       do
       {
          Console.Clear();
-         
+
          AnsiConsole.Write(new Rule($"[blue]Blue Harvest[/] PoC CLI").RuleStyle("grey").LeftAligned());
-         AnsiConsole.MarkupLine($"Selected Star Cluster: {(null == AppState.Cluster ? "[white]none[/]" : $"[green]{AppState.Cluster.Name}[/]")}");
+         AnsiConsole.MarkupLine(
+            $"Selected Star Cluster: {(AppState.HasCluster ? $"[green]{AppState.Cluster?.Name}[/]" : "[white]none[/]")}");
          AnsiConsole.WriteLine();
-         
+
          var prompt = new SelectionPrompt<ActionPrompt>()
             .Title("Main Menu")
             .PageSize(20)
             .AddChoiceGroup(ActionPrompt.GroupTitle("Cluster Playground"),
-               new []
+               new[]
                {
                   ActionPrompt.Action("Create Star Cluster", _clusterPlaygroundActions.CreateStarCluster),
-                  ActionPrompt.Action("List Star Clusters", _clusterPlaygroundActions.ListStarClusters)
+                  ActionPrompt.Action("List Star Clusters", _clusterPlaygroundActions.ListStarClusters),
+                  ActionPrompt.Action("List Planetary Systems", _clusterPlaygroundActions.ListPlanetarySystems)
                })
             .AddChoiceGroup(ActionPrompt.GroupTitle("Factory Tests"),
                new[]
@@ -60,7 +62,6 @@ public class MainMenu
                   ActionPrompt.Action("Drop & Initialize Db", _dbUtilityAction.DropAndInitializeDb),
                   ActionPrompt.Action("Drop Db", _dbUtilityAction.DropDb),
                   ActionPrompt.Action("Initialize Db", _dbUtilityAction.InitializeDb),
-                  //new ActionPrompt("List Clusters", _dbUtilities.ListStarClusters)
                })
             .AddChoices(ActionPrompt.Quit()
             );

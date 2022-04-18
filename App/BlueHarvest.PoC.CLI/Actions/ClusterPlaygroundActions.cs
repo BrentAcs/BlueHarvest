@@ -60,9 +60,9 @@ public class ClusterPlaygroundActions : MenuAction
       ShowReturn();
    }
 
-   private class ListPromptItem : PromptItem<StarCluster>
+   private class ListClusterPromptItem : PromptItem<StarCluster>
    {
-      public ListPromptItem(string display, StarCluster? data = default) : base(display, data)
+      public ListClusterPromptItem(string display, StarCluster? data = default) : base(display, data)
       {
       }
    }
@@ -79,14 +79,21 @@ public class ClusterPlaygroundActions : MenuAction
          return;
       }
 
-      var prompt = new SelectionPrompt<ListPromptItem>().PageSize(20);
+      var prompt = new SelectionPrompt<ListClusterPromptItem>().PageSize(20);
       foreach (var cluster in clusters)
       {
-         prompt.AddChoice(new ListPromptItem($"[white]{cluster.Id}[/]: [blue]{cluster.Name}[/] {cluster.Description}", cluster));
+         prompt.AddChoice(new ListClusterPromptItem($"[white]{cluster.Id}[/]: [blue]{cluster.Name}[/] {cluster.Description}", cluster));
       }
-      prompt.AddChoice(new ListPromptItem("[gray]None[/]"));
+      prompt.AddChoice(new ListClusterPromptItem("[gray]None[/]"));
 
       var item = AnsiConsole.Prompt(prompt);
       AppState.Cluster = item.Data;
+   }
+
+   public void ListPlanetarySystems()
+   {
+      ShowTitle("List Star Clusters");
+      
+      ShowReturn();
    }
 }
