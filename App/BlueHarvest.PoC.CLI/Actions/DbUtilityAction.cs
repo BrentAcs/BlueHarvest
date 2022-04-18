@@ -4,12 +4,12 @@ using static System.Console;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 
-public class DbUtilityActions : MenuActions
+public class DbUtilityAction : MenuAction
 {
    private readonly IMongoContext _mongoContext;
    private readonly IEnumerable<IMongoRepository> _mongoRepos;
 
-   public DbUtilityActions(
+   public DbUtilityAction(
       IMongoContext mongoContext,
       IEnumerable<IMongoRepository> mongoRepos)
    {

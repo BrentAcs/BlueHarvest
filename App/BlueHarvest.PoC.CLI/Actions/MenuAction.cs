@@ -3,14 +3,15 @@ using static System.Console;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 
-public class MenuActions
+public class MenuAction
 {
    protected static void ShowTitle(string title)
    {
       Clear();
       if (!string.IsNullOrEmpty(title))
       {
-         WriteLine(title);
+         AnsiConsole.Write(new Rule($"[blue]{title}[/]").RuleStyle("grey").LeftAligned());
+         WriteLine();
       }
    }
 

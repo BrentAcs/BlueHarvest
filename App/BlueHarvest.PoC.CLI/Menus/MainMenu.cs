@@ -5,19 +5,19 @@ namespace BlueHarvest.PoC.CLI.Menus;
 public class MainMenu
 {
    private readonly ILogger<MainMenu> _logger;
-   private readonly FactoryTestActions _factoryTestActions;
+   private readonly FactoryTestAction _factoryTestAction;
    private readonly ClusterPlaygroundActions _clusterPlaygroundActions;
-   private readonly DbUtilityActions _dbUtilityActions;
+   private readonly DbUtilityAction _dbUtilityAction;
 
    public MainMenu(ILogger<MainMenu> logger,
-      FactoryTestActions factoryTestActions,
+      FactoryTestAction factoryTestAction,
       ClusterPlaygroundActions clusterPlaygroundActions,
-      DbUtilityActions dbUtilityActions)
+      DbUtilityAction dbUtilityAction)
    {
       _logger = logger;
-      _factoryTestActions = factoryTestActions;
+      _factoryTestAction = factoryTestAction;
       _clusterPlaygroundActions = clusterPlaygroundActions;
-      _dbUtilityActions = dbUtilityActions;
+      _dbUtilityAction = dbUtilityAction;
    }
 
    public void Execute()
@@ -28,8 +28,13 @@ public class MainMenu
       do
       {
          Console.Clear();
+         
+         AnsiConsole.Write(new Rule($"[blue]Blue Harvest[/] PoC CLI").RuleStyle("grey").LeftAligned());
+         AnsiConsole.MarkupLine($"Selected Star Cluster: {(null == AppState.Cluster ? "[white]none[/]" : $"[green]{AppState.Cluster.Name}[/]")}");
+         AnsiConsole.WriteLine();
+         
          var prompt = new SelectionPrompt<ActionPrompt>()
-            .Title("[blue]Blue Harvest[/] PoC CLI")
+            .Title("Main Menu")
             .PageSize(20)
             .AddChoiceGroup(ActionPrompt.GroupTitle("Cluster Playground"),
                new []
@@ -41,20 +46,20 @@ public class MainMenu
                new[]
                {
                   ActionPrompt.Action(
-                     $"Toggle Save-To-File (current: [{(_factoryTestActions.SaveToFile ? "green" : "yellow")}]{_factoryTestActions.SaveToFile})[/]",
-                     _factoryTestActions.ToggleSaveToFile),
-                  ActionPrompt.Action("Planetary System", _factoryTestActions.TestPlanetarySystemFactory),
-                  ActionPrompt.Action("Satellite System", _factoryTestActions.TestSatelliteSystemFactory),
-                  ActionPrompt.Action("Planetary Distance", _factoryTestActions.TestPlanetDistanceFactory),
-                  ActionPrompt.Action("Planet", _factoryTestActions.TestPlanetFactory),
-                  ActionPrompt.Action("Star", _factoryTestActions.TestStarFactory)
+                     $"Toggle Save-To-File (current: [{(_factoryTestAction.SaveToFile ? "green" : "yellow")}]{_factoryTestAction.SaveToFile})[/]",
+                     _factoryTestAction.ToggleSaveToFile),
+                  ActionPrompt.Action("Planetary System", _factoryTestAction.TestPlanetarySystemFactory),
+                  ActionPrompt.Action("Satellite System", _factoryTestAction.TestSatelliteSystemFactory),
+                  ActionPrompt.Action("Planetary Distance", _factoryTestAction.TestPlanetDistanceFactory),
+                  ActionPrompt.Action("Planet", _factoryTestAction.TestPlanetFactory),
+                  ActionPrompt.Action("Star", _factoryTestAction.TestStarFactory)
                })
             .AddChoiceGroup(ActionPrompt.GroupTitle("Db Utilities"),
                new[]
                {
-                  ActionPrompt.Action("Drop & Initialize Db", _dbUtilityActions.DropAndInitializeDb),
-                  ActionPrompt.Action("Drop Db", _dbUtilityActions.DropDb),
-                  ActionPrompt.Action("Initialize Db", _dbUtilityActions.InitializeDb),
+                  ActionPrompt.Action("Drop & Initialize Db", _dbUtilityAction.DropAndInitializeDb),
+                  ActionPrompt.Action("Drop Db", _dbUtilityAction.DropDb),
+                  ActionPrompt.Action("Initialize Db", _dbUtilityAction.InitializeDb),
                   //new ActionPrompt("List Clusters", _dbUtilities.ListStarClusters)
                })
             .AddChoices(ActionPrompt.Quit()

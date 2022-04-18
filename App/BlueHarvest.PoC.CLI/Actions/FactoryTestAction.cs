@@ -5,7 +5,7 @@ using BlueHarvest.Shared.Models.Geometry;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 
-public class FactoryTestActions : MenuActions
+public class FactoryTestAction : MenuAction
 {
    private readonly IRng _rng;
    private readonly IStarFactory _starFactory;
@@ -15,7 +15,7 @@ public class FactoryTestActions : MenuActions
    private readonly IPlanetarySystemFactory _planetarySystemFactory;
    private readonly IStarClusterFactory _starClusterFactory;
 
-   public FactoryTestActions(IRng rng,
+   public FactoryTestAction(IRng rng,
       IStarFactory starFactory,
       IPlanetFactory planetFactory,
       IPlanetaryDistanceFactory planetaryDistanceFactory,
