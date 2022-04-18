@@ -25,7 +25,7 @@ public class ClusterPlaygroundActions : MenuActions
    public async Task CreateStarCluster()
    {
       ShowTitle("Test Star Cluster Factory");
-      
+
       var prompt = new SelectionPrompt<CreatePromptItem>()
          //.Title("Test Star Cluster Factory")
          .PageSize(20)
@@ -42,15 +42,21 @@ public class ClusterPlaygroundActions : MenuActions
 
       if (item.Data is not null)
       {
-         var cluster = await _starClusterFactory.Create(item.Data).ConfigureAwait(false); 
-         //ShowResult(cluster);
-         AnsiConsole.WriteLine($"Cluster created with id: [/white]'{cluster.Id}'[/]");
+         var exists = await _starClusterRepo.ClusterExistsByNameAsync(item.Data.Name).ConfigureAwait(true);
+         if (!exists)
+         {
+            var cluster = await _starClusterFactory.Create(item.Data).ConfigureAwait(false); 
+            AnsiConsole.MarkupLine($"Cluster created with id: [white]'{cluster.Id}'[/]");
+         }
+         else
+         {
+            AnsiConsole.MarkupLine($"Cluster already exists with name [yellow]{item.Data.Name}[/].");
+         }
       }
       else
       {
          AnsiConsole.WriteLine($"No cluster created.");
       }
-     
       
       ShowReturn();
    }

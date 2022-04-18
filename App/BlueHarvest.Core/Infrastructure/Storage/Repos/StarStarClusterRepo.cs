@@ -43,4 +43,11 @@ public class StarStarClusterRepo : MongoRepository<StarCluster>, IStarClusterRep
 
          return Collection.FindAsync(filter, options, cancellationToken);
       }, cancellationToken);
+
+   public Task<bool> ClusterExistsByNameAsync(string name, CancellationToken cancellationToken = default) =>
+      Task.Run(async () =>
+      {
+         var result = await FindByNameAsync(name, cancellationToken).ConfigureAwait(false);
+         return await result.AnyAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+      }, cancellationToken);
 }
