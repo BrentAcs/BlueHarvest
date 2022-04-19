@@ -30,6 +30,9 @@ public static class ServiceCollectionExtensions
 
       //  ref: https://stackoverflow.com/questions/57015856/invalidoperationexception-cant-compile-a-newexpression-with-a-constructor-decl
       Misc.RegisterKnownTypes<StarCluster>();
+      Misc.RegisterKnownTypes<InterstellarObject>();
+      Misc.RegisterKnownTypes<StellarObject>();
+      Misc.RegisterKnownTypes<Satellite>();
 
       return services;
    }
