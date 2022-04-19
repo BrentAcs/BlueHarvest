@@ -1,6 +1,7 @@
 ﻿using BlueHarvest.Core.Infrastructure.Storage.Repos;
 using BlueHarvest.Core.Services.Factories;
 using BlueHarvest.PoC.CLI.Menus;
+using BlueHarvest.Shared.Models;
 using BlueHarvest.Shared.Models.Cosmic;
 
 namespace BlueHarvest.PoC.CLI.Actions;
@@ -43,7 +44,7 @@ public class ListStarClustersAction : ClusterPlaygroundAction
       prompt.AddChoice(new ListPromptItem("[gray]None[/]"));
 
       var item = AnsiConsole.Prompt(prompt);
-      AppState.Cluster = item.Data;
+      RuntimeAppState.Instance.CurrentCluster = item.Data;
       return Task.CompletedTask;
    }
 }

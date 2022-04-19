@@ -8,6 +8,7 @@ public record Ellipsoid(double XRadius = 0.0, double YRadius = 0.0, double ZRadi
    public double YRadius { get; set; } = YRadius;
    public double ZRadius { get; set; } = ZRadius;
 
+   // [System.Text.Json.Serialization.JsonIgnore]
    [System.Text.Json.Serialization.JsonIgnore]
    [Newtonsoft.Json.JsonIgnore]
    public double XDiameter => XRadius * 2;
