@@ -8,11 +8,13 @@ public class MenuAction
    protected static void ShowTitle(string title)
    {
       Clear();
-      if (!string.IsNullOrEmpty(title))
+      if (string.IsNullOrEmpty(title))
       {
-         AnsiConsole.Write(new Rule($"[blue]{title}[/]").RuleStyle("grey").LeftAligned());
-         WriteLine();
+         return;
       }
+
+      AnsiConsole.Write(new Rule($"[blue]{title}[/]").RuleStyle("grey").LeftAligned());
+      WriteLine();
    }
 
    protected static void ShowResult<T>(T obj, JsonSerializerSettings settings = null)

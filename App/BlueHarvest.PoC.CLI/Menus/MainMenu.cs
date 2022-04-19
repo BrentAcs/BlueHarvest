@@ -6,18 +6,24 @@ public class MainMenu
 {
    private readonly ILogger<MainMenu> _logger;
    private readonly FactoryTestAction _factoryTestAction;
-   private readonly ClusterPlaygroundActions _clusterPlaygroundActions;
    private readonly DbUtilityAction _dbUtilityAction;
+   private readonly CreateStarClusterAction _createStarClusterAction;
+   private readonly ListStarClustersAction _listStarClustersAction;
+   private readonly ListPlanetarySystemsAction _listPlanetarySystemsAction;
 
    public MainMenu(ILogger<MainMenu> logger,
       FactoryTestAction factoryTestAction,
-      ClusterPlaygroundActions clusterPlaygroundActions,
-      DbUtilityAction dbUtilityAction)
+      DbUtilityAction dbUtilityAction,
+      CreateStarClusterAction createStarClusterAction,
+      ListStarClustersAction listStarClustersAction,
+      ListPlanetarySystemsAction listPlanetarySystemsAction)
    {
       _logger = logger;
       _factoryTestAction = factoryTestAction;
-      _clusterPlaygroundActions = clusterPlaygroundActions;
       _dbUtilityAction = dbUtilityAction;
+      _createStarClusterAction = createStarClusterAction;
+      _listStarClustersAction = listStarClustersAction;
+      _listPlanetarySystemsAction = listPlanetarySystemsAction;
    }
 
    public void Execute()
@@ -40,9 +46,9 @@ public class MainMenu
             .AddChoiceGroup(ActionPrompt.GroupTitle("Cluster Playground"),
                new[]
                {
-                  ActionPrompt.Action("Create Star Cluster", _clusterPlaygroundActions.CreateStarCluster),
-                  ActionPrompt.Action("List Star Clusters", _clusterPlaygroundActions.ListStarClusters),
-                  ActionPrompt.Action("List Planetary Systems", _clusterPlaygroundActions.ListPlanetarySystems)
+                  ActionPrompt.Action("Create Star Cluster", _createStarClusterAction.Execute),
+                  ActionPrompt.Action("List Star Clusters", _listStarClustersAction.Execute),
+                  ActionPrompt.Action("List Planetary Systems", _listPlanetarySystemsAction.Execute)
                })
             .AddChoiceGroup(ActionPrompt.GroupTitle("Factory Tests"),
                new[]
