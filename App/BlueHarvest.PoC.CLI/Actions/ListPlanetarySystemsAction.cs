@@ -6,12 +6,44 @@ using BlueHarvest.Shared.Models.Cosmic;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 
-public abstract class ListClusterPlaygroundAction : ClusterPlaygroundAction
+public abstract class ListClusterPlaygroundAction<T> : ClusterPlaygroundAction
 {
-   
+   protected class ListPromptItem : PromptItem<T>
+   {
+      public ListPromptItem(string display, T? data = default) : base(display, data)
+      {
+      }
+
+      public ListPromptItem(string display, PageNav navDir) : base(display, default)
+      {
+         NavDir = navDir;
+      }
+
+      public bool CanNav => NavDir.HasValue;
+      public PageNav? NavDir { get; }
+   }
+
+   protected static ListPromptItem ShowPrompt(SelectionPrompt<ListPromptItem> prompt, ref int page, ref bool done)
+   {
+      ListPromptItem item;
+      item = AnsiConsole.Prompt(prompt);
+      if (item.CanNav)
+      {
+         if (item.NavDir == PageNav.Previous)
+            page--;
+         if (item.NavDir == PageNav.Next)
+            page++;
+      }
+      else
+      {
+         done = true;
+      }
+
+      return item;
+   }
 }
 
-public class ListSatelliteSystemsAction : ClusterPlaygroundAction
+public class ListSatelliteSystemsAction : ListClusterPlaygroundAction<SatelliteSystem>
 {
    public override async Task Execute()
    {
@@ -25,12 +57,12 @@ public class ListSatelliteSystemsAction : ClusterPlaygroundAction
       }
 
       var systems = RuntimeAppState.Instance.CurrentPlanetarySystem?.SatelliteSystems;
-      
+
       ShowReturn();
    }
 }
 
-public class ListPlanetarySystemsAction : ClusterPlaygroundAction
+public class ListPlanetarySystemsAction : ListClusterPlaygroundAction<PlanetarySystem>
 {
    private readonly IPlanetarySystemRepo _repo;
 
@@ -39,20 +71,6 @@ public class ListPlanetarySystemsAction : ClusterPlaygroundAction
       _repo = repo;
    }
 
-   private class ListPromptItem : PromptItem<PlanetarySystem>
-   {
-      public ListPromptItem(string display, PlanetarySystem? data = default) : base(display, data)
-      {
-      }
-
-      public ListPromptItem(string display, PageNav navDir) : base(display, null)
-      {
-         NavDir = navDir;
-      }
-
-      public bool CanNav => NavDir.HasValue;
-      public PageNav? NavDir { get; }
-   }
 
    public override async Task Execute()
    {
@@ -90,25 +108,6 @@ public class ListPlanetarySystemsAction : ClusterPlaygroundAction
       }
    }
 
-   private static ListPromptItem ShowPrompt(SelectionPrompt<ListPromptItem> prompt, ref int page, ref bool done)
-   {
-      ListPromptItem item;
-      item = AnsiConsole.Prompt(prompt);
-      if (item.CanNav)
-      {
-         if (item.NavDir == PageNav.Previous)
-            page--;
-         if (item.NavDir == PageNav.Next)
-            page++;
-      }
-      else
-      {
-         done = true;
-      }
-
-      return item;
-   }
-
    private static SelectionPrompt<ListPromptItem> BuildPrompt(int page, IEnumerable<PlanetarySystem> planetarySystems, int pageSize,
       long total)
    {
@@ -122,7 +121,9 @@ public class ListPlanetarySystemsAction : ClusterPlaygroundAction
       foreach (var system in planetarySystems)
       {
          var test = system.Location.ToMarkup();
-         prompt.AddChoice(new ListPromptItem($"[white]{index++,3}[/] - [blue]{system.Name}[/]  Star: {system.Star.Type}  Size: {system.Size.XDiameter,6:0.00}  Moons: {system.SatelliteSystems.Count(),3}  Fields: {system.AsteroidFields.Count(),3}", system));
+         prompt.AddChoice(new ListPromptItem(
+            $"[white]{index++,3}[/] - [blue]{system.Name}[/]  Star: {system.Star.Type}  Size: {system.Size.XDiameter,6:0.00}  Moons: {system.SatelliteSystems.Count(),3}  Fields: {system.AsteroidFields.Count(),3}",
+            system));
       }
 
       if (pageSize * page < total)
@@ -134,4 +135,3 @@ public class ListPlanetarySystemsAction : ClusterPlaygroundAction
       return prompt;
    }
 }
-
