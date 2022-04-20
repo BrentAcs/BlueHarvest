@@ -13,6 +13,7 @@ public class MainMenu
    private readonly CreateStarClusterAction _createStarClusterAction;
    private readonly ListStarClustersAction _listStarClustersAction;
    private readonly ListPlanetarySystemsAction _listPlanetarySystemsAction;
+   private readonly ListSatelliteSystemsAction _listSatelliteSystemsAction;
 
    public MainMenu(ILogger<MainMenu> logger,
       IAppStateService appStateService,
@@ -20,7 +21,8 @@ public class MainMenu
       DbUtilityAction dbUtilityAction,
       CreateStarClusterAction createStarClusterAction,
       ListStarClustersAction listStarClustersAction,
-      ListPlanetarySystemsAction listPlanetarySystemsAction)
+      ListPlanetarySystemsAction listPlanetarySystemsAction,
+      ListSatelliteSystemsAction listSatelliteSystemsAction)
    {
       _logger = logger;
       _appStateService = appStateService;
@@ -29,21 +31,22 @@ public class MainMenu
       _createStarClusterAction = createStarClusterAction;
       _listStarClustersAction = listStarClustersAction;
       _listPlanetarySystemsAction = listPlanetarySystemsAction;
+      _listSatelliteSystemsAction = listSatelliteSystemsAction;
    }
 
    public void Execute()
    {
       Console.Title = "Blue Harvest";
 
-      RuntimeAppState.Instance =  _appStateService.Get();
-      
+      RuntimeAppState.Instance = _appStateService.Get();
+
       do
       {
          Console.Clear();
 
          AnsiConsole.Write(new Rule($"[blue]Blue Harvest[/] PoC CLI").RuleStyle("grey").LeftAligned());
          AnsiConsole.MarkupLine(
-            $"Selected Star Cluster: {(RuntimeAppState.Instance.HasCurrentCluster ? $"[green]{RuntimeAppState.Instance.CurrentCluster?.Name}[/]" : "[white]none[/]")}");
+            $"Selected Star Cluster: {(RuntimeAppState.Instance.HasCurrentCluster ? $"[green]{RuntimeAppState.Instance.CurrentCluster?.Name}[/]" : "[white]none[/]")}  Planetary System: {(RuntimeAppState.Instance.HasCurrentPlanetarySystem ? $"[green]{RuntimeAppState.Instance.CurrentPlanetarySystem?.Name}[/]" : "[white]none[/]")}");
          AnsiConsole.WriteLine();
 
          var prompt = BuildMainPrompt();
@@ -53,7 +56,7 @@ public class MainMenu
             break;
          item.Invoke();
       } while (true);
-      
+
       _appStateService.Update(RuntimeAppState.Instance).ConfigureAwait(false).GetAwaiter().GetResult();
    }
 
@@ -67,7 +70,8 @@ public class MainMenu
             {
                ActionPrompt.Action("Create Star Cluster", _createStarClusterAction.Execute),
                ActionPrompt.Action("List Star Clusters", _listStarClustersAction.Execute),
-               ActionPrompt.Action("List Planetary Systems", _listPlanetarySystemsAction.Execute)
+               ActionPrompt.Action("List Planetary Systems", _listPlanetarySystemsAction.Execute),
+               ActionPrompt.Action("List Satellite Systems", _listSatelliteSystemsAction.Execute)
             })
          .AddChoiceGroup(ActionPrompt.GroupTitle("Factory Tests"),
             new[]

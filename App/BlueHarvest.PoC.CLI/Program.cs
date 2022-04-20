@@ -41,6 +41,7 @@ Host.CreateDefaultBuilder()
          .AddSingleton<CreateStarClusterAction>()
          .AddSingleton<ListStarClustersAction>()
          .AddSingleton<ListPlanetarySystemsAction>()
+         .AddSingleton<ListSatelliteSystemsAction>()
          .AddSingleton<MainMenu>()
          ;
    })

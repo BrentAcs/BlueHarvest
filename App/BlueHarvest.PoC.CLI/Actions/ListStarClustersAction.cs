@@ -45,6 +45,7 @@ public class ListStarClustersAction : ClusterPlaygroundAction
 
       var item = AnsiConsole.Prompt(prompt);
       RuntimeAppState.Instance.CurrentCluster = item.Data;
+      RuntimeAppState.Instance.CurrentPlanetarySystem = null;
       return Task.CompletedTask;
    }
 }
