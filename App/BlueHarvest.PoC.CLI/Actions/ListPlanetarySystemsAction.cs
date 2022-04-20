@@ -1,5 +1,6 @@
 ﻿using System.Xml.Schema;
 using BlueHarvest.Core.Infrastructure.Storage.Repos;
+using BlueHarvest.PoC.CLI.Extensions;
 using BlueHarvest.PoC.CLI.Menus;
 using BlueHarvest.Shared.Models;
 using BlueHarvest.Shared.Models.Cosmic;
@@ -20,7 +21,7 @@ public class ListPlanetarySystemsAction : ClusterPlaygroundAction
       Previous,
       Next,
    }
-   
+
    private class ListPromptItem : PromptItem<PlanetarySystem>
    {
       public ListPromptItem(string display, PlanetarySystem? data = default) : base(display, data)
@@ -35,7 +36,7 @@ public class ListPlanetarySystemsAction : ClusterPlaygroundAction
       public bool CanNav => NavDir.HasValue;
       public PageNav? NavDir { get; }
    }
-   
+
    public override async Task Execute()
    {
       ShowTitle("List Star Clusters");
@@ -50,11 +51,12 @@ public class ListPlanetarySystemsAction : ClusterPlaygroundAction
          int page = 1;
          const int pageSize = 20;
          bool done = false;
-         ListPromptItem? item=null;
+         ListPromptItem? item = null;
          while (!done)
          {
             (long total, var planetarySystems) =
-               await _repo.FindAllSortByDesignationAscending(RuntimeAppState.Instance.CurrentCluster.Id, page, pageSize).ConfigureAwait(false);
+               await _repo.FindAllSortByDesignationAscending(RuntimeAppState.Instance.CurrentCluster.Id, page, pageSize)
+                  .ConfigureAwait(false);
 
             var prompt = BuildPrompt(page, planetarySystems, pageSize, total);
 
@@ -92,7 +94,8 @@ public class ListPlanetarySystemsAction : ClusterPlaygroundAction
       return item;
    }
 
-   private static SelectionPrompt<ListPromptItem> BuildPrompt(int page, IEnumerable<PlanetarySystem> planetarySystems, int pageSize, long total)
+   private static SelectionPrompt<ListPromptItem> BuildPrompt(int page, IEnumerable<PlanetarySystem> planetarySystems, int pageSize,
+      long total)
    {
       var prompt = new SelectionPrompt<ListPromptItem>().PageSize(24);
       if (page > 1)
@@ -100,9 +103,23 @@ public class ListPlanetarySystemsAction : ClusterPlaygroundAction
          prompt.AddChoice(new ListPromptItem("Previous", PageNav.Previous));
       }
 
+      // public Point3D? Location { get; set; }
+      // public string? Name { get; set; }
+      // public Star? Star { get; set; } = new();
+      // public Sphere? Size { get; set; } = new(0);
+      // public List<StellarObject>? StellarObjects { get; set; } = new();
+      //
+      // [System.Text.Json.Serialization.JsonIgnore, Newtonsoft.Json.JsonIgnore]
+      // public IEnumerable<SatelliteSystem>? SatelliteSystems => StellarObjects?.OfType<SatelliteSystem>();
+      //
+      // [System.Text.Json.Serialization.JsonIgnore, Newtonsoft.Json.JsonIgnore]
+      // public IEnumerable<AsteroidField>? AsteroidFields => StellarObjects?.OfType<AsteroidField>();
+
+      int index = pageSize * (page-1);
       foreach (var system in planetarySystems)
       {
-         prompt.AddChoice(new ListPromptItem($"[blue]{system.Name}[/]", system));
+         var test = system.Location.ToMarkup();
+         prompt.AddChoice(new ListPromptItem($"[white]{index++:000}[/] - [blue]{system.Name}[/] {system.Star.Type} ", system));
       }
 
       if (pageSize * page < total)
