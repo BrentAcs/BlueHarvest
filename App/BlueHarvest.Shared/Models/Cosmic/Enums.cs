@@ -18,6 +18,7 @@ public enum PlanetType
    Lava,
    Oceanic,
    Terrestrial,
+   Barren,
 }
 
 public enum PlanetaryZone

@@ -10,6 +10,7 @@ public class MainMenu
    private readonly IAppStateService _appStateService;
    private readonly FactoryTestAction _factoryTestAction;
    private readonly DbUtilityAction _dbUtilityAction;
+   private readonly AnsiConsoleDemoAction _ansiConsoleDemoAction;
    private readonly CreateStarClusterAction _createStarClusterAction;
    private readonly ListStarClustersAction _listStarClustersAction;
    private readonly ListPlanetarySystemsAction _listPlanetarySystemsAction;
@@ -19,6 +20,7 @@ public class MainMenu
       IAppStateService appStateService,
       FactoryTestAction factoryTestAction,
       DbUtilityAction dbUtilityAction,
+      AnsiConsoleDemoAction ansiConsoleDemoAction,
       CreateStarClusterAction createStarClusterAction,
       ListStarClustersAction listStarClustersAction,
       ListPlanetarySystemsAction listPlanetarySystemsAction,
@@ -28,6 +30,7 @@ public class MainMenu
       _appStateService = appStateService;
       _factoryTestAction = factoryTestAction;
       _dbUtilityAction = dbUtilityAction;
+      _ansiConsoleDemoAction = ansiConsoleDemoAction;
       _createStarClusterAction = createStarClusterAction;
       _listStarClustersAction = listStarClustersAction;
       _listPlanetarySystemsAction = listPlanetarySystemsAction;
@@ -45,8 +48,9 @@ public class MainMenu
          Console.Clear();
 
          AnsiConsole.Write(new Rule($"[blue]Blue Harvest[/] PoC CLI").RuleStyle("grey").LeftAligned());
-         AnsiConsole.MarkupLine(
-            $"Selected Star Cluster: {(RuntimeAppState.Instance.HasCurrentCluster ? $"[green]{RuntimeAppState.Instance.CurrentCluster?.Name}[/]" : "[white]none[/]")}  Planetary System: {(RuntimeAppState.Instance.HasCurrentPlanetarySystem ? $"[green]{RuntimeAppState.Instance.CurrentPlanetarySystem?.Name}[/]" : "[white]none[/]")}");
+         AnsiConsole.MarkupLine($@"Selected Star Cluster: {(RuntimeAppState.Instance.HasCurrentCluster ? $"[yellow]{RuntimeAppState.Instance.CurrentCluster?.Name}[/]" : "[white]none[/]")
+            }  Planetary System: {(RuntimeAppState.Instance.HasCurrentPlanetarySystem ? $"[green]{RuntimeAppState.Instance.CurrentPlanetarySystem?.Name}[/]" : "[white]none[/]")
+            }  Satellite System: {(RuntimeAppState.Instance.HasCurrentSatelliteSystem ? $"[olive]{RuntimeAppState.Instance.CurrentSatelliteSystem?.Name}[/]" : "[white]none[/]")}");
          AnsiConsole.WriteLine();
 
          var prompt = BuildMainPrompt();
@@ -91,6 +95,11 @@ public class MainMenu
                ActionPrompt.Action("Drop & Initialize Db", _dbUtilityAction.DropAndInitializeDb),
                ActionPrompt.Action("Drop Db", _dbUtilityAction.DropDb),
                ActionPrompt.Action("Initialize Db", _dbUtilityAction.InitializeDb),
+            })
+         .AddChoiceGroup(ActionPrompt.GroupTitle("Ansi Console Demos"),
+            new[]
+            {
+               ActionPrompt.Action("Colors", _ansiConsoleDemoAction.ShowColors),
             })
          .AddChoices(ActionPrompt.Quit()
          );

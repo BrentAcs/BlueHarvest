@@ -23,6 +23,13 @@ public abstract class ListClusterPlaygroundAction<T> : ClusterPlaygroundAction
       public PageNav? NavDir { get; }
    }
 
+   protected static ListPromptItem ShowPrompt(SelectionPrompt<ListPromptItem> prompt)
+   {
+      int page = 1;
+      bool done = false;
+      return ShowPrompt(prompt, ref page, ref done);
+   }
+
    protected static ListPromptItem ShowPrompt(SelectionPrompt<ListPromptItem> prompt, ref int page, ref bool done)
    {
       ListPromptItem item;
@@ -47,18 +54,58 @@ public class ListSatelliteSystemsAction : ListClusterPlaygroundAction<SatelliteS
 {
    public override async Task Execute()
    {
-      ShowTitle("List Planetary Systems");
-
-      if (!RuntimeAppState.Instance.HasCurrentPlanetarySystem)
+      try
       {
-         Console.WriteLine("Dude, pick a planetary system.");
-         ShowReturn();
-         return;
+         ShowTitle("List Satellite Systems");
+
+         if (!RuntimeAppState.Instance.HasCurrentPlanetarySystem)
+         {
+            Console.WriteLine("Dude, pick a planetary system.");
+            ShowReturn();
+            return;
+         }
+
+         var systems = RuntimeAppState.Instance.CurrentPlanetarySystem?.SatelliteSystems;
+         int index = 1;
+         var prompt = new SelectionPrompt<ListPromptItem>().PageSize(24);
+
+         foreach (var system in systems)
+         {
+            prompt.AddChoice(new ListPromptItem(
+               $"[white]{index++,3}[/] - [blue]{system.Name}[/]  Star: {GetPlanetType(system.Planet.Type),-11}  Size: {system.Distance,6:0.00}  Moons: {system.Moons.Count(),3}  Stations: {system.Stations.Count(),3}",
+               system));
+         }
+
+         prompt.AddChoice(new ListPromptItem("[gray]None[/]"));
+         var item = ShowPrompt(prompt);
+
+         RuntimeAppState.Instance.CurrentSatelliteSystem = item?.Data;
       }
+      catch (Exception ex)
+      {
+         AnsiConsole.WriteException(ex);
+         ShowReturn();
+      }
+   }
 
-      var systems = RuntimeAppState.Instance.CurrentPlanetarySystem?.SatelliteSystems;
-
-      ShowReturn();
+   private static string? GetPlanetType(PlanetType planetType)
+   {
+      switch (planetType)
+      {
+         case PlanetType.Desert:
+         case PlanetType.Ice:
+         case PlanetType.Lava:
+         case PlanetType.Oceanic:
+         case PlanetType.Terrestrial:
+         case PlanetType.Barren:
+            return $"{planetType}";
+         case PlanetType.GasGiant:
+            return "Gas Giant";
+         case PlanetType.IceGiant:
+            return "Ice Giant";
+         default:
+            throw new ArgumentOutOfRangeException(nameof(planetType), planetType, null);
+      }
    }
 }
 
@@ -71,10 +118,9 @@ public class ListPlanetarySystemsAction : ListClusterPlaygroundAction<PlanetaryS
       _repo = repo;
    }
 
-
    public override async Task Execute()
    {
-      ShowTitle("List Star Clusters");
+      ShowTitle("List Planetary Systems");
       try
       {
          if (!RuntimeAppState.Instance.HasCurrentCluster)
@@ -122,7 +168,7 @@ public class ListPlanetarySystemsAction : ListClusterPlaygroundAction<PlanetaryS
       {
          var test = system.Location.ToMarkup();
          prompt.AddChoice(new ListPromptItem(
-            $"[white]{index++,3}[/] - [blue]{system.Name}[/]  Star: {system.Star.Type}  Size: {system.Size.XDiameter,6:0.00}  Moons: {system.SatelliteSystems.Count(),3}  Fields: {system.AsteroidFields.Count(),3}",
+            $"[white]{index++,3}[/] - [blue]{system.Name}[/]  Star: {system.Star.Type}  Size: {system.Size.XDiameter,6:0.00}  Planets: {system.SatelliteSystems.Count(),3}  Fields: {system.AsteroidFields.Count(),3}",
             system));
       }
 

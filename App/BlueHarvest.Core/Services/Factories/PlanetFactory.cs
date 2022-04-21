@@ -54,6 +54,12 @@ public class PlanetFactory : BaseFactory, IPlanetFactory
          PlanetType = PlanetType.Terrestrial,
          Zones = new[] {PlanetaryZone.InnerHabitable, PlanetaryZone.Habitable, PlanetaryZone.OuterHabitable},
          Radius = new MinMax<int>(2000, 8000),
+      },
+      new PlanetDescriptor
+      {
+         PlanetType = PlanetType.Barren,
+         Zones = new[] {PlanetaryZone.InnerHabitable, PlanetaryZone.Habitable, PlanetaryZone.OuterHabitable, PlanetaryZone.Outer},
+         Radius = new MinMax<int>(2000, 8000),
       }
    };
 

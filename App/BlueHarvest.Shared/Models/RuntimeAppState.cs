@@ -8,8 +8,10 @@ public class RuntimeAppState
    
    public StarCluster? CurrentCluster { get; set; }
    public PlanetarySystem? CurrentPlanetarySystem { get; set; }
+   public SatelliteSystem? CurrentSatelliteSystem { get; set; }
    
    public bool HasCurrentCluster => CurrentCluster is not null;
    public bool HasCurrentPlanetarySystem => CurrentPlanetarySystem is not null;
+   public bool HasCurrentSatelliteSystem => CurrentSatelliteSystem is not null;
 }
 
