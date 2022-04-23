@@ -7,14 +7,11 @@ namespace BlueHarvest.API.Tests;
 
 public class GetAllStarClustersTests
 {
-   private readonly IMapper _mapper;
-   private IFixture _fixture;
+   private readonly IFixture _fixture;
 
    public GetAllStarClustersTests()
    {
-      _mapper = Utilities.Mapper;
-      _fixture = new Fixture();
-      _fixture.Register(() => ObjectId.Empty);
+      _fixture = Utilities.GetSimpleFixture();
    }
    
    [SetUp]
@@ -25,11 +22,10 @@ public class GetAllStarClustersTests
    [Test]
    public async Task QueryOnHandler_WillReturn_MappedDto()
    {
-      var loggerMock = new Mock<ILogger<GetAllStarClusters.Query>>();
       var repoMock = new Mock<IStarClusterRepo>();
       var cluster = _fixture.Create<StarCluster>();
       repoMock.Setup(m => m.All()).Returns(new List<StarCluster> {cluster});
-      var sut = new GetAllStarClusters.Query(loggerMock.Object, _mapper, repoMock.Object);
+      var sut = Utilities.CreateGetAllStarClustersQuery(repoMock);
 
       var response = await sut.Handle(GetAllStarClusters.Default, CancellationToken.None);
 

@@ -44,11 +44,11 @@ public class GetAllStarClusters
 
    public class Mapping : Profile
    {
-      public Mapping()
-      {
-         CreateMap<Ellipsoid, EllipsoidDto>();
-
-         CreateMap<StarCluster, StarClusterDto>();
-      }
+      // public Mapping()
+      // {
+      //    CreateMap<Ellipsoid, EllipsoidDto>();
+      //
+      //    CreateMap<StarCluster, StarClusterDto>();
+      // }
    }
 }

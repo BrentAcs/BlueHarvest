@@ -1,6 +1,4 @@
-﻿
-
-using BlueHarvest.API.Actions.Cosmic;
+﻿using BlueHarvest.API.Actions.Cosmic;
 using BlueHarvest.Shared.DTOs.Cosmic;
 
 namespace BlueHarvest.API.Controllers;
@@ -13,27 +11,20 @@ public class StarClustersController : BaseController
    public StarClustersController(IMediator mediator) : base(mediator)
    {
    }
-   
-   // [HttpPost(Name = "Create")]
-   // [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(StarClusterResponseDto))]
-   // [ProducesResponseType(StatusCodes.Status204NoContent)]
-   // [ProducesResponseType(StatusCodes.Status409Conflict)]
-   // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-   // public async Task<IActionResult> Create([FromBody] CreateStarClusterDto dto)
-   // {
-   //    Logger.LogInformation("creating star cluster.");
-   //    if (IsValidateOnlyRequest())
-   //    {
-   //       Logger.LogInformation("Request was validate only, return no content.");
-   //       return NoContent();
-   //    }
-   //
-   //    var response = await Mediator
-   //       .Send(new CreateStarCluster.Request {Dto = dto}, new CancellationToken(false))
-   //       .ConfigureAwait(false);
-   //    return CreatedAtRoute("GetByName", new {name = response.Name}, response);
-   // }
-   //
+
+   [HttpPost(Name = "Create")]
+   [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(StarClusterDto))]
+   [ProducesResponseType(StatusCodes.Status204NoContent)]
+   [ProducesResponseType(StatusCodes.Status409Conflict)]
+   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+   public async Task<IActionResult> Create([FromBody] CreateStarClusterDto dto)
+   {
+      var response = await Mediator
+         .Send(new CreateStarCluster.Request {Dto = dto}, new CancellationToken(false))
+         .ConfigureAwait(false);
+      return CreatedAtRoute("GetByName", new {name = response.Name}, response);
+   }
+
    // [HttpGet("{name}", Name = "GetByName")]
    // [Produces("application/json")]
    // [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StarClusterResponseDto))]
@@ -61,7 +52,7 @@ public class StarClustersController : BaseController
          .ConfigureAwait(false);
       if (!response.Data.Any())
          return NoContent();
-   
+
       return Ok(response.Data);
    }
 

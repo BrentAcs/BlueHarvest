@@ -30,10 +30,12 @@ public class CreateStarClusterAction : ClusterPlaygroundAction
          .PageSize(20)
          .AddChoices(new[]
          {
-            new CreatePromptItem("Test", StarClusterFactoryOptions.Test), new CreatePromptItem("Small", StarClusterFactoryOptions.Small),
+            new CreatePromptItem("Test", StarClusterFactoryOptions.Test), 
+            new CreatePromptItem("Small", StarClusterFactoryOptions.Small),
             new CreatePromptItem("Medium", StarClusterFactoryOptions.Medium),
             new CreatePromptItem("Large", StarClusterFactoryOptions.Large),
-            new CreatePromptItem("Extra Large", StarClusterFactoryOptions.ExtraLarge), new CreatePromptItem("[gray]None[/]"),
+            new CreatePromptItem("Extra Large", StarClusterFactoryOptions.ExtraLarge),
+            new CreatePromptItem("[gray]None[/]"),
          });
       var item = AnsiConsole.Prompt(prompt);
 

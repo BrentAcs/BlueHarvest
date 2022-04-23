@@ -1,11 +1,17 @@
 using BlueHarvest.API.Controllers;
 using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Models;
+using BlueHarvest.Shared.DTOs.Cosmic;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var assemblies = new[] {Assembly.GetAssembly(typeof(IMongoDocument)), Assembly.GetAssembly(typeof(BaseController)),};
+var assemblies = new[]
+{
+   Assembly.GetAssembly(typeof(IMongoDocument)),
+   Assembly.GetAssembly(typeof(BaseController)),
+   Assembly.GetAssembly(typeof(StarClusterDto)),
+};
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
