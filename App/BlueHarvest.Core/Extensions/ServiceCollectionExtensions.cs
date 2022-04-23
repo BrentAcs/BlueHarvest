@@ -4,7 +4,6 @@ using BlueHarvest.Core.Services;
 using BlueHarvest.Core.Services.Factories;
 using BlueHarvest.Core.Utilities;
 using BlueHarvest.Shared.Models.Cosmic;
-using Microsoft.Extensions.Configuration;
 
 namespace BlueHarvest.Core.Extensions;
 
@@ -15,8 +14,8 @@ public static class ServiceCollectionExtensions
    {
       services
          // https://medium.com/dotnet-hub/use-mediatr-in-asp-net-or-asp-net-core-cqrs-and-mediator-in-dotnet-how-to-use-mediatr-cqrs-aspnetcore-5076e2f2880c
-         //.AddMediatR(assemblies.ToArray())
-         //.AddAutoMapper(assemblies)
+         .AddMediatR(assemblies.ToArray())
+         .AddAutoMapper(assemblies)
          .AddSingleton<IMonikerGeneratorService, MonikerGeneratorService>()
          .AddSingleton<IMonikerGenerator, MonikerGenerator>()
          .AddSingleton<IRng, SimpleRng>()
