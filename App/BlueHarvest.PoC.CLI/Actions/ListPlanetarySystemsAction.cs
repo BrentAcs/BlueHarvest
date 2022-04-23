@@ -1,7 +1,7 @@
 ﻿using BlueHarvest.Core.Infrastructure.Storage.Repos;
+using BlueHarvest.Core.Models;
+using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.PoC.CLI.Extensions;
-using BlueHarvest.Shared.Models;
-using BlueHarvest.Shared.Models.Cosmic;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 

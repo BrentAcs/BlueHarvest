@@ -1,6 +1,6 @@
-﻿using BlueHarvest.Shared.Models.Cosmic;
+﻿using BlueHarvest.Core.Models.Cosmic;
 
-namespace BlueHarvest.Shared.Models;
+namespace BlueHarvest.Core.Models;
 
 public class RuntimeAppState
 {

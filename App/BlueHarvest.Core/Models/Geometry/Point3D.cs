@@ -1,4 +1,4 @@
-﻿namespace BlueHarvest.Shared.Models.Geometry;
+﻿namespace BlueHarvest.Core.Models.Geometry;
 
 public record Point3D(double X = 0.0, double Y = 0.0, double Z = 0.0)
 {

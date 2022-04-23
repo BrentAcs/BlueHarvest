@@ -1,4 +1,4 @@
-﻿using BlueHarvest.Shared.Models.Cosmic;
+﻿using BlueHarvest.Core.Models.Cosmic;
 
 namespace BlueHarvest.Core.Infrastructure.Storage.Repos;
 

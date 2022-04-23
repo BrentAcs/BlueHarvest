@@ -1,5 +1,5 @@
 ﻿using BlueHarvest.Core.Infrastructure.Storage.Repos;
-using BlueHarvest.Shared.Models;
+using BlueHarvest.Core.Models;
 
 namespace BlueHarvest.Core.Services;
 

@@ -1,5 +1,5 @@
-﻿using BlueHarvest.Shared.Models;
-using BlueHarvest.Shared.Models.Cosmic;
+﻿using BlueHarvest.Core.Models;
+using BlueHarvest.Core.Models.Cosmic;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 

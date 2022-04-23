@@ -1,6 +1,6 @@
 ﻿using BlueHarvest.Core.Extensions;
 using BlueHarvest.Core.Infrastructure.Storage;
-using BlueHarvest.Shared.Models;
+using BlueHarvest.Core.Models;
 using static System.Console;
 
 namespace BlueHarvest.PoC.CLI.Actions;

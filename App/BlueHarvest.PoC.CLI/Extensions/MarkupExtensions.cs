@@ -1,4 +1,4 @@
-﻿using BlueHarvest.Shared.Models.Geometry;
+﻿using BlueHarvest.Core.Models.Geometry;
 
 namespace BlueHarvest.PoC.CLI.Extensions;
 

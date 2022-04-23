@@ -1,7 +1,6 @@
 ﻿//#define USE_LINQ_TO_MONGO
 
-using BlueHarvest.Shared.Infrastructure.Storage;
-using BlueHarvest.Shared.Models;
+using BlueHarvest.Core.Models;
 
 namespace BlueHarvest.Core.Infrastructure.Storage;
 

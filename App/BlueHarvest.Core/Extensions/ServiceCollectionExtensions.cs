@@ -1,9 +1,9 @@
 ﻿using BlueHarvest.Core.Infrastructure.Storage;
 using BlueHarvest.Core.Infrastructure.Storage.Repos;
+using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Services;
 using BlueHarvest.Core.Services.Factories;
 using BlueHarvest.Core.Utilities;
-using BlueHarvest.Shared.Models.Cosmic;
 
 namespace BlueHarvest.Core.Extensions;
 

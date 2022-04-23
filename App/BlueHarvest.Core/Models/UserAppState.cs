@@ -1,6 +1,6 @@
-﻿using BlueHarvest.Shared.Infrastructure.Storage;
+﻿using BlueHarvest.Core.Infrastructure.Storage;
 
-namespace BlueHarvest.Shared.Models;
+namespace BlueHarvest.Core.Models;
 
 [BsonCollection("UserAppStates")]
 public class UserAppState : IMongoDocument

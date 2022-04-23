@@ -1,6 +1,6 @@
-using BlueHarvest.Shared.Models.Geometry;
+using BlueHarvest.Core.Models.Geometry;
 
-namespace BlueHarvest.Shared.Models.Cosmic;
+namespace BlueHarvest.Core.Models.Cosmic;
 
 /// <summary>
 /// Base of objects found in stellar space.

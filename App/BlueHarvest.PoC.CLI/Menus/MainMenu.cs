@@ -1,8 +1,8 @@
 ﻿using BlueHarvest.Core.Extensions;
+using BlueHarvest.Core.Models;
+using BlueHarvest.Core.Models.Geometry;
 using BlueHarvest.Core.Services;
 using BlueHarvest.PoC.CLI.Actions;
-using BlueHarvest.Shared.Models;
-using BlueHarvest.Shared.Models.Geometry;
 
 namespace BlueHarvest.PoC.CLI.Menus;
 

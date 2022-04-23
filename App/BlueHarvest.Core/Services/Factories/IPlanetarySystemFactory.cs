@@ -1,5 +1,5 @@
-﻿using BlueHarvest.Shared.Models.Cosmic;
-using BlueHarvest.Shared.Models.Geometry;
+﻿using BlueHarvest.Core.Models.Cosmic;
+using BlueHarvest.Core.Models.Geometry;
 
 namespace BlueHarvest.Core.Services.Factories;
 

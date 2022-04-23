@@ -1,4 +1,4 @@
-namespace BlueHarvest.Shared.Models.Cosmic;
+namespace BlueHarvest.Core.Models.Cosmic;
 
 public class SatelliteSystem : StellarObject
 {

@@ -1,4 +1,4 @@
-namespace BlueHarvest.Shared.Models.Cosmic;
+namespace BlueHarvest.Core.Models.Cosmic;
 
 /// <summary>
 /// Base of objects found in satellite system

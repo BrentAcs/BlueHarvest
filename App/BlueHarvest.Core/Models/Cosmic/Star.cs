@@ -1,4 +1,4 @@
-namespace BlueHarvest.Shared.Models.Cosmic;
+namespace BlueHarvest.Core.Models.Cosmic;
 
 /// <summary>
 /// The central object of a planetary system

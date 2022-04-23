@@ -1,6 +1,6 @@
 using BlueHarvest.API.Controllers;
 using BlueHarvest.Core.Extensions;
-using BlueHarvest.Shared.Models;
+using BlueHarvest.Core.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

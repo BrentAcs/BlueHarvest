@@ -1,4 +1,4 @@
-﻿namespace BlueHarvest.Shared.Infrastructure.Storage;
+﻿namespace BlueHarvest.Core.Infrastructure.Storage;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public class BsonCollectionAttribute : Attribute

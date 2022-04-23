@@ -1,7 +1,7 @@
 ﻿using BlueHarvest.Core.Extensions;
+using BlueHarvest.Core.Models.Geometry;
 using BlueHarvest.Core.Services.Factories;
 using BlueHarvest.Core.Utilities;
-using BlueHarvest.Shared.Models.Geometry;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 

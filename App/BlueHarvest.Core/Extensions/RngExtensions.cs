@@ -1,5 +1,5 @@
-﻿using BlueHarvest.Core.Utilities;
-using BlueHarvest.Shared.Models.Geometry;
+﻿using BlueHarvest.Core.Models.Geometry;
+using BlueHarvest.Core.Utilities;
 
 namespace BlueHarvest.Core.Extensions;
 

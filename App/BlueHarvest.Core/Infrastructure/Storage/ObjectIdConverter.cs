@@ -1,4 +1,4 @@
-﻿namespace BlueHarvest.Shared.Infrastructure.Storage;
+﻿namespace BlueHarvest.Core.Infrastructure.Storage;
 
 public class ObjectIdConverter : JsonConverter
 {

@@ -1,4 +1,4 @@
-namespace BlueHarvest.Shared.Models.Geometry;
+namespace BlueHarvest.Core.Models.Geometry;
 
 public interface IHaveVolume
 {

@@ -1,7 +1,7 @@
 ﻿using System.Reflection.PortableExecutable;
 using BlueHarvest.Core.Extensions;
+using BlueHarvest.Core.Models.Cosmic;
 using BlueHarvest.Core.Utilities;
-using BlueHarvest.Shared.Models.Cosmic;
 using SharpCompress.Archives;
 
 namespace BlueHarvest.Core.Services.Factories;

@@ -1,8 +1,8 @@
 ﻿using BlueHarvest.Core.Exceptions;
 using BlueHarvest.Core.Infrastructure.Storage.Repos;
+using BlueHarvest.Core.Models.Cosmic;
+using BlueHarvest.Core.Models.Geometry;
 using BlueHarvest.Core.Utilities;
-using BlueHarvest.Shared.Models.Cosmic;
-using BlueHarvest.Shared.Models.Geometry;
 
 namespace BlueHarvest.Core.Services.Factories;
 
