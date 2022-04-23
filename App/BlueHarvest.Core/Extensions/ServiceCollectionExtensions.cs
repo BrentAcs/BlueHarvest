@@ -26,10 +26,14 @@ public static class ServiceCollectionExtensions
          .AddScoped<ISatelliteSystemFactory, SatelliteSystemFactory>()
          .AddScoped<IPlanetarySystemFactory, PlanetarySystemFactory>()
          .AddScoped<IStarClusterFactory, StarClusterFactory>()
+         .AddScoped<IAppStateService, AppStateService>()
          ;
 
       //  ref: https://stackoverflow.com/questions/57015856/invalidoperationexception-cant-compile-a-newexpression-with-a-constructor-decl
       Misc.RegisterKnownTypes<StarCluster>();
+      Misc.RegisterKnownTypes<InterstellarObject>();
+      Misc.RegisterKnownTypes<StellarObject>();
+      Misc.RegisterKnownTypes<Satellite>();
 
       return services;
    }
@@ -44,9 +48,11 @@ public static class ServiceCollectionExtensions
          
          .AddScoped<IStarClusterRepo, StarStarClusterRepo>()
          .AddScoped<IPlanetarySystemRepo, PlanetarySystemRepo>()
+         .AddScoped<IUserAppStateRepo, UserAppStateRepo>()
 
          .AddScoped<IMongoRepository, StarStarClusterRepo>()
          .AddScoped<IMongoRepository, PlanetarySystemRepo>()
+         .AddScoped<IMongoRepository, UserAppStateRepo>()
          ;
 
       return services;

@@ -3,12 +3,18 @@ using static System.Console;
 
 namespace BlueHarvest.PoC.CLI.Actions;
 
-public class MenuActions
+public class MenuAction
 {
    protected static void ShowTitle(string title)
    {
       Clear();
-      WriteLine(title);
+      if (string.IsNullOrEmpty(title))
+      {
+         return;
+      }
+
+      AnsiConsole.Write(new Rule($"[blue]{title}[/]").RuleStyle("grey").LeftAligned());
+      WriteLine();
    }
 
    protected static void ShowResult<T>(T obj, JsonSerializerSettings settings = null)
