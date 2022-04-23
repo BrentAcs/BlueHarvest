@@ -3,8 +3,8 @@
 public abstract class BaseCommand<TCmd> : BaseHandler, IRequestHandler<TCmd>
    where TCmd : IRequest
 {
-   protected BaseCommand(IMediator mediator, ILogger<BaseCommand<TCmd>> logger)
-      : base(mediator, logger)
+   protected BaseCommand(ILogger<BaseCommand<TCmd>> logger)
+      : base(logger)
    {
    }
 

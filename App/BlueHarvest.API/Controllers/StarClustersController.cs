@@ -1,5 +1,8 @@
 ﻿
 
+using BlueHarvest.API.Actions.Cosmic;
+using BlueHarvest.Shared.DTOs.Cosmic;
+
 namespace BlueHarvest.API.Controllers;
 
 [ApiController]
@@ -46,21 +49,21 @@ public class StarClustersController : BaseController
    //    return Ok(response);
    // }
 
-   // [HttpGet(Name = "GetAll")]
-   // [Produces("application/json")]
-   // [ProducesResponseType(StatusCodes.Status200OK)]
-   // [ProducesResponseType(StatusCodes.Status204NoContent)]
-   // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-   // public async Task<ActionResult<IEnumerable<StarClusterResponseDto>>> GetAll()
-   // {
-   //    var response = await Mediator
-   //       .Send(new GetAllStarClusters.Request())
-   //       .ConfigureAwait(false);
-   //    if (response == null)
-   //       return NoContent();
-   //
-   //    return Ok(response);
-   // }
+   [HttpGet(Name = "GetAll")]
+   [Produces("application/json")]
+   [ProducesResponseType(StatusCodes.Status200OK)]
+   [ProducesResponseType(StatusCodes.Status204NoContent)]
+   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+   public async Task<ActionResult<IEnumerable<StarClusterDto>>> GetAll()
+   {
+      var response = await Mediator
+         .Send(new GetAllStarClusters.Request())
+         .ConfigureAwait(false);
+      if (!response.Data.Any())
+         return NoContent();
+   
+      return Ok(response.Data);
+   }
 
    [HttpGet("GenError")]
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]

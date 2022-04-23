@@ -2,12 +2,10 @@
 
 public abstract class BaseHandler
 {
-   protected IMediator Mediator { get; }
    protected ILogger<BaseHandler> Logger { get; }
    
-   protected BaseHandler(IMediator mediator, ILogger<BaseHandler> logger)
+   protected BaseHandler(ILogger<BaseHandler> logger)
    {
-      Mediator = mediator;
       Logger = logger;
    }
    

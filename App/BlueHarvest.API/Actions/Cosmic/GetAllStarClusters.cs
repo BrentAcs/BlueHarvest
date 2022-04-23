@@ -1,4 +1,7 @@
 ﻿using BlueHarvest.Core.Infrastructure.Storage.Repos;
+using BlueHarvest.Core.Models.Cosmic;
+using BlueHarvest.Core.Models.Geometry;
+using BlueHarvest.Shared.DTOs.Cosmic;
 
 namespace BlueHarvest.API.Actions.Cosmic;
 
@@ -12,7 +15,7 @@ public class GetAllStarClusters
 
    public class Response
    {
-      public IEnumerable<StarClusterDto?>? Dtos { get; set; }
+      public IEnumerable<StarClusterDto?>? Data { get; set; }
    }
 
    public class Query : BaseQuery<Request, Response>
@@ -20,11 +23,10 @@ public class GetAllStarClusters
       private readonly IMapper _mapper;
       private readonly IStarClusterRepo _repo;
 
-      public Query(IMediator mediator,
-         ILogger<Query> logger,
+      public Query(ILogger<Query> logger,
          IMapper mapper,
          IStarClusterRepo repo)
-         : base(mediator, logger)
+         : base(logger)
       {
          _mapper = mapper;
          _repo = repo;
@@ -35,15 +37,18 @@ public class GetAllStarClusters
       protected override async Task<Response> OnHandle(Request request, CancellationToken cancellationToken)
       {
          var all = _repo.All();
-         var response = new Response
-         {
-            Dtos = _mapper.Map<IEnumerable<StarClusterDto>>(all)
-         };
+         var response = new Response {Data = _mapper.Map<IEnumerable<StarClusterDto>>(all)};
          return response;
       }
    }
-}
 
-public class StarClusterDto
-{
+   public class Mapping : Profile
+   {
+      public Mapping()
+      {
+         CreateMap<Ellipsoid, EllipsoidDto>();
+
+         CreateMap<StarCluster, StarClusterDto>();
+      }
+   }
 }

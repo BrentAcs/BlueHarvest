@@ -1,1 +1,10 @@
+global using System.Collections.Generic;
+global using System.Threading;
+global using System.Threading.Tasks;
+global using AutoFixture;
+global using AutoMapper;
+global using FluentAssertions;
 global using NUnit.Framework;
+global using Microsoft.Extensions.Logging;
+global using MongoDB.Bson;
+global using Moq;

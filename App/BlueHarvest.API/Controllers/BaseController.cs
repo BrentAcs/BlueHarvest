@@ -1,6 +1,6 @@
 ﻿namespace BlueHarvest.API.Controllers;
 
-public abstract class BaseController
+public abstract class BaseController : ControllerBase
 {
    protected IMediator Mediator { get; }
 
