@@ -48,9 +48,11 @@ public class PlanetarySystemFactory : BaseFactory, IPlanetarySystemFactory
       };
 
       var planetDistances = _planetaryDistanceFactory.Create(system.Size.XRadius);
+      int index = 1;
       foreach (double planetDistance in planetDistances)
       {
          var satelliteSystem = _satelliteSystemFactory.Create(planetDistance);
+         satelliteSystem.Name = $"{system.Name}-{index++}";
          system.StellarObjects.Add(satelliteSystem);
       }
       

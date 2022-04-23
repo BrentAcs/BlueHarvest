@@ -1,6 +1,8 @@
-﻿using BlueHarvest.Core.Services;
+﻿using BlueHarvest.Core.Extensions;
+using BlueHarvest.Core.Services;
 using BlueHarvest.PoC.CLI.Actions;
 using BlueHarvest.Shared.Models;
+using BlueHarvest.Shared.Models.Geometry;
 
 namespace BlueHarvest.PoC.CLI.Menus;
 
@@ -50,7 +52,7 @@ public class MainMenu
          AnsiConsole.Write(new Rule($"[blue]Blue Harvest[/] PoC CLI").RuleStyle("grey").LeftAligned());
          AnsiConsole.MarkupLine($@"Selected Star Cluster: {(RuntimeAppState.Instance.HasCurrentCluster ? $"[yellow]{RuntimeAppState.Instance.CurrentCluster?.Name}[/]" : "[white]none[/]")
             }  Planetary System: {(RuntimeAppState.Instance.HasCurrentPlanetarySystem ? $"[green]{RuntimeAppState.Instance.CurrentPlanetarySystem?.Name}[/]" : "[white]none[/]")
-            }  Satellite System: {(RuntimeAppState.Instance.HasCurrentSatelliteSystem ? $"[olive]{RuntimeAppState.Instance.CurrentSatelliteSystem?.Name}[/]" : "[white]none[/]")}");
+            }  Satellite System: {(RuntimeAppState.Instance.HasCurrentSatelliteSystem ? $"[11]{RuntimeAppState.Instance.CurrentSatelliteSystem?.Name}[/]" : "[white]none[/]")}");
          AnsiConsole.WriteLine();
 
          var prompt = BuildMainPrompt();
@@ -99,10 +101,26 @@ public class MainMenu
          .AddChoiceGroup(ActionPrompt.GroupTitle("Ansi Console Demos"),
             new[]
             {
+               ActionPrompt.Action("Quick Test", QuickTests.Test),
                ActionPrompt.Action("Colors", _ansiConsoleDemoAction.ShowColors),
             })
          .AddChoices(ActionPrompt.Quit()
          );
       return prompt;
+   }
+}
+
+public static class QuickTests
+{
+   public static void Test()
+   {
+      var ellipsoid = new Ellipsoid(10,10,0);
+      double angleDegree = 45.0f;
+      var angleRadians = angleDegree.ToRadians();
+
+      var point = new Point3D(10 * Math.Cos(angleRadians), 10 * Math.Sin(angleRadians), 0);
+      // x=acos(θ)
+      // y=bsin(θ)
+
    }
 }
