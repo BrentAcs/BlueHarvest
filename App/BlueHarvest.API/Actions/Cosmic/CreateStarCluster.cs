@@ -11,26 +11,34 @@ public class CreateStarCluster
       public CreateStarClusterDto Dto { get; set; }
    }
 
-   public class Response : StarClusterDto
+   public class Response
    {
+      public StarClusterDto Dto { get; set; }
    }
 
    public class Query : BaseQuery<Request, Response>
    {
-      public IMapper Mapper { get; }
+      private readonly IMapper _mapper;
+      private readonly IStarClusterFactory _starClusterFactory;
 
-      public Query(ILogger<Query> logger, IMapper mapper) : base(logger)
+      public Query(ILogger<Query> logger, IMapper mapper, IStarClusterFactory starClusterFactory) : base(logger)
       {
-         Mapper = mapper;
+         _mapper = mapper;
+         _starClusterFactory = starClusterFactory;
       }
 
       protected override string HandlerName => nameof(Query);
 
       protected override async Task<Response> OnHandle(Request request, CancellationToken cancellationToken)
       {
-         var options = Mapper.Map<StarClusterFactoryOptions>(request.Dto);
+         var options = _mapper.Map<StarClusterFactoryOptions>(request.Dto);
+         if (!await _starClusterFactory.CanCreate(options).ConfigureAwait(true))
+            return null;
 
-         return new Response();
+         var cluster = await _starClusterFactory.Create(options).ConfigureAwait(true);
+         var response = new Response {Dto = _mapper.Map<StarClusterDto>(cluster)};
+
+         return response;
       }
    }
 

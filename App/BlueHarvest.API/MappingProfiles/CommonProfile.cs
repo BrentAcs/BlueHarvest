@@ -12,7 +12,6 @@ public class CommonProfile : Profile
    {
       // --- Model to Dto
       CreateMap<Ellipsoid, EllipsoidDto>();
-
       CreateMap<StarCluster, StarClusterDto>();
 
       // --- Dto to Model

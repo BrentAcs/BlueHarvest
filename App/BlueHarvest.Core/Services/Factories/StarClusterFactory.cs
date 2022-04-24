@@ -22,6 +22,15 @@ public class StarClusterFactory : BaseFactory, IStarClusterFactory
       _planetarySystemFactory = planetarySystemFactory;
    }
 
+   public async Task<bool> CanCreate(StarClusterFactoryOptions options)
+   {
+      if (options is null)
+         throw new ArgumentNullException(nameof(options));
+
+      var exists = await _starClusterRepo.ClusterExistsByNameAsync(options.Name).ConfigureAwait(true);
+      return !exists;
+   }
+   
    public async Task<StarCluster> Create(StarClusterFactoryOptions options)
    {
       if (options is null)

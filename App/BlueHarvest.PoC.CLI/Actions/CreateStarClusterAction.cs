@@ -7,12 +7,10 @@ namespace BlueHarvest.PoC.CLI.Actions;
 public class CreateStarClusterAction : ClusterPlaygroundAction
 {
    private readonly IStarClusterFactory _starClusterFactory;
-   private readonly IStarClusterRepo _starClusterRepo;
 
-   public CreateStarClusterAction(IStarClusterFactory starClusterFactory, IStarClusterRepo starClusterRepo)
+   public CreateStarClusterAction(IStarClusterFactory starClusterFactory)
    {
       _starClusterFactory = starClusterFactory;
-      _starClusterRepo = starClusterRepo;
    }
 
    private class CreatePromptItem : PromptItem<StarClusterFactoryOptions>
@@ -41,8 +39,8 @@ public class CreateStarClusterAction : ClusterPlaygroundAction
 
       if (item.Data is not null)
       {
-         var exists = await _starClusterRepo.ClusterExistsByNameAsync(item.Data.Name).ConfigureAwait(true);
-         if (!exists)
+         var canCreate = await _starClusterFactory.CanCreate(item.Data).ConfigureAwait(true);
+         if (canCreate)
          {
             var cluster = await _starClusterFactory.Create(item.Data).ConfigureAwait(false);
             AnsiConsole.MarkupLine($"Cluster created with id: [white]'{cluster.Id}'[/]");

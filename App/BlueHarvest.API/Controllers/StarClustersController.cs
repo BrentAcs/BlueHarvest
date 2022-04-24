@@ -20,25 +20,28 @@ public class StarClustersController : BaseController
    public async Task<IActionResult> Create([FromBody] CreateStarClusterDto dto)
    {
       var response = await Mediator
-         .Send(new CreateStarCluster.Request {Dto = dto}, new CancellationToken(false))
-         .ConfigureAwait(false);
-      return CreatedAtRoute("GetByName", new {name = response.Name}, response);
+         .Send(new CreateStarCluster.Request {Dto = dto}, new CancellationToken(false));
+      if (response is null)
+         return BadRequest();
+      
+      return CreatedAtRoute("GetByName", new {name = response.Dto.Name}, response.Dto);
    }
 
-   // [HttpGet("{name}", Name = "GetByName")]
-   // [Produces("application/json")]
+   [HttpGet("{name}", Name = "GetByName")]
+   [Produces("application/json")]
    // [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StarClusterResponseDto))]
-   // [ProducesResponseType(StatusCodes.Status204NoContent)]
-   // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-   // public async Task<IActionResult> GetByName([FromRoute(Name = "name")] string? name)
-   // {
-   //    var response = await Mediator
-   //       .Send(new GetStarClusterByName.Request(name))
-   //       .ConfigureAwait(false);
-   //    if (response == null)
-   //       return NoContent();
-   //    return Ok(response);
-   // }
+   [ProducesResponseType(StatusCodes.Status204NoContent)]
+   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+   public async Task<IActionResult> GetByName([FromRoute(Name = "name")] string? name)
+   {
+      // var response = await Mediator
+      //    .Send(new GetStarClusterByName.Request(name))
+      //    .ConfigureAwait(false);
+      // if (response == null)
+      //    return NoContent();
+      // return Ok(response);
+      return BadRequest();
+   }
 
    [HttpGet(Name = "GetAll")]
    [Produces("application/json")]
