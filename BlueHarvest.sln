@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.API", "App\Blue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.API.Tests", "Tests\BlueHarvest.API.Tests\BlueHarvest.API.Tests.csproj", "{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.Web.Shared", "App\BlueHarvest.Web.Shared\BlueHarvest.Web.Shared.csproj", "{FB89D738-A507-4184-98CA-B7605063819C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB89D738-A507-4184-98CA-B7605063819C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB89D738-A507-4184-98CA-B7605063819C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB89D738-A507-4184-98CA-B7605063819C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB89D738-A507-4184-98CA-B7605063819C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{558480F9-BE65-4DA0-88A8-F592F60CC7D3} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
 		{35825570-E90B-4E9E-A333-3E0D72E45D22} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
 		{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3} = {2A50C8A1-DBA6-42AF-9B7B-C164B519ED79}
+		{FB89D738-A507-4184-98CA-B7605063819C} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D2D4C56-77DA-4DED-AC0E-30E4627BAB5F}

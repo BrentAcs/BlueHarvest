@@ -8,8 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var assemblies = new[]
 {
-   Assembly.GetAssembly(typeof(IMongoDocument)),
-   Assembly.GetAssembly(typeof(BaseController)),
+   Assembly.GetAssembly(typeof(IMongoDocument)), Assembly.GetAssembly(typeof(BaseController)),
    Assembly.GetAssembly(typeof(StarClusterDto)),
 };
 
@@ -35,7 +34,12 @@ builder.Services
       options.SubstituteApiVersionInUrl = true;
    })
    .AddBlueHarvestMongo(builder.Configuration)
-   .AddBlueHarvestCommon(assemblies);
+   .AddBlueHarvestCommon(assemblies)
+   .AddCors(options =>
+   {
+      options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+   })
+   ;
 
 var app = builder.Build();
 
@@ -56,4 +60,5 @@ else
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors("Open");
 app.Run();
