@@ -27,7 +27,7 @@ public class StarClusterFactory : BaseFactory, IStarClusterFactory
       if (options is null)
          throw new ArgumentNullException(nameof(options));
 
-      var exists = await _starClusterRepo.ClusterExistsByNameAsync(options.Name).ConfigureAwait(true);
+      var exists = await _starClusterRepo.ClusterExistsByNameAsync(options.Name).ConfigureAwait(false);
       return !exists;
    }
    
@@ -40,6 +40,11 @@ public class StarClusterFactory : BaseFactory, IStarClusterFactory
       if (options.DesiredDeepSpaceObjects is null)
          throw ArgumentPropertyNullException.Create(nameof(options), nameof(options.DesiredDeepSpaceObjects));
 
+      int systemCount = options.DesiredPlanetarySystems.GetAmount(Rng);
+      int deepSpaceCount = options.DesiredDeepSpaceObjects.GetAmount(Rng);
+      if (systemCount + deepSpaceCount > options.MaximumPossibleSystems)
+         throw BuilderException.CreateTooManyInterstellarObjects(options.MaximumPossibleSystems, systemCount + deepSpaceCount);
+
       var cluster = new StarCluster
       {
          CreatedOn = DateTime.Now,
@@ -50,31 +55,25 @@ public class StarClusterFactory : BaseFactory, IStarClusterFactory
       };
 
       await _starClusterRepo.InsertOneAsync(cluster).ConfigureAwait(false);
-
-      int systemCount = options.DesiredPlanetarySystems.GetAmount(Rng);
-      int deepSpaceCount = options.DesiredDeepSpaceObjects.GetAmount(Rng);
-      if (systemCount + deepSpaceCount > options.MaximumPossibleSystems)
-         throw BuilderException.CreateTooManyInterstellarObjects(options.MaximumPossibleSystems, systemCount + deepSpaceCount);
-
-      var systemLocs = BuildPlanetarySystems(options, systemCount, cluster);
+      
+      var systemLocs = await BuildPlanetarySystems(options, systemCount, cluster);
       _ = BuildDeepSpaceObjects(options, deepSpaceCount, systemLocs, cluster);
     
       return cluster;
    }
 
-   private IEnumerable<Point3D> BuildPlanetarySystems(StarClusterFactoryOptions options, int systemCount, StarCluster cluster)
+   private async Task<IEnumerable<Point3D>> BuildPlanetarySystems(StarClusterFactoryOptions options, int systemCount, StarCluster cluster)
    {
       var systemLocs = GeneratePointsInEllipsoid(systemCount, options.ClusterSize, options.DistanceBetweenSystems);
       foreach (var location in systemLocs)
       {
-         var system = _planetarySystemFactory.Create(options.PlanetarySystemOptions, cluster.Id, location);
-         //cluster.InterstellarObjects.Add(system);
+         var system = await _planetarySystemFactory.Create(options.PlanetarySystemOptions, cluster.Id, location).ConfigureAwait(false);
       }
 
       return systemLocs;
    }
 
-   private IEnumerable<Point3D> BuildDeepSpaceObjects(StarClusterFactoryOptions options, int deepSpaceCount, IEnumerable<Point3D> systemLocs,
+   private async Task<IEnumerable<Point3D>> BuildDeepSpaceObjects(StarClusterFactoryOptions options, int deepSpaceCount, IEnumerable<Point3D> systemLocs,
       StarCluster cluster)
    {
       var deepSpaceLocs = GeneratePointsInEllipsoid(deepSpaceCount, options.ClusterSize, options.DistanceBetweenSystems, systemLocs);

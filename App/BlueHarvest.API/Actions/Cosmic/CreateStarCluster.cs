@@ -32,10 +32,10 @@ public class CreateStarCluster
       protected override async Task<Response> OnHandle(Request request, CancellationToken cancellationToken)
       {
          var options = _mapper.Map<StarClusterFactoryOptions>(request.Dto);
-         if (!await _starClusterFactory.CanCreate(options).ConfigureAwait(true))
+         if (!await _starClusterFactory.CanCreate(options).ConfigureAwait(false))
             return null;
 
-         var cluster = await _starClusterFactory.Create(options).ConfigureAwait(true);
+         var cluster = await _starClusterFactory.Create(options).ConfigureAwait(false);
          var response = new Response {Dto = _mapper.Map<StarClusterDto>(cluster)};
 
          return response;

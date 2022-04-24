@@ -44,11 +44,13 @@ if (app.Environment.IsDevelopment())
 {
    app.UseSwagger();
    app.UseSwaggerUI();
-   app.UseExceptionHandler("/error-dev");
+   // TODO: Fix exception pipeline
+   // app.UseExceptionHandler("/error-dev");
 }
 else
 {
-   app.UseExceptionHandler("/error");
+   // TODO: Fix exception pipeline
+   // app.UseExceptionHandler("/error");
 }
 
 app.UseHttpsRedirection();

@@ -39,7 +39,7 @@ public class CreateStarClusterAction : ClusterPlaygroundAction
 
       if (item.Data is not null)
       {
-         var canCreate = await _starClusterFactory.CanCreate(item.Data).ConfigureAwait(true);
+         var canCreate = await _starClusterFactory.CanCreate(item.Data).ConfigureAwait(false);
          if (canCreate)
          {
             var cluster = await _starClusterFactory.Create(item.Data).ConfigureAwait(false);

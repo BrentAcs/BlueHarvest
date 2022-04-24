@@ -23,4 +23,3 @@ public abstract class BaseQuery<TReq, TRes> : BaseHandler, IRequestHandler<TReq,
 
    protected abstract Task<TRes> OnHandle(TReq request, CancellationToken cancellationToken);
 }
-

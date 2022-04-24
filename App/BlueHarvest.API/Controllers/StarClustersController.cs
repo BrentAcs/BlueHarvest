@@ -19,12 +19,21 @@ public class StarClustersController : BaseController
    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
    public async Task<IActionResult> Create([FromBody] CreateStarClusterDto dto)
    {
-      var response = await Mediator
-         .Send(new CreateStarCluster.Request {Dto = dto}, new CancellationToken(false));
-      if (response is null)
-         return BadRequest();
+      try
+      {
+         var response = await Mediator
+            .Send(new CreateStarCluster.Request {Dto = dto}, new CancellationToken(false));
+         if (response is null)
+            return BadRequest();
       
-      return CreatedAtRoute("GetByName", new {name = response.Dto.Name}, response.Dto);
+         return CreatedAtRoute("GetByName", new {name = response.Dto.Name}, response.Dto);
+      }
+      catch (Exception ex)
+      {
+         Console.WriteLine(ex);
+         throw;
+         // return Problem();
+      }
    }
 
    [HttpGet("{name}", Name = "GetByName")]
