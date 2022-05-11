@@ -1,0 +1,104 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31815.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{2ABFE6D3-F6A5-4EAF-A509-655700112214}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2A50C8A1-DBA6-42AF-9B7B-C164B519ED79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{B07BAED5-44FB-4CDE-B0A6-51F3E38EE24F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		notes.md = notes.md
+		README.md = README.md
+		RunServerCLI.bat = RunServerCLI.bat
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.Core", "App\BlueHarvest.Core\BlueHarvest.Core.csproj", "{F0B41FA5-9F03-4958-B5B8-379AAB9A6444}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.Web", "App\BlueHarvest.Web\BlueHarvest.Web.csproj", "{2B757053-6A03-47A8-8E75-AEEC023B3C6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.Shared", "App\BlueHarvest.Shared\BlueHarvest.Shared.csproj", "{11CEAC6B-29DC-4330-9FBB-21679A4D2BC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.Core.Tests", "Tests\BlueHarvest.Core.Tests\BlueHarvest.Core.Tests.csproj", "{93C93F00-7676-471B-A78E-2D6B96E1B4C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.PoC.CLI", "App\BlueHarvest.PoC.CLI\BlueHarvest.PoC.CLI.csproj", "{D6D17D07-75DA-4E2B-94E8-7230C63ECB5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.Web.Mgmt", "App\BlueHarvest.Web.Mgmt\BlueHarvest.Web.Mgmt.csproj", "{558480F9-BE65-4DA0-88A8-F592F60CC7D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.API", "App\BlueHarvest.API\BlueHarvest.API.csproj", "{35825570-E90B-4E9E-A333-3E0D72E45D22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.API.Tests", "Tests\BlueHarvest.API.Tests\BlueHarvest.API.Tests.csproj", "{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.Web.Shared", "App\BlueHarvest.Web.Shared\BlueHarvest.Web.Shared.csproj", "{FB89D738-A507-4184-98CA-B7605063819C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueHarvest.WinUI", "App\BlueHarvest.WinUI\BlueHarvest.WinUI.csproj", "{C44FF239-62FE-422E-BB31-C04D4AA3B796}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0B41FA5-9F03-4958-B5B8-379AAB9A6444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0B41FA5-9F03-4958-B5B8-379AAB9A6444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0B41FA5-9F03-4958-B5B8-379AAB9A6444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0B41FA5-9F03-4958-B5B8-379AAB9A6444}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B757053-6A03-47A8-8E75-AEEC023B3C6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B757053-6A03-47A8-8E75-AEEC023B3C6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B757053-6A03-47A8-8E75-AEEC023B3C6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B757053-6A03-47A8-8E75-AEEC023B3C6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11CEAC6B-29DC-4330-9FBB-21679A4D2BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11CEAC6B-29DC-4330-9FBB-21679A4D2BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11CEAC6B-29DC-4330-9FBB-21679A4D2BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11CEAC6B-29DC-4330-9FBB-21679A4D2BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93C93F00-7676-471B-A78E-2D6B96E1B4C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93C93F00-7676-471B-A78E-2D6B96E1B4C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93C93F00-7676-471B-A78E-2D6B96E1B4C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93C93F00-7676-471B-A78E-2D6B96E1B4C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6D17D07-75DA-4E2B-94E8-7230C63ECB5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6D17D07-75DA-4E2B-94E8-7230C63ECB5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6D17D07-75DA-4E2B-94E8-7230C63ECB5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6D17D07-75DA-4E2B-94E8-7230C63ECB5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{558480F9-BE65-4DA0-88A8-F592F60CC7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{558480F9-BE65-4DA0-88A8-F592F60CC7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{558480F9-BE65-4DA0-88A8-F592F60CC7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{558480F9-BE65-4DA0-88A8-F592F60CC7D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35825570-E90B-4E9E-A333-3E0D72E45D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35825570-E90B-4E9E-A333-3E0D72E45D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35825570-E90B-4E9E-A333-3E0D72E45D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35825570-E90B-4E9E-A333-3E0D72E45D22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB89D738-A507-4184-98CA-B7605063819C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB89D738-A507-4184-98CA-B7605063819C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB89D738-A507-4184-98CA-B7605063819C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB89D738-A507-4184-98CA-B7605063819C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C44FF239-62FE-422E-BB31-C04D4AA3B796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C44FF239-62FE-422E-BB31-C04D4AA3B796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C44FF239-62FE-422E-BB31-C04D4AA3B796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C44FF239-62FE-422E-BB31-C04D4AA3B796}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F0B41FA5-9F03-4958-B5B8-379AAB9A6444} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
+		{2B757053-6A03-47A8-8E75-AEEC023B3C6D} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
+		{11CEAC6B-29DC-4330-9FBB-21679A4D2BC4} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
+		{93C93F00-7676-471B-A78E-2D6B96E1B4C1} = {2A50C8A1-DBA6-42AF-9B7B-C164B519ED79}
+		{D6D17D07-75DA-4E2B-94E8-7230C63ECB5C} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
+		{558480F9-BE65-4DA0-88A8-F592F60CC7D3} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
+		{35825570-E90B-4E9E-A333-3E0D72E45D22} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
+		{B23EC503-6F97-4D9D-8FFF-8F3ED49669E3} = {2A50C8A1-DBA6-42AF-9B7B-C164B519ED79}
+		{FB89D738-A507-4184-98CA-B7605063819C} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
+		{C44FF239-62FE-422E-BB31-C04D4AA3B796} = {2ABFE6D3-F6A5-4EAF-A509-655700112214}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D2D4C56-77DA-4DED-AC0E-30E4627BAB5F}
+	EndGlobalSection
+EndGlobal

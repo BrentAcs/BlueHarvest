@@ -1,0 +1,40 @@
+{
+  "Name": null,
+  "Description": null,
+  "Owner": null,
+  "CreatedOn": null,
+  "Size": null,
+  "InterstellarObjects": [
+    {
+      "Star": {
+        "StarType": 0,
+        "Mass": 0.0
+      },
+      "Size": {
+        "XRadius": 20.0,
+        "YRadius": 20.0,
+        "ZRadius": 20.0,
+        "XDiameter": 40.0,
+        "YDiameter": 40.0,
+        "ZDiameter": 40.0,
+        "Volume": 33510.32163829113
+      },
+      "StellarObjects": [
+        {
+          "Planet": {
+            "PlanetTypeType": 0,
+            "Mass": 0.0
+          },
+          "Name": "Earth satellite system",
+          "Location": null
+        },
+        {
+          "Name": "Example asteroid field",
+          "Location": null
+        }
+      ],
+      "Location": null,
+      "Name": "Sol planetary system."
+    }
+  ]
+}
