@@ -9,31 +9,50 @@ public class PlanetarySystemRepo : MongoRepository<PlanetarySystem>, IPlanetaryS
    {
    }
 
-   public override async Task InitializeIndexesAsync(CancellationToken cancellationToken = default)
+   protected override CreateIndexModel<PlanetarySystem>? BuildCreateIndexModel()
    {
-      await base.InitializeIndexesAsync(cancellationToken).ConfigureAwait(false);
-
-      var indexes = await Collection.Indexes.ListAsync(cancellationToken).ConfigureAwait(false);
-      var exists = await indexes.AnyAsync(cancellationToken).ConfigureAwait(false);
-      if (!exists)
+      var options = new CreateIndexOptions
       {
-         var options = new CreateIndexOptions
-         {
-            Collation = new Collation("en_US",
-               false,
-               new Optional<CollationCaseFirst?>(CollationCaseFirst.Off),
-               new Optional<CollationStrength?>(CollationStrength.Primary)),
-            Unique = true,
-         };
-         var builder = Builders<PlanetarySystem>.IndexKeys;
-         var keys = builder
-            .Ascending(i => i.ClusterId)
-            .Ascending(i => i.Name);
-         var index = new CreateIndexModel<PlanetarySystem>(keys, options);
+         Collation = new Collation("en_US",
+            false,
+            new Optional<CollationCaseFirst?>(CollationCaseFirst.Off),
+            new Optional<CollationStrength?>(CollationStrength.Primary)),
+         Unique = true,
+      };
+      var builder = Builders<PlanetarySystem>.IndexKeys;
+      var keys = builder
+         .Ascending(i => i.ClusterId)
+         .Ascending(i => i.Name);
+      var index = new CreateIndexModel<PlanetarySystem>(keys, options);
 
-         await Collection.Indexes.CreateOneAsync(index, cancellationToken:cancellationToken).ConfigureAwait(false);
-      }
+      return index;
    }
+   
+   // public override async Task InitializeIndexesAsync(CancellationToken cancellationToken = default)
+   // {
+   //    await base.InitializeIndexesAsync(cancellationToken).ConfigureAwait(false);
+   //
+   //    var indexes = await Collection.Indexes.ListAsync(cancellationToken).ConfigureAwait(false);
+   //    var exists = await indexes.AnyAsync(cancellationToken).ConfigureAwait(false);
+   //    if (!exists)
+   //    {
+   //       var options = new CreateIndexOptions
+   //       {
+   //          Collation = new Collation("en_US",
+   //             false,
+   //             new Optional<CollationCaseFirst?>(CollationCaseFirst.Off),
+   //             new Optional<CollationStrength?>(CollationStrength.Primary)),
+   //          Unique = true,
+   //       };
+   //       var builder = Builders<PlanetarySystem>.IndexKeys;
+   //       var keys = builder
+   //          .Ascending(i => i.ClusterId)
+   //          .Ascending(i => i.Name);
+   //       var index = new CreateIndexModel<PlanetarySystem>(keys, options);
+   //
+   //       await Collection.Indexes.CreateOneAsync(index, cancellationToken:cancellationToken).ConfigureAwait(false);
+   //    }
+   // }
 
    public async Task<IAsyncCursor<PlanetarySystem>> AllForCluster(ObjectId clusterId)
    {

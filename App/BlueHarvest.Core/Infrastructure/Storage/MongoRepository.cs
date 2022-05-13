@@ -21,9 +21,22 @@ public class MongoRepository<TDoc> : IMongoRepository<TDoc> where TDoc : IMongoD
 
    public string? CollectionName => GetCollectionName(typeof(TDoc));
 
-   public virtual Task InitializeIndexesAsync(CancellationToken cancellationToken = default) =>
-      Task.CompletedTask;
+   protected virtual CreateIndexModel<TDoc>? BuildCreateIndexModel() => null;
 
+   public virtual async Task InitializeIndexesAsync(CancellationToken cancellationToken = default)
+   {
+      var index = BuildCreateIndexModel();
+      if(index is null)
+         return;
+      
+      var indexes = await Collection.Indexes.ListAsync(cancellationToken).ConfigureAwait(false);
+      var exists = await indexes.AnyAsync(cancellationToken).ConfigureAwait(false);
+      if (!exists)
+      {
+         await Collection.Indexes.CreateOneAsync(index, cancellationToken:cancellationToken).ConfigureAwait(false);
+      }
+   }
+   
    public virtual Task SeedDataAsync(CancellationToken cancellationToken = default) =>
       Task.CompletedTask;
 

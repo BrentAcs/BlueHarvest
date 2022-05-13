@@ -13,7 +13,7 @@ namespace BlueHarvest.WinUI.Controls
 {
    public partial class StarClusterListView : UserControl //, IBlueHarvestUserControl
    {
-      public StarClusterListView(IStarClusterApi api)
+      public StarClusterListView()
       {
          InitializeComponent();
       }

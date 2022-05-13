@@ -6,6 +6,7 @@ namespace BlueHarvest.Core.Models;
 public class UserAppState : IMongoDocument
 {
    public ObjectId Id { get; set; }
+   public string Name { get; set; }
    public ObjectId CurrentClusterId { get; set; }
    public ObjectId CurrentPlanetarySystemId { get; set; }
 }
