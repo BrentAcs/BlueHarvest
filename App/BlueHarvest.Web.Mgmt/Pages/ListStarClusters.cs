@@ -13,6 +13,6 @@ public partial class ListStarClusters
 
    protected async override Task OnInitializedAsync()
    {
-      StarClusters = await StarClusterService.GetAll().ConfigureAwait(false);
+      // StarClusters = await StarClusterService.GetAll().ConfigureAwait(false);
    }
 }
